@@ -1,3 +1,6 @@
+# Based on convert script from vwall/compass-twitter-bootstrap gem.
+# https://github.com/vwall/compass-twitter-bootstrap/blob/master/build/convert.rb
+
 require 'open-uri'
 require 'json'
 require 'fileutils'
