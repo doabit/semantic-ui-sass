@@ -1,19 +1,34 @@
 # Based on convert script from vwall/compass-twitter-bootstrap gem.
-# https://github.com/vwall/compass-twitter-bootstrap/blob/master/build/convert.rb
+# https://github.com/vwall/compass-twitter-bootstrap/blob/#{@branch}/build/convert.rb
 
 require 'open-uri'
 require 'json'
 require 'fileutils'
+require "pry"
+require "dotenv"
+Dotenv.load
 
 class Converter
 
-  def initialize
-    @branch_sha = get_tree_sha
-    @paths = ['collections', 'elements', 'views', 'modules']
-    @save_at    = { js: 'app/assets/javascripts/semantic-ui',
-                    scss: 'app/assets/stylesheets/semantic-ui',
-                    images: 'app/assets/images/semantic-ui',
-                    fonts: 'app/assets/fonts/semantic-ui' }
+  GIT_DATA = 'https://api.github.com/repos'
+  GIT_RAW  = 'https://raw.github.com'
+  TOKEN    = ENV['TOKEN']
+
+  def initialize(branch)
+    @repo               = 'jlukic/Semantic-UI'
+    @repo_url           = "https://github.com/#@repo"
+    @branch             = branch || 'master'
+    @git_data_trees     = "#{GIT_DATA}/#{@repo}/git/trees"
+    @git_raw_src        = "#{GIT_RAW}/#{@repo}/#{@branch}/src"
+    @branch_sha         = get_tree_sha
+    @less_paths         = ['collections', 'elements', 'views', 'modules']
+    @js_paths           = ['modules', 'behavior']
+    @fonts_images_paths = ['fonts', 'images']
+    @save_at            = { js: 'app/assets/javascripts/semantic-ui',
+                            scss: 'app/assets/stylesheets/semantic-ui',
+                            images: 'app/assets/images/semantic-ui',
+                            fonts: 'app/assets/fonts/semantic-ui'
+                          }
   end
 
   def process
@@ -25,64 +40,48 @@ class Converter
 
   def process_stylesheets_assets
     main_content = ''
-     get_less_paths.each do |path, sha|
+     semantic_ui_less_paths.each do |path, sha|
       content = ''
-      get_less_files(sha).each do |name|
+      semantic_ui_less_files(sha).each do |name|
         file_name = name.gsub('.less', '')
-
-        if name.include?('.less') && @paths.include?(path)
-          file = open_git_file("https://raw.github.com/jlukic/Semantic-UI/master/src/#{path}/#{name}")
-          file = convert(file)
-          save_file(name, file, path)
-          content += "@import '#{file_name}';\n"
-        end
-
+        file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
+        file = convert(file)
+        save_file(name, file, path)
+        content += "@import '#{file_name}';\n"
       end
-
-      if @paths.include?(path)
-         save_file('all', content, path)
-         main_content += "@import 'semantic-ui/#{path}/all';\n";
-      end
+      save_file('all', content, path)
+      main_content += "@import 'semantic-ui/#{path}/all';\n";
     end
-    file = "app/assets/stylesheets/semantic-ui.scss"
-    f = File.open(file, "w+")
-    f.write(main_content)
-    f.close
+    File.open("app/assets/stylesheets/semantic-ui.scss", "w+") { |file| file.write(main_content) }
   end
 
   def process_javascript_assets
-     get_less_paths.each do |path, sha|
-      content = ''
-      get_less_files(sha).each do |name|
+    content = ''
+     semantic_ui_js_paths.each do |path, sha|
+      semantic_ui_js_files(sha).each do |name|
         file_name = name.gsub('.js', '')
-        # Copy javascripts
-        if path == 'modules' && name.include?('.js')
-          file = open_git_file("https://raw.github.com/jlukic/Semantic-UI/master/src/#{path}/#{name}")
-          save_file(name, file, path, 'js')
+        if path == 'modules'
+          file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
+          save_file(name, file, nil, 'js')
           content += "//= require semantic-ui/#{file_name}\n"
+        else
+          file = open_git_file("#{@git_raw_src}/modules/behavior/#{name}")
+          save_file(name, file, 'behavior', 'js')
+          content += "//= require semantic-ui/behavior/#{file_name}\n"
         end
       end
-      if path == 'modules'
-        file = "app/assets/javascripts/semantic-ui.js"
-        f = File.open(file, "w+")
-        f.write(content)
-        f.close
-      end
     end
+    File.open("app/assets/javascripts/semantic-ui.js", "w+") { |file| file.write(content) }
   end
 
   def process_images_and_fonts_assets
-     get_less_paths.each do |path, sha|
-
-      get_less_files(sha).each do |name|
+     semantic_ui_fonts_images_paths.each do |path, sha|
+      semantic_ui_fonts_images_files(sha).each do |name|
         file_name = name.gsub('.less', '')
-        if path == 'images' || path == 'fonts'
-          file = open_git_file("https://raw.github.com/jlukic/Semantic-UI/master/src/#{path}/#{name}")
-          save_file(name, file, path, path)
-        end
+        file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
+        save_file(name, file, nil, path)
       end
     end
-
   end
 
 
@@ -91,21 +90,41 @@ private
   # Get the sha of less branch
   def get_tree_sha
     sha = nil
-    trees = open('https://api.github.com/repos/jlukic/Semantic-UI/git/trees/master').read
-    trees = JSON.parse trees
+    trees = get_json("#{@git_data_trees}/#{@branch}")
     trees['tree'].find{|t| t['path'] == 'src'}['sha']
   end
 
-  def get_less_paths
-    paths = open("https://api.github.com/repos/jlukic/Semantic-UI/git/trees/#{get_tree_sha}").read
-    paths = JSON.parse paths
-    paths['tree'].select{|f| f['type'] == 'tree' }.map{|f| [f['path'], f['sha']] }
+  def semantic_ui_less_paths
+    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
+    paths['tree'].select{|f| f['type'] == 'tree' && @less_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
   end
 
-  def get_less_files(sha)
-    files = open("https://api.github.com/repos/jlukic/Semantic-UI/git/trees/#{sha}").read
-    files = JSON.parse files
-    files['tree'].select{|f| f['type'] == 'blob' }.map{|f| f['path'] }
+  def semantic_ui_less_files(sha)
+   files = get_json("#{@git_data_trees}/#{sha}")
+   files['tree'].select{|f| f['type'] == 'blob' && f['path'] =~ /\.less$/ }.map{|f| f['path'] }
+  end
+
+  def semantic_ui_js_paths
+    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
+    paths = paths['tree'].select{|f| f['type'] == 'tree' && @js_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
+    behavior_paths = get_json("#{@git_data_trees}/#{paths[0][1]}")
+    behavior_paths = behavior_paths['tree'].select{|f| f['type'] == 'tree' && f['path'] == 'behavior' }.map{|f| [f['path'], f['sha']] }
+    js_paths = paths + behavior_paths
+  end
+
+  def semantic_ui_js_files(sha)
+   files = get_json("#{@git_data_trees}/#{sha}")
+   files['tree'].select{|f| f['type'] == 'blob' && f['path'] =~ /\.js$/ }.map{|f| f['path'] }
+  end
+
+  def semantic_ui_fonts_images_paths
+    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
+    paths['tree'].select{|f| f['type'] == 'tree' && @fonts_images_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
+  end
+
+  def semantic_ui_fonts_images_files(sha)
+   files = get_json("#{@git_data_trees}/#{sha}")
+   files['tree'].select{|f| f['type'] == 'blob'}.map{|f| f['path'] }
   end
 
 
@@ -138,17 +157,18 @@ private
       name = name.gsub(/\.less/, '')
       file = "#{@save_at[:scss]}/#{path}/_#{name}.scss"
     when 'js', 'images', 'fonts'
-      name = name
-      file = "#{@save_at[type.to_sym]}/#{name}"
+      file = (path.nil? ? "#{@save_at[type.to_sym]}/#{name}" : "#{@save_at[type.to_sym]}/#{path}/#{name}")
     end
     dir = File.dirname(file)
-    unless File.directory?(file)
-      FileUtils.mkdir_p(dir)
-    end
-    f = File.open(file, "w+")
-    f.write(content)
-    f.close
-    puts "Saved #{name}\n"
+    FileUtils.mkdir_p(dir) unless File.directory?(file)
+    File.open(file, 'w+') { |f| f.write(content) }
+    puts "Saved #{name} at #{path}\n"
+  end
+
+  def get_json(url)
+    url += "?access_token=#{TOKEN}" unless TOKEN.nil?
+    data = open_git_file(url)
+    data = JSON.parse data
   end
 
   def store_version
@@ -233,5 +253,3 @@ private
   end
 
 end
-
-Converter.new.process
