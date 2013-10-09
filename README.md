@@ -1,12 +1,13 @@
 # Semantic UI for Sass
 
-`semantic-ui-sass` is an Sass-powered version of Semantic UI.
+`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/jlukic/Semantic-UI).
 
 ## Installation and Usage
 
 ```ruby
 gem 'semantic-ui-sass', '~> 0.0.1'
-````
+```
+
 `bundle install` and restart your server to make the files available through the pipeline.
 
 ## Usage

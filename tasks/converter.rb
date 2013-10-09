@@ -15,9 +15,9 @@ class Converter
 
   def process
     process_stylesheets_assets
-    # process_javascript_assets
-    # process_images_and_fonts_assets
-    # store_version
+    process_javascript_assets
+    process_images_and_fonts_assets
+    store_version
   end
 
   def process_stylesheets_assets
