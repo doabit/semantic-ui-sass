@@ -1,0 +1,20 @@
+//= require semantic-ui/accordion
+//= require semantic-ui/chatroom
+//= require semantic-ui/checkbox
+//= require semantic-ui/dimmer
+//= require semantic-ui/dropdown
+//= require semantic-ui/modal
+//= require semantic-ui/nag
+//= require semantic-ui/popup
+//= require semantic-ui/rating
+//= require semantic-ui/search
+//= require semantic-ui/shape
+//= require semantic-ui/sidebar
+//= require semantic-ui/tab
+//= require semantic-ui/transition
+//= require semantic-ui/video
+
+//= require semantic-ui/behavior//api
+//= require semantic-ui/behavior/colorize
+//= require semantic-ui/behavior/form
+//= require semantic-ui/behavior/state
