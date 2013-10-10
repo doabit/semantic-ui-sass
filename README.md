@@ -1,6 +1,6 @@
 # Semantic UI for Sass
 
-`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/jlukic/Semantic-UI).
+`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/jlukic/Semantic-UI) and ready to drop into Rails & Compass.
 
 ## Installation and Usage
 
