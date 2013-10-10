@@ -5,14 +5,19 @@
 ## Installation and Usage
 
 ```ruby
-gem 'semantic-ui-sass', '~> 0.0.1'
+gem 'semantic-ui-sass', '~> 0.0.2'
+```
+or
+
+```ruby
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 ```
 
 `bundle install` and restart your server to make the files available through the pipeline.
 
-## Usage
+# semantic-ui-sass with Rails
 
-### CSS
+## CSS
 
 Import Semantic in an SCSS file (for example, `application.css.scss`) to get all of Semantic's styles
 
@@ -26,7 +31,7 @@ You can also include modules
 @import "semantic-ui/collections/menu";
 ```
 
-### Javascripts
+## Javascripts
 
 We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to
 
@@ -41,6 +46,41 @@ You can also load individual modules, provided you also require any dependencies
 //= require semantic-ui/modal
 //= require semantic-ui/dropdown
 ```
+
+# semantic-ui-sass with Compass
+
+## New project
+
+Install the gem and create a new project using the gem.
+
+```console
+gem install semantic-ui-sass
+compass create compass-project -r semantic-ui-sass --using semantic-ui
+```
+
+This will sort a few things out:
+
+* You'll get a starting `styles.scss`
+* You'll get a compiled stylesheet compiled & ready to drop into your application
+* We'll also copy the Semantic javascripts & images & fonts into their respective folders for you
+
+## Existing project
+
+Install the gem, add the require statement to the top of your configuration file, and install the extension.
+
+```console
+gem install semantic-ui-sass
+```
+
+```ruby
+# In config.rb
+require 'semantic-ui-sass'
+```
+
+```console
+compass install semantic-ui
+```
+
 
 ## Contributing
 
