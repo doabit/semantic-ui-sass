@@ -8,7 +8,6 @@
  * http://opensource.org/licenses/MIT
  *
  */
-
 ;(function ( $, window, document, undefined ) {
 
 $.fn.dropdown = function(parameters) {
@@ -16,19 +15,7 @@ $.fn.dropdown = function(parameters) {
     $allModules = $(this),
     $document   = $(document),
 
-    settings    = ( $.isPlainObject(parameters) )
-      ? $.extend(true, {}, $.fn.dropdown.settings, parameters)
-      : $.fn.dropdown.settings,
-
-    className         = settings.className,
-    metadata          = settings.metadata,
-    namespace         = settings.namespace,
-    selector          = settings.selector,
-    error             = settings.error,
-
-    eventNamespace    = '.' + namespace,
-    dropdownNamespace = 'module-' + namespace,
-    dropdownSelector  = $allModules.selector || '',
+    moduleSelector  = $allModules.selector || '',
 
     time              = new Date().getTime(),
     performance       = [],
@@ -42,17 +29,30 @@ $.fn.dropdown = function(parameters) {
   $allModules
     .each(function() {
       var
-        $module       = $(this),
-        $item         = $module.find(selector.item),
-        $text         = $module.find(selector.text),
-        $input        = $module.find(selector.input),
+        settings          = ( $.isPlainObject(parameters) )
+          ? $.extend(true, {}, $.fn.dropdown.settings, parameters)
+          : $.fn.dropdown.settings,
 
-        $menu         = $module.children(selector.menu),
+        className         = settings.className,
+        metadata          = settings.metadata,
+        namespace         = settings.namespace,
+        selector          = settings.selector,
+        error             = settings.error,
 
-        isTouchDevice = ('ontouchstart' in document.documentElement),
+        eventNamespace    = '.' + namespace,
+        dropdownNamespace = 'module-' + namespace,
+        isTouchDevice     = ('ontouchstart' in document.documentElement),
 
-        element       = this,
-        instance      = $module.data(dropdownNamespace),
+        $module           = $(this),
+        $item             = $module.find(selector.item),
+        $text             = $module.find(selector.text),
+        $input            = $module.find(selector.input),
+
+        $menu             = $module.children(selector.menu),
+
+
+        element           = this,
+        instance          = $module.data(dropdownNamespace),
         module
       ;
 
@@ -112,10 +112,6 @@ $.fn.dropdown = function(parameters) {
 
         event: {
 
-          stopPropagation: function(event) {
-            event.stopPropagation();
-          },
-
           test: {
             toggle: function(event) {
               module.determine.intent(event, module.toggle);
@@ -173,7 +169,6 @@ $.fn.dropdown = function(parameters) {
                 ;
                 module.determine.selectAction(text, value);
                 $.proxy(settings.onChange, element)(value, text);
-                event.stopPropagation();
               }
             }
 
@@ -601,8 +596,8 @@ $.fn.dropdown = function(parameters) {
               totalTime += data['Execution Time'];
             });
             title += ' ' + totalTime + 'ms';
-            if(dropdownSelector) {
-              title += ' \'' + dropdownSelector + '\'';
+            if(moduleSelector) {
+              title += ' \'' + moduleSelector + '\'';
             }
             if( (console.group !== undefined || console.table !== undefined) && performance.length > 0) {
               console.groupCollapsed(title);
@@ -622,7 +617,8 @@ $.fn.dropdown = function(parameters) {
         invoke: function(query, passedArguments, context) {
           var
             maxDepth,
-            found
+            found,
+            response
           ;
           passedArguments = passedArguments || queryArguments;
           context         = element         || context;
@@ -630,21 +626,46 @@ $.fn.dropdown = function(parameters) {
             query    = query.split(/[\. ]/);
             maxDepth = query.length - 1;
             $.each(query, function(depth, value) {
+              var camelCaseValue = (depth != maxDepth)
+                ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
+                : query
+              ;
               if( $.isPlainObject( instance[value] ) && (depth != maxDepth) ) {
                 instance = instance[value];
               }
+              else if( $.isPlainObject( instance[camelCaseValue] ) && (depth != maxDepth) ) {
+                instance = instance[camelCaseValue];
+              }
               else if( instance[value] !== undefined ) {
                 found = instance[value];
+                return false;
+              }
+              else if( instance[camelCaseValue] !== undefined ) {
+                found = instance[camelCaseValue];
+                return false;
               }
               else {
                 module.error(error.method);
+                return false;
               }
             });
           }
           if ( $.isFunction( found ) ) {
-            return found.apply(context, passedArguments);
+            response = found.apply(context, passedArguments);
           }
-          return found || false;
+          else if(found !== undefined) {
+            response = found;
+          }
+          if($.isArray(invokedResponse)) {
+            invokedResponse.push(response);
+          }
+          else if(typeof invokedResponse == 'string') {
+            invokedResponse = [invokedResponse, response];
+          }
+          else if(response !== undefined) {
+            invokedResponse = response;
+          }
+          return found;
         }
       };
 

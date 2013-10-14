@@ -1,3 +1,9 @@
+## 0.0.3
+
+* Fix typo in semantic-ui.js
+
+* Update Semantic UI
+
 ## 0.0.2
 
 ### Features

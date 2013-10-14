@@ -13,8 +13,7 @@
 //= require semantic-ui/tab
 //= require semantic-ui/transition
 //= require semantic-ui/video
-
-//= require semantic-ui/behavior//api
+//= require semantic-ui/behavior/api
 //= require semantic-ui/behavior/colorize
 //= require semantic-ui/behavior/form
 //= require semantic-ui/behavior/state
