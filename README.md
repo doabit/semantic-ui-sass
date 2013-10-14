@@ -5,7 +5,7 @@
 ## Installation and Usage
 
 ```ruby
-gem 'semantic-ui-sass', '~> 0.0.2'
+gem 'semantic-ui-sass', '~> 0.0.3'
 ```
 or
 
@@ -81,6 +81,10 @@ require 'semantic-ui-sass'
 compass install semantic-ui
 ```
 
+## TODO
+
+* Add global variables
+* Add rails helpers like `render_flash`?
 
 ## Contributing
 
