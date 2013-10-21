@@ -81,6 +81,27 @@ require 'semantic-ui-sass'
 compass install semantic-ui
 ```
 
+# Rails Helpers
+
+## Flash helper
+
+Add flash helper `<%= semantic_flash %>` to your layout
+
+## Icon helper
+
+```ruby
+semantic_icon('add')
+# => <i class="add icon"></i>
+semantic_icon(:add)
+# => <i class="add icon"></i>
+semantic_icon('add sign')
+# => <i class="add sign icon"></i>
+semantic_icon('add', 'sign')
+# => <i class="add sign icon"></i>
+semantic_icon(:add, :sign)
+# => <i class="add sign icon"></i>
+```
+
 ## TODO
 
 * Add global variables
