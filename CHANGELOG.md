@@ -1,3 +1,7 @@
+## 0.8.1.0
+
+* Update Semantic UI to 0.8.1
+
 ## 0.8.0.0
 
 * Add flash helper
