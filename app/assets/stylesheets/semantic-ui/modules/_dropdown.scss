@@ -39,6 +39,10 @@
     border-radius 0.1s ease,
     width 0.2s ease
   ;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -85,13 +89,12 @@
 
 .ui.dropdown > .dropdown.icon {
   width: auto;
-  margin: 0em 0em 0em 0.5em;
+  margin: 0em 0em 0em 1em;
 }
 
 .ui.dropdown > .dropdown.icon:before {
   content: "\f0d7";
 }
-
 .ui.dropdown .menu .item .dropdown.icon {
   width: auto;
   float: right;
@@ -176,6 +179,12 @@
   left: auto;
   right: 0px;
 }
+.ui.vertical.menu .dropdown.item > .dropdown.icon {
+  content: "\f0da";
+}
+.ui.dropdown.icon.button > .dropdown.icon {
+  margin: 0em;
+}
 
 
 /*******************************
@@ -183,10 +192,6 @@
 *******************************/
 
 /* Dropdown Visible */
-.ui.visible.dropdown {
-  border-bottom-left-radius: 0em !important;
-  border-bottom-right-radius: 0em !important;
-}
 .ui.visible.dropdown > .menu {
   display: block;
 }
@@ -200,8 +205,9 @@
 /* Menu Item Active */
 .ui.dropdown .menu .active.item {
   box-shadow: none;
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.06) !important;
   border-left: none;
+  border-color: transparent !important;
 
   -webkit-box-shadow: none;
   -moz-shadow: none;
@@ -297,17 +303,18 @@
   line-height: 1.33;
   color: rgba(0, 0, 0, 0.8);
 
-  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) !important;
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) !important;
 
   -webkit-border-radius: 0.3125em !important;
   -moz-border-radius: 0.3125em !important;
   border-radius: 0.3125em !important;
 }
+.ui.selection.dropdown select {
+  display: none;
+}
 .ui.selection.dropdown > .dropdown.icon {
-  float: right;
-
   opacity: 0.7;
   margin: 0.2em 0em 0.2em 1.25em;
 
@@ -334,9 +341,9 @@
   overflow-x: hidden;
   overflow-y: auto;
 
-  -webkit-box-shadow: 0px 1px 0px 1px #EEEEEE;
-  -moz-box-shadow: 0px 1px 0px 1px #EEEEEE;
-  box-shadow: 0px 1px 0px 1px #EEEEEE;
+  -webkit-box-shadow: 0px 1px 0px 1px #E0E0E0;
+  -moz-box-shadow: 0px 1px 0px 1px #E0E0E0;
+  box-shadow: 0px 1px 0px 1px #E0E0E0;
 
   -moz-border-radius: 0px 0px 0.325em 0.325em;
   -webkit-border-radius: 0px 0px 0.325em 0.325em;
@@ -354,33 +361,37 @@
 }
 
 /* Hover */
-.ui.selection.dropdown:hover,
-.ui.selection.dropdown.hover {
-  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+.ui.selection.dropdown:hover {
+  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
+  -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
+}
+.ui.selection.dropdown:hover .menu {
+  -webkit-box-shadow: 0px 1px 0px 1px #D3D3D3;
+  -moz-box-shadow: 0px 1px 0px 1px #D3D3D3;
+  box-shadow: 0px 1px 0px 1px #D3D3D3;
 }
 .ui.selection.dropdown:hover > .dropdown.icon {
   opacity: 1;
 }
 
 /* Visible */
-.ui.selection.active.dropdown {
-  -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
-  -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2) !important;
+.ui.visible.selection.dropdown {
+  border-bottom-left-radius: 0em !important;
+  border-bottom-right-radius: 0em !important;
+}
+
+/* Active */
+.ui.active.selection.dropdown {
 
   -webkit-border-radius: 0.3125em 0.3125em 0em 0em !important;
   -moz-border-radius: 0.3125em 0.3125em 0em 0em !important;
   border-radius: 0.3125em 0.3125em 0em 0em !important;
 }
-.ui.selection.active.dropdown > .dropdown.icon {
+.ui.active.selection.dropdown > .dropdown.icon {
   opacity: 1;
 }
-.ui.selection.active.dropdown .menu {
-  -webkit-box-shadow: 0px 1px 0px 1px #D3D3D3;
-  -moz-box-shadow: 0px 1px 0px 1px #D3D3D3;
-  box-shadow: 0px 1px 0px 1px #D3D3D3;
+.ui.active.selection.dropdown .menu {
 }
 
 /*--------------
@@ -389,6 +400,9 @@
 
 .ui.fluid.dropdown {
   display: block;
+}
+.ui.fluid.dropdown > .dropdown.icon {
+  float: right;
 }
 
 /*--------------
@@ -466,7 +480,7 @@
   z-index: 2;
 }
 
-.ui.pointing.dropdown .menu .item.active:first-child {
+.ui.pointing.dropdown .menu .active.item:first-child {
   background: transparent -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.03));
   background: transparent -moz-linear-gradient(transparent, rgba(0, 0, 0, 0.03));
   background: transparent -o-linear-gradient(transparent, rgba(0, 0, 0, 0.03));

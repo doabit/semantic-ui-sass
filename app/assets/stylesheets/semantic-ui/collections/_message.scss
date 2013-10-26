@@ -116,7 +116,7 @@
 .ui.message ul.list li {
   position: relative;
   list-style-type: none;
-  margin: 0em 0em 0em 1em;
+  margin: 0em 0em 0.3em 1em;
   padding: 0em;
 }
 .ui.message ul.list li:before {
@@ -233,7 +233,7 @@
   display: table-cell;
   vertical-align: middle;
   font-size: 3.8em;
-  opacity: 0.2;
+  opacity: 0.5;
 }
 .ui.icon.message > .icon + .content {
   padding-left: 1em;
@@ -308,21 +308,20 @@
 /* Red Text Block */
 .ui.red.message {
   background-color: #F1D7D7;
-
   color: #A95252;
 }
 
 /* Success Text Block */
 .ui.success.message,
 .ui.positive.message {
-  background-color: #5BBD72;
-  color: #FFFFFF;
+  background-color: #DEFCD5;
+  color: #52A954;
 }
 /* Error Text Block */
 .ui.error.message,
 .ui.negative.message {
-  background-color: #D95C5C;
-  color: #FFFFFF;
+  background-color: #F1D7D7;
+  color: #A95252;
 }
 
 

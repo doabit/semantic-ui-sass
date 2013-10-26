@@ -30,7 +30,7 @@ $.fn.transition = function() {
       || window.msRequestAnimationFrame
       || function(callback) { setTimeout(callback, 0); },
 
-    invokedResponse
+    returnedValue
   ;
   $allModules
     .each(function() {
@@ -146,10 +146,12 @@ $.fn.transition = function() {
             if($module.hasClass(className.outward)) {
               module.restore.conditions();
               module.hide();
+              $.proxy(settings.onHide, this)();
             }
             else if($module.hasClass(className.inward)) {
               module.restore.conditions();
               module.show();
+              $.proxy(settings.onShow, this)();
             }
             else {
               module.restore.conditions();
@@ -314,7 +316,7 @@ $.fn.transition = function() {
                 animation : animation
               });
             }
-            return $.fn.transition.settings;
+            return $.extend({}, $.fn.transition.settings);
           },
 
           animationName: function() {
@@ -436,26 +438,22 @@ $.fn.transition = function() {
         },
 
         setting: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, settings, name);
-            }
-            else {
-              settings[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, settings, name);
+          }
+          else if(value !== undefined) {
+            settings[name] = value;
           }
           else {
             return settings[name];
           }
         },
         internal: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, module, name);
-            }
-            else {
-              module[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, module, name);
+          }
+          else if(value !== undefined) {
+            module[name] = value;
           }
           else {
             return module[name];
@@ -582,14 +580,14 @@ $.fn.transition = function() {
           else if(found !== undefined) {
             response = found;
           }
-          if($.isArray(invokedResponse)) {
-            invokedResponse.push(response);
+          if($.isArray(returnedValue)) {
+            returnedValue.push(response);
           }
-          else if(typeof invokedResponse == 'string') {
-            invokedResponse = [invokedResponse, response];
+          else if(returnedValue !== undefined) {
+            returnedValue = [returnedValue, response];
           }
           else if(response !== undefined) {
-            invokedResponse = response;
+            returnedValue = response;
           }
           return found || false;
         }
@@ -597,8 +595,8 @@ $.fn.transition = function() {
       module.initialize();
     })
   ;
-  return (invokedResponse !== undefined)
-    ? invokedResponse
+  return (returnedValue !== undefined)
+    ? returnedValue
     : this
   ;
 };
@@ -622,12 +620,14 @@ $.fn.transition.settings = {
 
   // animation complete event
   complete    : function() {},
+  onShow      : function() {},
+  onHide      : function() {},
 
   // animation duration
   animation   : 'fade',
   duration    : '700ms',
 
-  // queue up animations
+  // new animations will occur after previous ones
   queue       : true,
 
   className   : {

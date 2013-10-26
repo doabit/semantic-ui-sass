@@ -118,15 +118,6 @@
   margin-bottom: 0em;
 }
 
-/* Padding on next content after a label */
-.ui.segment > .attached.label:first-child + * {
-  margin-top: 2em;
-}
-.ui.segment > .bottom.attached.label:first-child ~ :last-child {
-  margin-top: 0em;
-  margin-bottom: 2em;
-}
-
 /*******************************
              Types
 *******************************/
@@ -303,6 +294,9 @@
 .ui.red.segment {
   border-top: 0.2em solid #D95C5C;
 }
+.ui.orange.segment {
+  border-top: 0.2em solid #F05940;
+}
 .ui.purple.segment {
   border-top: 0.2em solid #564F8A;
 }
@@ -328,6 +322,10 @@
 }
 .ui.inverted.red.segment {
   background-color: #D95C5C !important;
+  color: #FFFFFF !important;
+}
+.ui.inverted.orange.segment {
+  background-color: #F05940 !important;
   color: #FFFFFF !important;
 }
 .ui.inverted.purple.segment {

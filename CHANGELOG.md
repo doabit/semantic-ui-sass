@@ -1,3 +1,11 @@
+## 0.8.0.0
+
+* Add flash helper
+
+* Add icon helper
+
+* Update Semantic UI to 0.8.0
+
 ## 0.0.3
 
 * Fix typo in semantic-ui.js
