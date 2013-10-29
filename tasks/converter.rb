@@ -6,6 +6,8 @@ require 'json'
 require 'fileutils'
 require "pry"
 require "dotenv"
+require "autoprefixer-rails"
+
 Dotenv.load
 
 class Converter
@@ -46,6 +48,11 @@ class Converter
         file_name = name.gsub('.less', '')
         file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
         file = convert(file)
+        begin
+          file = AutoprefixerRails.compile(file)
+        rescue
+          puts "======== #{file_name} autoprefixer fail ========="
+        end
         save_file(name, file, path)
         content += "@import '#{file_name}';\n"
       end

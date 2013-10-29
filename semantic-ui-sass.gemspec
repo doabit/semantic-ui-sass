@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'dotenv'
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "rails", '>= 3.2.0'
+  spec.add_development_dependency "autoprefixer-rails"
 end
