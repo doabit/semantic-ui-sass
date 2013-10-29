@@ -1,3 +1,11 @@
+## 0.8.2.0
+
+* Update Semantic UI to 0.8.2
+
+* Add autoprefixer
+
+* Remove sqlite3
+
 ## 0.8.1.0
 
 * Update Semantic UI to 0.8.1
