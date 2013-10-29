@@ -4,5 +4,4 @@ require 'rspec/rails'
 require 'rspec/autorun'
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = true
 end
