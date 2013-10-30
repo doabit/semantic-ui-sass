@@ -1,3 +1,9 @@
+## 0.8.3.0
+
+* Update Semantic UI to 0.8.3
+
+## 0.8.0.0
+
 ## 0.8.2.0
 
 * Update Semantic UI to 0.8.2

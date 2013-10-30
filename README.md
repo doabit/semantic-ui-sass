@@ -5,7 +5,7 @@
 ## Installation and Usage
 
 ```ruby
-gem 'semantic-ui-sass', '~> 0.8.2.0'
+gem 'semantic-ui-sass', '~> 0.8.3.0'
 ```
 or
 
