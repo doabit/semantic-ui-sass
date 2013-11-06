@@ -15,6 +15,7 @@ class Converter
   GIT_DATA = 'https://api.github.com/repos'
   GIT_RAW  = 'https://raw.github.com'
   TOKEN    = ENV['TOKEN']
+  BROWSERS = ['last 2 version', '> 1%', 'opera 12.1', 'safari 6', 'ie 9', 'bb 10', 'android 4']
 
   def initialize(branch)
     @repo               = 'jlukic/Semantic-UI'
@@ -49,7 +50,7 @@ class Converter
         file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
         file = convert(file)
         begin
-          file = AutoprefixerRails.compile(file)
+          file = AutoprefixerRails.compile(file, BROWSERS)
         rescue
           puts "======== #{file_name} autoprefixer fail ========="
         end
