@@ -14,6 +14,7 @@
 *******************************/
 
 .ui.dropdown {
+  cursor: pointer;
   position: relative;
   display: inline-block;
   line-height: 1;
@@ -35,6 +36,7 @@
 ---------------*/
 
 .ui.dropdown .menu {
+  cursor: auto;
   position: absolute;
   display: none;
   top: 100%;
@@ -80,7 +82,6 @@
 ---------------*/
 
 .ui.dropdown > .text {
-  cursor: pointer;
   display: inline-block;
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
@@ -393,7 +394,7 @@
 .ui.floating.dropdown .menu {
   left: 0;
   right: auto;
-  margin-top: 0.5em;
+  margin-top: 0.5em !important;
   border-radius: 0.325em;
 }
 

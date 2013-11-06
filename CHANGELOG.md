@@ -1,3 +1,9 @@
+## 0.9.0.0
+
+* Update Semantic UI to 0.9.0
+
+* Add browsers setting for autoprefixer
+
 ## 0.8.6.0
 
 * Update Semantic UI to 0.8.6
