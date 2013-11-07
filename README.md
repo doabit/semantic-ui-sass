@@ -83,6 +83,31 @@ compass install semantic-ui
 
 # Rails Helpers
 
+## Breadcrumbs helper
+
+Add breadcrumbs helper `<%= render_breadcrumbs %>` to your layout.
+
+```ruby
+class ApplicationController
+  add_breadcrumb :index, :root_path
+end
+```
+
+```ruby
+class ExamplesController < ApplicationController
+  add_breadcrumb :index, :examples_path
+
+  def index
+  end
+
+  def show
+    @example = Example.find params[:id]
+    add_breadcrumb @example.name, example_path(@example)
+    # add_breadcrumb :show, example_path(@example)
+  end
+end
+```
+
 ## Flash helper
 
 Add flash helper `<%= semantic_flash %>` to your layout
