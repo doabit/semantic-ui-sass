@@ -1,0 +1,12 @@
+<% if @breadcrumbs.present? %>
+  <% separator = divider %>
+  <div class="ui breadcrumb">
+    <% @breadcrumbs[0..-2].each do |crumb| %>
+      <%= link_to crumb[:name], crumb[:url], crumb[:options] %>
+      <div class="divider"><%= separator %></div>
+    <% end %>
+    <div class="active section">
+      <%= @breadcrumbs.last[:name] %>
+    </div>
+  </div>
+<% end -%>
