@@ -1,3 +1,9 @@
+## 0.9.1.0
+
+* Update Semantic UI to 0.9.1
+
+* Add breadcrumbs helper
+
 ## 0.9.0.0
 
 * Update Semantic UI to 0.9.0
