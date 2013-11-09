@@ -1,3 +1,7 @@
+## 0.9.2.0
+
+* Update Semantic UI to 0.9.2
+
 ## 0.9.1.0
 
 * Update Semantic UI to 0.9.1
