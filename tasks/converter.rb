@@ -18,7 +18,7 @@ class Converter
   BROWSERS = ['last 2 version', '> 1%', 'opera 12.1', 'safari 6', 'ie 9', 'bb 10', 'android 4']
 
   def initialize(branch)
-    @repo               = 'jlukic/Semantic-UI'
+    @repo               = 'Semantic-Org/Semantic-UI'
     @repo_url           = "https://github.com/#@repo"
     @branch             = branch || 'master'
     @git_data_trees     = "#{GIT_DATA}/#{@repo}/git/trees"
