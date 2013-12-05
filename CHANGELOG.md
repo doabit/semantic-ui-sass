@@ -1,5 +1,9 @@
 ## 0.10.0.0
 
+* Update Semantic UI to 0.10.1
+
+## 0.10.0.0
+
 * Update Semantic UI to 0.10.0
 
 ## 0.9.6.0
