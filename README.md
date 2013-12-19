@@ -81,6 +81,10 @@ require 'semantic-ui-sass'
 compass install semantic-ui
 ```
 
+### NOTE
+
+When using compass, you should visit file in local server, eg `http://localhost:3000/index.html`, rather than `file:///Users/doabit/demo/index.html`
+
 # Rails Helpers
 
 ## Breadcrumbs helper
