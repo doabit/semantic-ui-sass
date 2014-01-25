@@ -1,3 +1,7 @@
+## 0.12.3.0
+
+* Update Semantic UI to 0.12.3
+
 ## 0.12.2.0
 
 * Update Semantic UI to 0.12.2
