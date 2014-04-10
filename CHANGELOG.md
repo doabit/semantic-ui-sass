@@ -1,3 +1,7 @@
+## 0.15.4.2
+
+* Fix netsted import error
+
 ## 0.15.4.1
 
 * Fix depend_on_asset
