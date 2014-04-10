@@ -17,30 +17,30 @@ class Converter
   TOKEN    = ENV['TOKEN']
   BROWSERS = ['last 2 version', '> 1%', 'opera 12.1', 'safari 6', 'ie 9', 'bb 10', 'android 4']
 
-  DEPENDS = {
-    icon: %Q{
-      //= depend_on_asset "semantic-ui/icons.eot"
-      //= depend_on_asset "semantic-ui/icons.svg"
-      //= depend_on_asset "semantic-ui/icons.woff"
-      //= depend_on_asset "semantic-ui/icons.ttf"
-    },
-    basic_icon: %Q{
-      //= depend_on_asset "semantic-ui/basic.icons.eot"
-      //= depend_on_asset "semantic-ui/basic.icons.svg"
-      //= depend_on_asset "semantic-ui/basic.icons.woff"
-      //= depend_on_asset "semantic-ui/basic.icons.ttf"
-    },
-    loader: %Q{
-      //= depend_on_asset "semantic-ui/loader-large.gif"
-      //= depend_on_asset "semantic-ui/loader-mini.gif"
-      //= depend_on_asset "semantic-ui/loader-small.gif"
-      //= depend_on_asset "semantic-ui/loader-medium.gif"
-      //= depend_on_asset "semantic-ui/loader-mini-inverted.gif"
-      //= depend_on_asset "semantic-ui/loader-small-inverted.gif"
-      //= depend_on_asset "semantic-ui/loader-medium-inverted.gif"
-      //= depend_on_asset "semantic-ui/loader-large-inverted.gif"
-    }
-  }
+  # DEPENDS = {
+  #   icon: %Q{
+  #     //= depend_on_asset "semantic-ui/icons.eot"
+  #     //= depend_on_asset "semantic-ui/icons.svg"
+  #     //= depend_on_asset "semantic-ui/icons.woff"
+  #     //= depend_on_asset "semantic-ui/icons.ttf"
+  #   },
+  #   basic_icon: %Q{
+  #     //= depend_on_asset "semantic-ui/basic.icons.eot"
+  #     //= depend_on_asset "semantic-ui/basic.icons.svg"
+  #     //= depend_on_asset "semantic-ui/basic.icons.woff"
+  #     //= depend_on_asset "semantic-ui/basic.icons.ttf"
+  #   },
+  #   loader: %Q{
+  #     //= depend_on_asset "semantic-ui/loader-large.gif"
+  #     //= depend_on_asset "semantic-ui/loader-mini.gif"
+  #     //= depend_on_asset "semantic-ui/loader-small.gif"
+  #     //= depend_on_asset "semantic-ui/loader-medium.gif"
+  #     //= depend_on_asset "semantic-ui/loader-mini-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-small-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-medium-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-large-inverted.gif"
+  #   }
+  # }
 
   def initialize(branch)
     @repo               = 'Semantic-Org/Semantic-UI'
@@ -66,31 +66,6 @@ class Converter
     process_images_and_fonts_assets
     store_version
   end
-
-  # def prepare_depend_asset
-  #   icons = %Q{
-  #     //= depend_on_asset "semantic-ui/icons.eot"
-  #     //= depend_on_asset "semantic-ui/icons.svg"
-  #     //= depend_on_asset "semantic-ui/icons.woff"
-  #     //= depend_on_asset "semantic-ui/icons.ttf"
-  #   }
-  #   base_icons = %Q{
-  #     //= depend_on_asset "semantic-ui/basic.icons.eot"
-  #     //= depend_on_asset "semantic-ui/basic.icons.svg"
-  #     //= depend_on_asset "semantic-ui/basic.icons.woff"
-  #     //= depend_on_asset "semantic-ui/basic.icons.ttf"
-  #   }
-  #   loader = %Q{
-  #     //= depend_on_asset "semantic-ui/loader-large.gif"
-  #     //= depend_on_asset "semantic-ui/loader-mini.gif"
-  #     //= depend_on_asset "semantic-ui/loader-small.gif"
-  #     //= depend_on_asset "semantic-ui/loader-medium.gif"
-  #     //= depend_on_asset "semantic-ui/loader-mini-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-small-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-medium-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-large-inverted.gif"
-  #   }
-  # end
 
   def process_stylesheets_assets
     main_content = ''
@@ -218,13 +193,11 @@ private
       # Check depent asset
 
       if name == "icon"
-        # content = "@import '../depends/icon';\n" + content
-        content = DEPENDS[:icon] + content
+        content = "@import '../depends/icon';\n" + content
       end
 
       if name == "basic.icon"
-        # content = "@import '../depends/base.icon';\n" + content
-        content = DEPENDS[:base_icon] + content
+        content = "@import '../depends/basic.icon';\n" + content
       end
 
       content = check_depend_asset(content)
@@ -240,8 +213,7 @@ private
 
   def check_depend_asset(content)
     if content.scan(/loader-\w+.gif/).length > 0
-     # "@import '../depends/loader';\n" + content
-     DEPENDS[:loader] + content
+     "@import '../depends/loader';\n" + content
     else
       content
     end
