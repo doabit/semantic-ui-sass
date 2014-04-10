@@ -35,11 +35,40 @@ class Converter
   end
 
   def process
+    # prepare_depend_asset
     process_stylesheets_assets
     process_javascript_assets
     process_images_and_fonts_assets
     store_version
   end
+
+  # def prepare_depend_asset
+  #   icons = %Q{
+  #     //= depend_on_asset "semantic-ui/icons.eot"
+  #     //= depend_on_asset "semantic-ui/icons.svg"
+  #     //= depend_on_asset "semantic-ui/icons.woff"
+  #     //= depend_on_asset "semantic-ui/icons.ttf"
+  #   }
+  #   base_icons = %Q{
+  #     //= depend_on_asset "semantic-ui/basic.icons.eot"
+  #     //= depend_on_asset "semantic-ui/basic.icons.svg"
+  #     //= depend_on_asset "semantic-ui/basic.icons.woff"
+  #     //= depend_on_asset "semantic-ui/basic.icons.ttf"
+  #   }
+  #   loader = %Q{
+  #     //= depend_on_asset "semantic-ui/loader-large.gif"
+  #     //= depend_on_asset "semantic-ui/loader-mini.gif"
+  #     //= depend_on_asset "semantic-ui/loader-small.gif"
+  #     //= depend_on_asset "semantic-ui/loader-medium.gif"
+  #     //= depend_on_asset "semantic-ui/loader-mini-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-small-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-medium-inverted.gif"
+  #     //= depend_on_asset "semantic-ui/loader-large-inverted.gif"
+  #   }
+  #   File.open("app/assets/stylesheets/semantic-ui/depends/_icons.scss", "w+") { |file| file.write(icons) }
+  #   File.open("app/assets/stylesheets/semantic-ui/depends/_base.icons.scss", "w+") { |file| file.write(base_icons) }
+  #   File.open("app/assets/stylesheets/semantic-ui/depends/_loader.scss", "w+") { |file| file.write(loader) }
+  # end
 
   def process_stylesheets_assets
     main_content = ''
@@ -164,6 +193,18 @@ private
     when 'stylesheets'
       name = name.gsub(/\.less/, '')
       file = "#{@save_at[:scss]}/#{path}/_#{name}.scss"
+      # Check depent asset
+
+      if name == "icon"
+        content = "@import '../depends/icon';\n" + content
+      end
+
+      if name == "base.icon"
+        content = "@import '../depends/base.icon';\n" + content
+      end
+
+      content = check_depend_asset(content)
+
     when 'js', 'images', 'fonts'
       file = (path.nil? ? "#{@save_at[type.to_sym]}/#{name}" : "#{@save_at[type.to_sym]}/#{path}/#{name}")
     end
@@ -171,6 +212,14 @@ private
     FileUtils.mkdir_p(dir) unless File.directory?(file)
     File.open(file, 'w+') { |f| f.write(content) }
     puts "Saved #{name} at #{path}\n"
+  end
+
+  def check_depend_asset(content)
+    if content.scan(/loader-\w+.gif/).length > 0
+     "@import '../depends/loader';\n" + content
+    else
+      content
+    end
   end
 
   def get_json(url)

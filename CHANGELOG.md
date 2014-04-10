@@ -1,3 +1,7 @@
+## 0.15.4.1
+
+* Fix depend_on_asset
+
 ## 0.15.4.0
 
 * Update Semantic UI to 0.15.4
