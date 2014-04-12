@@ -1,3 +1,7 @@
+## 0.15.5.0
+
+* Update Semantic UI to 0.15.5
+
 ## 0.15.4.2
 
 * Fix netsted import error
