@@ -16,11 +16,11 @@
 
 @font-face {
   font-family: 'Basic Icons';
-  src: font-url("semantic-ui/basic.icons.eot");
-  src: font-url("semantic-ui/basic.icons.eot?#iefix") format('embedded-opentype'),
-    font-url("semantic-ui/basic.icons.svg#basic.icons") format('svg'),
-    font-url("semantic-ui/basic.icons.woff") format('woff'),
-    font-url("semantic-ui/basic.icons.ttf") format('truetype');
+  src: url("semantic-ui/basic.icons.eot");
+  src: url("semantic-ui/basic.icons.eot?#iefix") format('embedded-opentype'),
+    url("semantic-ui/basic.icons.svg#basic.icons") format('svg'),
+    url("semantic-ui/basic.icons.woff") format('woff'),
+    url("semantic-ui/basic.icons.ttf") format('truetype');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
