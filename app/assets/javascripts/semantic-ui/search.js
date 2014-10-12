@@ -3,7 +3,7 @@
  * http://github.com/jlukic/semantic-ui/
  *
  *
- * Copyright 2013 Contributors
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -137,7 +137,7 @@ $.fn.search = function(source, parameters) {
           if($results.filter(':visible').size() > 0) {
             if(keyCode == keys.enter) {
               module.verbose('Enter key pressed, selecting active result');
-              if( $result.filter('.' + activeClass).exists() ) {
+              if( $result.filter('.' + activeClass).size() > 0 ) {
                 $.proxy(module.results.select, $result.filter('.' + activeClass) )();
                 event.preventDefault();
                 return false;

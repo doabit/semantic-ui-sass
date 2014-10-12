@@ -4,7 +4,7 @@
  * http://github.com/jlukic/semantic-ui/
  *
  *
- * Copyright 2013 Contributors
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -165,6 +165,8 @@
     rgba(0, 0, 0, 0.1) 50%,
     rgba(0, 0, 0, 0.05) 100%);
 }
+
+/*rtl:ignore*/
 
 .ui.menu > .menu:not(.right):first-child > .item:first-child:before,
 .ui.menu .item:first-child:before {
@@ -1418,7 +1420,7 @@
 }
 
 .ui.inverted.green.pointing.menu .active.item:after {
-  background-color: #A1CF64;
+  background-color: #B3D782;
 }
 
 .ui.inverted.red.menu {
@@ -1426,7 +1428,7 @@
 }
 
 .ui.inverted.red.pointing.menu .active.item:after {
-  background-color: #F16883;
+  background-color: #DF7C7C;
 }
 
 .ui.inverted.blue.menu {
@@ -1434,7 +1436,7 @@
 }
 
 .ui.inverted.blue.pointing.menu .active.item:after {
-  background-color: #6ECFF5;
+  background-color: #8AD7F6;
 }
 
 .ui.inverted.purple.menu {
@@ -1442,7 +1444,7 @@
 }
 
 .ui.inverted.purple.pointing.menu .active.item:after {
-  background-color: #564F8A;
+  background-color: #7771A0;
 }
 
 .ui.inverted.orange.menu {
@@ -1450,7 +1452,7 @@
 }
 
 .ui.inverted.orange.pointing.menu .active.item:after {
-  background-color: #F05940;
+  background-color: #F27966;
 }
 
 .ui.inverted.teal.menu {
@@ -1458,7 +1460,7 @@
 }
 
 .ui.inverted.teal.pointing.menu .active.item:after {
-  background-color: #00B5AD;
+  background-color: #33C3BC;
 }
 
 /*--------------

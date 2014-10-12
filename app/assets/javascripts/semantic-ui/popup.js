@@ -3,7 +3,7 @@
  * http://github.com/jlukic/semantic-ui/
  *
  *
- * Copyright 2013 Contributors
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -259,6 +259,7 @@ $.fn.popup = function(parameters) {
           $popup
             .remove()
           ;
+          $.proxy(settings.onRemove, $popup)();
         },
 
         save: {
@@ -786,6 +787,7 @@ $.fn.popup.settings = {
   namespace      : 'popup',
 
   onCreate       : function(){},
+  onRemove       : function(){},
   onShow         : function(){},
   onHide         : function(){},
 
@@ -805,7 +807,7 @@ $.fn.popup.settings = {
   preserve       : false,
 
   duration       : 250,
-  easing         : 'easeOutQuint',
+  easing         : 'easeOutQuad',
   transition     : 'scale',
 
   distanceAway   : 0,
@@ -843,7 +845,7 @@ $.fn.popup.settings = {
     var html = '';
     if(typeof text !== undefined) {
       if(typeof text.title !== undefined && text.title) {
-        html += '<div class="header">' + text.title + '</div class="header">';
+        html += '<div class="header">' + text.title + '</div>';
       }
       if(typeof text.content !== undefined && text.content) {
         html += '<div class="content">' + text.content + '</div>';
@@ -853,5 +855,13 @@ $.fn.popup.settings = {
   }
 
 };
+
+// Adds easing
+$.extend( $.easing, {
+  easeOutQuad: function (x, t, b, c, d) {
+    return -c *(t/=d)*(t-2) + b;
+  }
+});
+
 
 })( jQuery, window , document );

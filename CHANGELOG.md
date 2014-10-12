@@ -1,3 +1,9 @@
+## 0.19.3.0
+
+* Fix font-url
+
+* Update Semantic UI to 0.19.3
+
 ## 0.16.1.0
 
 * Update Semantic UI to 0.16.1

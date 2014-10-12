@@ -3,7 +3,7 @@
  * http://github.com/jlukic/semantic-ui/
  *
  *
- * Copyright 2013 Contributors
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -635,7 +635,7 @@ $.fn.form.settings = {
     group   : '.field',
     input   : 'input',
     prompt  : '.prompt',
-    submit  : '.submit'
+    submit  : '.submit:not([type="submit"])'
   },
 
   className : {

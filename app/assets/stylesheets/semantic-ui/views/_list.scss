@@ -3,11 +3,11 @@
  * http://github.com/jlukic/semantic-ui/
  *
  *
- * Copyright 2013 Contributors
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
- * Released: April 26 2013
+ * Released: April 26 2014
  */
 
 /*******************************
@@ -457,7 +457,7 @@ ol.ui.horizontal.list li:before,
 
 /* Sub Menu */
 
-.ui.divided.list:not(.horizontal) .list {
+.ui.divided.list:not(.horizontal) .list:not(.icon) {
   margin-left: -0.5em;
   margin-right: -0.5em;
 }
