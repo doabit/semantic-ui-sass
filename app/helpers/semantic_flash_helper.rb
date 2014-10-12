@@ -5,9 +5,9 @@ module SemanticFlashHelper
     output = ''
     flash.each do |type, message|
       next if message.blank?
-      type = :success if type == :notice
-      type = :error   if type == :alert
-      next unless ALERT_TYPES.include?(type)
+      type = :success if type.to_sym == :notice
+      type = :error   if type.to_sym == :alert
+      next unless ALERT_TYPES.include?(type.to_sym)
       output += flash_container(type, message)
     end
 
