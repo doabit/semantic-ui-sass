@@ -29,11 +29,11 @@
 
 @font-face {
   font-family: 'Icons';
-  src: url("semantic-ui/icons.eot");
-  src: url("semantic-ui/icons.eot?#iefix") format('embedded-opentype'),
-    url("semantic-ui/icons.svg#icons") format('svg'),
-    url("semantic-ui/icons.woff") format('woff'),
-    url("semantic-ui/icons.ttf") format('truetype');
+  src: asset-url("semantic-ui/icons.eot");
+  src: asset-url("semantic-ui/icons.eot?#iefix") format('embedded-opentype'),
+    asset-url("semantic-ui/icons.svg#icons") format('svg'),
+    asset-url("semantic-ui/icons.woff") format('woff'),
+    asset-url("semantic-ui/icons.ttf") format('truetype');
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
