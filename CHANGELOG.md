@@ -1,3 +1,7 @@
+## 0.19.3.1
+
+* Fix fonts urls for asset pipeline
+
 ## 0.19.3.0
 
 * Fix font-url
