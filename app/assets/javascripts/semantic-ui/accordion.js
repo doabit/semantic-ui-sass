@@ -1,15 +1,17 @@
 /*
  * # Semantic - Accordion
- * http://github.com/jlukic/semantic-ui/
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
 
 ;(function ($, window, document, undefined) {
+
+"use strict";
 
 $.fn.accordion = function(parameters) {
   var
@@ -21,6 +23,13 @@ $.fn.accordion = function(parameters) {
     query           = arguments[0],
     methodInvoked   = (typeof query == 'string'),
     queryArguments  = [].slice.call(arguments, 1),
+
+    requestAnimationFrame = window.requestAnimationFrame
+      || window.mozRequestAnimationFrame
+      || window.webkitRequestAnimationFrame
+      || window.msRequestAnimationFrame
+      || function(callback) { setTimeout(callback, 0); },
+
     returnedValue
   ;
   $allModules
@@ -45,6 +54,7 @@ $.fn.accordion = function(parameters) {
 
         element  = this,
         instance = $module.data(moduleNamespace),
+        observer,
         module
       ;
 
@@ -52,10 +62,10 @@ $.fn.accordion = function(parameters) {
 
         initialize: function() {
           module.debug('Initializing accordion with bound events', $module);
-          // initializing
-          $title
-            .on('click' + eventNamespace, module.event.click)
+          $module
+            .on('click' + eventNamespace, selector.title, module.event.click)
           ;
+          module.observeChanges();
           module.instantiate();
         },
 
@@ -76,88 +86,71 @@ $.fn.accordion = function(parameters) {
           ;
         },
 
-        event: {
-          click: function() {
-            module.verbose('Title clicked', this);
-            var
-              $activeTitle = $(this),
-              index        = $title.index($activeTitle)
-            ;
-            module.toggle(index);
-          },
-          resetDisplay: function() {
-            $(this).css('display', '');
-            if( $(this).attr('style') == '') {
-              $(this)
-                .attr('style', '')
-                .removeAttr('style')
-              ;
-            }
-          },
-          resetOpacity: function() {
-            $(this).css('opacity', '');
-            if( $(this).attr('style') == '') {
-              $(this)
-                .attr('style', '')
-                .removeAttr('style')
-              ;
-            }
+        refresh: function() {
+          $title   = $module.find(selector.title);
+          $content = $module.find(selector.content);
+        },
+
+        observeChanges: function() {
+          if('MutationObserver' in window) {
+            observer = new MutationObserver(function(mutations) {
+              module.debug('DOM tree modified, updating selector cache');
+              module.refresh();
+            });
+            observer.observe(element, {
+              childList : true,
+              subtree   : true
+            });
+            module.debug('Setting up mutation observer', observer);
           }
         },
 
-        toggle: function(index) {
-          module.debug('Toggling content content at index', index);
+
+        event: {
+          click: function() {
+            $.proxy(module.toggle, this)();
+          }
+        },
+
+        toggle: function(query) {
           var
-            $activeTitle   = $title.eq(index),
+            $activeTitle = (query !== undefined)
+              ? (typeof query === 'number')
+                ? $title.eq(query)
+                : $(query)
+              : $(this),
             $activeContent = $activeTitle.next($content),
             contentIsOpen  = $activeContent.is(':visible')
           ;
+          module.debug('Toggling visibility of content', $activeTitle);
           if(contentIsOpen) {
             if(settings.collapsible) {
-              module.close(index);
+              $.proxy(module.close, $activeTitle)();
             }
             else {
               module.debug('Cannot close accordion content collapsing is disabled');
             }
           }
           else {
-            module.open(index);
+            $.proxy(module.open, $activeTitle)();
           }
         },
 
-        open: function(index) {
+        open: function(query) {
           var
-            $activeTitle     = $title.eq(index),
-            $activeContent   = $activeTitle.next($content),
-            $otherSections   = module.is.menu()
-              ? $activeTitle.parent().siblings(selector.item).find(selector.title)
-              : $activeTitle.siblings(selector.title),
-            $previousTitle   = $otherSections.filter('.' + className.active),
-            $previousContent = $previousTitle.next($title),
-            contentIsOpen    =  ($previousTitle.size() > 0)
+            $activeTitle = (query !== undefined)
+              ? (typeof query === 'number')
+                ? $title.eq(query)
+                : $(query)
+              : $(this),
+            $activeContent     = $activeTitle.next($content),
+            currentlyAnimating = $activeContent.is(':animated'),
+            currentlyActive    = $activeContent.hasClass(className.active)
           ;
-          if( !$activeContent.is(':animated') ) {
+          if(!currentlyAnimating && !currentlyActive) {
             module.debug('Opening accordion content', $activeTitle);
-            if(settings.exclusive && contentIsOpen) {
-              $previousTitle
-                .removeClass(className.active)
-              ;
-              $previousContent
-                .stop()
-                .children()
-                  .stop()
-                  .animate({
-                    opacity: 0
-                  }, settings.duration, module.event.resetOpacity)
-                  .end()
-                .slideUp(settings.duration , settings.easing, function() {
-                  $previousContent
-                    .removeClass(className.active)
-                    .children()
-                  ;
-                  $.proxy(module.event.resetDisplay, this)();
-                })
-              ;
+            if(settings.exclusive) {
+              $.proxy(module.closeOthers, $activeTitle)();
             }
             $activeTitle
               .addClass(className.active)
@@ -168,52 +161,126 @@ $.fn.accordion = function(parameters) {
                 .stop()
                 .animate({
                   opacity: 1
-                }, settings.duration)
+                }, settings.duration, module.reset.display)
                 .end()
               .slideDown(settings.duration, settings.easing, function() {
                 $activeContent
                   .addClass(className.active)
                 ;
-                $.proxy(module.event.resetDisplay, this)();
-                $.proxy(settings.onOpen, $activeContent)();
-                $.proxy(settings.onChange, $activeContent)();
+                $.proxy(module.reset.display, this)();
+                $.proxy(settings.onOpen, this)();
+                $.proxy(settings.onChange, this)();
               })
             ;
           }
         },
 
-        close: function(index) {
+        close: function(query) {
           var
-            $activeTitle   = $title.eq(index),
-            $activeContent = $activeTitle.next($content)
+            $activeTitle = (query !== undefined)
+              ? (typeof query === 'number')
+                ? $title.eq(query)
+                : $(query)
+              : $(this),
+            $activeContent = $activeTitle.next($content),
+            isActive       = $activeContent.hasClass(className.active)
           ;
-          module.debug('Closing accordion content', $activeContent);
-          $activeTitle
-            .removeClass(className.active)
-          ;
-          $activeContent
-            .removeClass(className.active)
-            .show()
-            .stop()
-            .children()
+          if(isActive) {
+            module.debug('Closing accordion content', $activeContent);
+            $activeTitle
+              .removeClass(className.active)
+            ;
+            $activeContent
+              .removeClass(className.active)
+              .show()
               .stop()
-              .animate({
-                opacity: 0
-              }, settings.duration, module.event.resetOpacity)
-              .end()
-            .slideUp(settings.duration, settings.easing, function(){
-              $.proxy(module.event.resetDisplay, this)();
-              $.proxy(settings.onClose, $activeContent)();
-              $.proxy(settings.onChange, $activeContent)();
-            })
-          ;
-        },
-        is: {
-          menu: function () {
-            return $module.hasClass(className.menu);
+              .children()
+                .stop()
+                .animate({
+                  opacity: 0
+                }, settings.duration, module.reset.opacity)
+                .end()
+              .slideUp(settings.duration, settings.easing, function() {
+                $.proxy(module.reset.display, this)();
+                $.proxy(settings.onClose, this)();
+                $.proxy(settings.onChange, this)();
+              })
+            ;
           }
         },
+
+        closeOthers: function(index) {
+          var
+            $activeTitle = (index !== undefined)
+              ? $title.eq(index)
+              : $(this),
+            $parentTitles    = $activeTitle.parents(selector.content).prev(selector.title),
+            $activeAccordion = $activeTitle.closest(selector.accordion),
+            activeSelector   = selector.title + '.' + className.active + ':visible',
+            activeContent    = selector.content + '.' + className.active + ':visible',
+            $openTitles,
+            $nestedTitles,
+            $openContents
+          ;
+          if(settings.closeNested) {
+            $openTitles   = $activeAccordion.find(activeSelector).not($parentTitles);
+            $openContents = $openTitles.next($content);
+          }
+          else {
+            $openTitles   = $activeAccordion.find(activeSelector).not($parentTitles);
+            $nestedTitles = $activeAccordion.find(activeContent).find(activeSelector).not($parentTitles);
+            $openTitles = $openTitles.not($nestedTitles);
+            $openContents = $openTitles.next($content);
+          }
+          if( ($openTitles.size() > 0) ) {
+            module.debug('Exclusive enabled, closing other content', $openTitles);
+            $openTitles
+              .removeClass(className.active)
+            ;
+            $openContents
+              .stop()
+              .children()
+                .stop()
+                .animate({
+                  opacity: 0
+                }, settings.duration, module.resetOpacity)
+                .end()
+              .slideUp(settings.duration , settings.easing, function() {
+                $(this).removeClass(className.active);
+                $.proxy(module.reset.display, this)();
+              })
+            ;
+          }
+        },
+
+        reset: {
+
+          display: function() {
+            module.verbose('Removing inline display from element', this);
+            $(this).css('display', '');
+            if( $(this).attr('style') === '') {
+              $(this)
+                .attr('style', '')
+                .removeAttr('style')
+              ;
+            }
+          },
+
+          opacity: function() {
+            module.verbose('Removing inline opacity from element', this);
+            $(this).css('opacity', '');
+            if( $(this).attr('style') === '') {
+              $(this)
+                .attr('style', '')
+                .removeAttr('style')
+              ;
+            }
+          },
+
+        },
+
         setting: function(name, value) {
+          module.debug('Changing setting', name, value);
           if( $.isPlainObject(name) ) {
             $.extend(true, settings, name);
           }
@@ -277,9 +344,9 @@ $.fn.accordion = function(parameters) {
               executionTime = currentTime - previousTime;
               time          = currentTime;
               performance.push({
-                'Element'        : element,
                 'Name'           : message[0],
                 'Arguments'      : [].slice.call(message, 1) || '',
+                'Element'        : element,
                 'Execution Time' : executionTime
               });
             }
@@ -390,6 +457,7 @@ $.fn.accordion = function(parameters) {
 };
 
 $.fn.accordion.settings = {
+
   name        : 'Accordion',
   namespace   : 'accordion',
 
@@ -399,6 +467,7 @@ $.fn.accordion.settings = {
 
   exclusive   : true,
   collapsible : true,
+  closeNested : false,
 
   duration    : 500,
   easing      : 'easeInOutQuint',
@@ -412,17 +481,14 @@ $.fn.accordion.settings = {
   },
 
   className   : {
-    active : 'active',
-    menu   : 'menu',
+    active : 'active'
   },
 
   selector    : {
-    title   : '.title',
-    content : '.content',
-    menu    : '.menu',
-    item    : '.item',
+    accordion : '.accordion',
+    title     : '.title',
+    content   : '.content'
   }
-
 
 };
 

@@ -1,13 +1,15 @@
-/*
- * # Semantic - Modal
- * http://github.com/jlukic/semantic-ui/
- *
+ /*
+ * # Semantic UI
+ * https://github.com/Semantic-Org/Semantic-UI
+ * http://www.semantic-ui.com/
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
+
+
 
 /*******************************
              Modal
@@ -22,18 +24,31 @@
   text-align: left;
   width: 90%;
   margin-left: -45%;
-  background-color: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  border-radius: 5px;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 0.2857rem;
   -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
+  will-change: top, left, margin, transform, opacity;
 }
+.ui.modal > :first-child:not(.icon),
+.ui.modal > .icon:first-child + * {
+  border-top-left-radius: 0.2857rem;
+  border-top-right-radius: 0.2857rem;
+}
+.ui.modal > :last-child {
+  border-bottom-left-radius: 0.2857rem;
+  border-bottom-right-radius: 0.2857rem;
+}
+
 
 /*******************************
             Content
 *******************************/
+
 
 /*--------------
      Close
@@ -42,14 +57,16 @@
 .ui.modal > .close {
   cursor: pointer;
   position: absolute;
+  top: -2.5rem;
+  right: -2.5rem;
   z-index: 1;
   opacity: 0.8;
   font-size: 1.25em;
-  top: -1.75em;
-  right: -1.75em;
-  color: #FFFFFF;
+  color: #ffffff;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.625rem 0rem 0rem 0rem;
 }
-
 .ui.modal > .close:hover {
   opacity: 1;
 }
@@ -59,11 +76,18 @@
 ---------------*/
 
 .ui.modal > .header {
+  display: block;
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05)) #ffffff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.05)) #ffffff;
   margin: 0em;
-  padding: 1.5rem 2rem;
+  padding: 1.2rem 2rem;
+  box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.05);
   font-size: 1.6em;
+  line-height: 1.3em;
   font-weight: bold;
-  border-radius: 0.325em 0.325em 0px 0px;
+  color: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid rgba(39, 41, 43, 0.15);
 }
 
 /*--------------
@@ -72,37 +96,44 @@
 
 .ui.modal > .content {
   display: table;
+  table-layout: fixed;
   width: 100%;
-  position: relative;
-  padding: 2em;
-  background-color: #F4F4F4;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
+  font-size: 1em;
+  line-height: 1.4;
+  padding: 2rem;
+  background: #ffffff;
 }
 
-.ui.modal > .content > .left:not(.ui) {
+/* Image */
+.ui.modal > .content > .image {
   display: table-cell;
-  padding-right: 1.5%;
-  min-width: 25%;
-}
-
-.ui.modal > .content > .right:not(.ui) {
-  display: table-cell;
-  padding-left: 1.5%;
+  width: '';
   vertical-align: top;
 }
-
-/*rtl:ignore*/
-
-.ui.modal > .content > .left:not(.ui) > i.icon {
-  font-size: 8em;
-  margin: 0em;
+.ui.modal > .content > .image[class*="top aligned"] {
+  vertical-align: top;
+}
+.ui.modal > .content > .image[class*="top aligned"] {
+  vertical-align: middle;
 }
 
-.ui.modal > .content p {
-  line-height: 1.6;
+/* Description */
+.ui.modal > .content > .description {
+  display: table-cell;
+  vertical-align: top;
+}
+.ui.modal > .content > .icon + .description,
+.ui.modal > .content > .image + .description {
+  min-width: '';
+  width: 80%;
+  padding-left: 2em;
+}
+/*rtl:ignore*/
+.ui.modal > .content > .image > i.icon {
+  font-size: 8rem;
+  margin: 0em;
+  opacity: 1;
+  width: auto;
 }
 
 /*--------------
@@ -110,96 +141,107 @@
 ---------------*/
 
 .ui.modal .actions {
+  background: #efefef;
   padding: 1rem 2rem;
+  border-top: 1px solid rgba(39, 41, 43, 0.15);
   text-align: right;
 }
-
 .ui.modal .actions > .button {
   margin-left: 0.75em;
 }
 
 /*-------------------
-       Sizing
+       Responsive
 --------------------*/
 
-/* Mobile Only */
 
-@media only screen and (max-width : 768px) {
-  /*rtl:ignore*/
-
-  .ui.modal .content > .left:not(.ui) {
-    display: block;
-    padding: 0em 0em 1em;
+/* Modal Width */
+@media only screen and (max-width: 767px) {
+  .ui.modal {
+    width: 95%;
+    margin: 0em 0em 0em -47.5%;
   }
-
-  /*rtl:ignore*/
-
-  .ui.modal .content > .right:not(.ui) {
-    display: block;
-    padding: 1em 0em 0em;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+}
+@media only screen and (min-width: 768px) {
+  .ui.modal {
+    width: 88%;
+    margin: 0em 0em 0em -44%;
   }
-
-  .ui.modal .content .image {
-    width: auto !important;
-    max-width: 100%;
+}
+@media only screen and (min-width: 992px) {
+  .ui.modal {
+    width: 74%;
+    margin: 0em 0em 0em -37%;
   }
-
-  .ui.modal .actions {
-    padding-bottom: 0em;
+}
+@media only screen and (min-width: 1400px) {
+  .ui.modal {
+    width: 56%;
+    margin: 0em 0em 0em -28%;
   }
-
-  .ui.modal .actions > .buttons,
-  .ui.modal .actions > .button {
-    margin-bottom: 1em;
+}
+@media only screen and (min-width: 1920px) {
+  .ui.modal {
+    width: 42%;
+    margin: 0em 0em 0em -21%;
   }
 }
 
 /* Tablet and Mobile */
-
-@media only screen and (max-width : 998px) {
-  .ui.modal {
-    width: 92%;
-    margin-left: -46%;
+@media only screen and (max-width: 992px) {
+  .ui.modal > .header {
+    padding-right: 2.25rem;
   }
-
   .ui.modal > .close {
-    color: rgba(0, 0, 0, 0.8);
-    top: 1.5rem;
+    top: 0.905rem;
     right: 1rem;
+    color: rgba(0, 0, 0, 0.8);
   }
 }
 
-/* Computer / Responsive */
-
-@media only screen and (min-width : 998px) {
-  .ui.modal {
-    width: 74%;
-    margin-left: -37%;
+/* Mobile */
+@media only screen and (max-width: 767px) {
+  .ui.modal > .header {
+    padding: 0.75rem 1rem !important;
+    padding-right: 2.25rem !important;
+  }
+  .ui.modal > .content {
+    display: block;
+    padding: 1rem !important;
+  }
+  .ui.modal > .close {
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+  /*rtl:ignore*/
+  .ui.modal .content > .image {
+    display: block;
+    max-width: 100%;
+    margin: 0em auto !important;
+    text-align: center;
+    padding: 0rem 0rem 1rem !important;
+  }
+  .ui.modal > .content > .image > i.icon {
+    font-size: 5rem;
+    text-align: center;
+  }
+  /*rtl:ignore*/
+  .ui.modal .content > .description {
+    display: block;
+    width: 100% !important;
+    margin: 0em !important;
+    padding: 1rem 0rem !important;
+    box-shadow: none;
+  }
+  .ui.modal > .actions {
+    padding: 1rem 1rem -1rem !important;
+  }
+  .ui.modal .actions > .buttons,
+  .ui.modal .actions > .button {
+    margin-bottom: 2rem;
   }
 }
 
-@media only screen and (min-width : 1500px) {
-  .ui.modal {
-    width: 56%;
-    margin-left: -28%;
-  }
-}
-
-@media only screen and (min-width : 1750px) {
-  .ui.modal {
-    width: 42%;
-    margin-left: -21%;
-  }
-}
-
-@media only screen and (min-width : 2000px) {
-  .ui.modal {
-    width: 36%;
-    margin-left: -18%;
-  }
-}
 
 /*******************************
              Types
@@ -208,101 +250,187 @@
 .ui.basic.modal {
   background-color: transparent;
   border: none;
-  color: #FFFFFF;
+  box-shadow: 0px 0px 0px 0px;
+  color: #ffffff;
 }
-
-.ui.basic.modal > .close {
-  top: 1.5rem;
-  right: 1rem;
-}
-
-.ui.basic.modal .content {
+.ui.basic.modal > .header,
+.ui.basic.modal > .content,
+.ui.basic.modal > .actions {
   background-color: transparent;
 }
+.ui.basic.modal > .header {
+  color: #ffffff;
+}
+.ui.basic.modal > .close {
+  top: 1rem;
+  right: 1.5rem;
+}
+
+/* Tablet and Mobile */
+@media only screen and (max-width: 992px) {
+  .ui.basic.modal > .close {
+    color: #ffffff;
+  }
+}
+
 
 /*******************************
             Variations
 *******************************/
 
-/* A modal that cannot fit on the page */
 
-.ui.modal.scrolling {
-  position: absolute;
-  margin-top: 10px;
+/* A modal that cannot fit on the page */
+.scrolling.dimmable.dimmed {
+  overflow: hidden;
+}
+.scrolling.dimmable.dimmed > .dimmer {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.scrolling.dimmable > .dimmer {
+  position: fixed;
+}
+.ui.scrolling.modal {
+  position: static;
+  margin: 3.5rem auto !important;
+}
+@media only screen and (max-width: 992px) {
+  .ui.scrolling.modal {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }
 
+
 /*******************************
-              States
+             States
 *******************************/
 
 .ui.active.modal {
   display: block;
 }
 
+
+/*******************************
+           Variations
+*******************************/
+
+
+/*--------------
+   Full Screen
+---------------*/
+
+.ui.fullscreen.modal {
+  width: 95% !important;
+  left: 2.5% !important;
+  margin: 1em auto;
+}
+.ui.fullscreen.scrolling.modal {
+  left: 0em !important;
+}
+.ui.fullscreen.modal > .header {
+  padding-right: 2.25rem;
+}
+.ui.fullscreen.modal > .close {
+  top: 0.905rem;
+  right: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+@media only screen and (max-width: 767px) {
+  .ui.fullscreen.modal {
+    width: auto !important;
+    margin: 1em !important;
+  }
+}
+
 /*--------------
       Size
 ---------------*/
 
-/* Small */
+.ui.modal {
+  font-size: 1rem;
+}
 
+/* Small */
 .ui.small.modal > .header {
   font-size: 1.3em;
 }
 
-@media only screen and (min-width : 998px) {
+/* Small Modal Width */
+@media only screen and (max-width: 767px) {
   .ui.small.modal {
-    width: 58%;
-    margin-left: -29%;
+    width: 95%;
+    margin: 0em 0em 0em -47.5%;
   }
 }
-
-@media only screen and (min-width : 1500px) {
+@media only screen and (min-width: 768px) {
   .ui.small.modal {
-    width: 40%;
-    margin-left: -20%;
+    width: 52.8%;
+    margin: 0em 0em 0em -26.4%;
   }
 }
-
-@media only screen and (min-width : 1750px) {
+@media only screen and (min-width: 992px) {
   .ui.small.modal {
-    width: 26%;
-    margin-left: -13%;
+    width: 44.4%;
+    margin: 0em 0em 0em -22.2%;
   }
 }
-
-@media only screen and (min-width : 2000px) {
+@media only screen and (min-width: 1400px) {
   .ui.small.modal {
-    width: 20%;
-    margin-left: -10%;
+    width: 33.6%;
+    margin: 0em 0em 0em -16.8%;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  .ui.small.modal {
+    width: 25.2%;
+    margin: 0em 0em 0em -12.6%;
   }
 }
 
-/* Large */
-
-@media only screen and (min-width : 998px) {
+/* Large Modal Width */
+.ui.large.modal > .header {
+  font-size: 1.6em;
+}
+@media only screen and (max-width: 767px) {
   .ui.large.modal {
-    width: 74%;
-    margin-left: -37%;
+    width: 95%;
+    margin: 0em 0em 0em -47.5%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .ui.large.modal {
+    width: 88%;
+    margin: 0em 0em 0em -44%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .ui.large.modal {
+    width: 88.8%;
+    margin: 0em 0em 0em -44.4%;
+  }
+}
+@media only screen and (min-width: 1400px) {
+  .ui.large.modal {
+    width: 67.2%;
+    margin: 0em 0em 0em -33.6%;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  .ui.large.modal {
+    width: 50.4%;
+    margin: 0em 0em 0em -25.2%;
   }
 }
 
-@media only screen and (min-width : 1500px) {
-  .ui.large.modal {
-    width: 64%;
-    margin-left: -32%;
-  }
-}
 
-@media only screen and (min-width : 1750px) {
-  .ui.large.modal {
-    width: 54%;
-    margin-left: -27%;
-  }
-}
+/*******************************
+         Theme Overrides
+*******************************/
 
-@media only screen and (min-width : 2000px) {
-  .ui.large.modal {
-    width: 44%;
-    margin-left: -22%;
-  }
-}
+
+
+/*******************************
+         Site Overrides
+*******************************/
+

@@ -1,9 +1,9 @@
 /*
  * # Semantic - Form Validation
- * http://github.com/jlukic/semantic-ui/
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -90,7 +90,18 @@ $.fn.form = function(fields, parameters) {
           ;
         },
 
+        attachEvents: function(selector, action) {
+          action = action || 'submit';
+          $(selector)
+            .on('click', function(event) {
+              module[action]();
+              event.preventDefault();
+            })
+          ;
+        },
+
         bindEvents: function() {
+
           if(settings.keyboardShortcuts) {
             $field
               .on('keydown' + eventNamespace, module.event.field.keydown)
@@ -102,9 +113,9 @@ $.fn.form = function(fields, parameters) {
           $field
             .on('blur' + eventNamespace, module.event.field.blur)
           ;
-          $submit
-            .on('click' + eventNamespace, module.submit)
-          ;
+          // attach submit events
+          module.attachEvents($submit, 'submit');
+
           $field
             .each(function() {
               var
@@ -150,7 +161,7 @@ $.fn.form = function(fields, parameters) {
                   .blur()
                 ;
               }
-              if(!event.ctrlKey && key == keyCode.enter && $field.is(selector.input) ) {
+              if(!event.ctrlKey && key == keyCode.enter && $field.is(selector.input) && $field.not(selector.checkbox).size() > 0 ) {
                 module.debug('Enter key pressed, submitting form');
                 $submit
                   .addClass(className.down)
@@ -158,8 +169,6 @@ $.fn.form = function(fields, parameters) {
                 $field
                   .one('keyup' + eventNamespace, module.event.field.keyup)
                 ;
-                event.preventDefault();
-                return false;
               }
             },
             keyup: function() {
@@ -334,11 +343,27 @@ $.fn.form = function(fields, parameters) {
           }
         },
 
+        set: {
+          success: function() {
+            $module
+              .removeClass(className.error)
+              .addClass(className.success)
+            ;
+          },
+          error: function() {
+            $module
+              .removeClass(className.success)
+              .addClass(className.error)
+            ;
+          }
+        },
+
         validate: {
 
           form: function(event) {
             var
-              allValid = true
+              allValid = true,
+              apiRequest
             ;
             // reset errors
             formErrors = [];
@@ -349,17 +374,18 @@ $.fn.form = function(fields, parameters) {
             });
             if(allValid) {
               module.debug('Form has no validation errors, submitting');
-              $module
-                .removeClass(className.error)
-                .addClass(className.success)
-              ;
+              module.set.success();
               return $.proxy(settings.onSuccess, this)(event);
             }
             else {
               module.debug('Form has errors');
-              $module.addClass(className.error);
+              module.set.error();
               if(!settings.inline) {
                 module.add.errors(formErrors);
+              }
+              // prevent ajax submit
+              if($module.data('moduleApi') !== undefined) {
+                event.stopImmediatePropagation();
               }
               return $.proxy(settings.onFailure, this)(formErrors);
             }
@@ -372,7 +398,11 @@ $.fn.form = function(fields, parameters) {
               fieldValid  = true,
               fieldErrors = []
             ;
-            if(field.rules !== undefined) {
+            if(field.optional && $.trim($field.val()) === ''){
+              module.debug('Field is optional and empty. Skipping', field.identifier);
+              fieldValid = true;
+            }
+            else if(field.rules !== undefined) {
               $.each(field.rules, function(index, rule) {
                 if( module.has.field(field.identifier) && !( module.validate.rule(field, rule) ) ) {
                   module.debug('Field is invalid', field.identifier, rule.type);
@@ -482,9 +512,9 @@ $.fn.form = function(fields, parameters) {
               executionTime = currentTime - previousTime;
               time          = currentTime;
               performance.push({
-                'Element'        : element,
                 'Name'           : message[0],
                 'Arguments'      : [].slice.call(message, 1) || '',
+                'Element'        : element,
                 'Execution Time' : executionTime
               });
             }
@@ -604,7 +634,7 @@ $.fn.form.settings = {
   name              : 'Form',
   namespace         : 'form',
 
-  debug             : true,
+  debug             : false,
   verbose           : true,
   performance       : true,
 
@@ -617,7 +647,7 @@ $.fn.form.settings = {
   revalidate        : true,
 
   transition        : 'scale',
-  duration          : 150,
+  duration          : 200,
 
 
   onValid           : function() {},
@@ -633,23 +663,22 @@ $.fn.form.settings = {
     message : '.error.message',
     field   : 'input, textarea, select',
     group   : '.field',
+    checkbox: 'input[type="checkbox"], input[type="radio"]',
     input   : 'input',
     prompt  : '.prompt',
-    submit  : '.submit:not([type="submit"])'
+    submit  : '.submit'
   },
 
   className : {
     error   : 'error',
     success : 'success',
     down    : 'down',
-    label   : 'ui label prompt'
+    label   : 'ui prompt label'
   },
 
-  // errors
   error: {
     method   : 'The method you called is not defined.'
   },
-
 
   templates: {
     error: function(errors) {
@@ -671,40 +700,77 @@ $.fn.form.settings = {
   },
 
   rules: {
+
+    // checkbox checked
     checked: function() {
       return ($(this).filter(':checked').size() > 0);
     },
-    empty: function(value) {
-      return !(value === undefined || '' === value);
+
+    // value contains (text)
+    contains: function(value, text) {
+      text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      return (value.search(text) !== -1);
     },
+
+    // is most likely an email
     email: function(value){
       var
         emailRegExp = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "i")
       ;
       return emailRegExp.test(value);
     },
+
+    // is not empty or blank string
+    empty: function(value) {
+      return !(value === undefined || '' === value);
+    },
+
+    // is valid integer
+    integer: function(value, range) {
+      var
+        intRegExp = /^\-?\d+$/,
+        min,
+        max,
+        parts
+      ;
+      if (range === undefined || range === '' || range === '..') {
+        // do nothing
+      }
+      else if (range.indexOf('..') == -1) {
+        if (intRegExp.test(range)) {
+          min = max = range - 0;
+        }
+      }
+      else {
+        parts = range.split('..', 2);
+        if (intRegExp.test(parts[0])) {
+          min = parts[0] - 0;
+        }
+        if (intRegExp.test(parts[1])) {
+          max = parts[1] - 0;
+        }
+      }
+      return (
+        intRegExp.test(value) &&
+        (min === undefined || value >= min) &&
+        (max === undefined || value <= max)
+      );
+    },
+
+    // is exactly value
+    is: function(value, text) {
+      return (value == text);
+    },
+
+    // is at least string length
     length: function(value, requiredLength) {
       return (value !== undefined)
         ? (value.length >= requiredLength)
         : false
       ;
     },
-    not: function(value, notValue) {
-      return (value != notValue);
-    },
-    contains: function(value, text) {
-      text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      return (value.search(text) !== -1);
-    },
-    is: function(value, text) {
-      return (value == text);
-    },
-    maxLength: function(value, maxLength) {
-      return (value !== undefined)
-        ? (value.length <= maxLength)
-        : false
-      ;
-    },
+
+    // matches another field
     match: function(value, fieldIdentifier) {
       // use either id or name of field
       var
@@ -714,8 +780,8 @@ $.fn.form.settings = {
       if($form.find('#' + fieldIdentifier).size() > 0) {
         matchingValue = $form.find('#' + fieldIdentifier).val();
       }
-      else if($form.find('[name=' + fieldIdentifier +']').size() > 0) {
-        matchingValue = $form.find('[name=' + fieldIdentifier + ']').val();
+      else if($form.find('[name="' + fieldIdentifier +'"]').size() > 0) {
+        matchingValue = $form.find('[name="' + fieldIdentifier + '"]').val();
       }
       else if( $form.find('[data-validate="'+ fieldIdentifier +'"]').size() > 0 ) {
         matchingValue = $form.find('[data-validate="'+ fieldIdentifier +'"]').val();
@@ -725,6 +791,21 @@ $.fn.form.settings = {
         : false
       ;
     },
+
+    // string length is less than max length
+    maxLength: function(value, maxLength) {
+      return (value !== undefined)
+        ? (value.length <= maxLength)
+        : false
+      ;
+    },
+
+    // value is not exactly notValue
+    not: function(value, notValue) {
+      return (value != notValue);
+    },
+
+    // value is most likely url
     url: function(value) {
       var
         urlRegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/

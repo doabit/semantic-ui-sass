@@ -1,15 +1,17 @@
 /*
  * # Semantic - Rating
- * http://github.com/jlukic/semantic-ui/
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
 
 ;(function ($, window, document, undefined) {
+
+"use strict";
 
 $.fn.rating = function(parameters) {
   var
@@ -54,13 +56,16 @@ $.fn.rating = function(parameters) {
         initialize: function() {
           module.verbose('Initializing rating module', settings);
 
+          if($icon.size() === 0) {
+            module.setup.layout();
+          }
+
           if(settings.interactive) {
             module.enable();
           }
           else {
             module.disable();
           }
-
           if(settings.initialRating) {
             module.debug('Setting initial rating');
             module.setRating(settings.initialRating);
@@ -90,6 +95,23 @@ $.fn.rating = function(parameters) {
           ;
         },
 
+        refresh: function() {
+          $icon   = $module.find(selector.icon);
+        },
+
+        setup: {
+          layout: function() {
+            var
+              maxRating = $module.data(metadata.maxRating) || settings.maxRating
+            ;
+            module.debug('Generating icon html dynamically');
+            $module
+              .html($.fn.rating.settings.templates.icon(maxRating))
+            ;
+            module.refresh();
+          }
+        },
+
         event: {
           mouseenter: function() {
             var
@@ -97,32 +119,35 @@ $.fn.rating = function(parameters) {
             ;
             $activeIcon
               .nextAll()
-                .removeClass(className.hover)
+                .removeClass(className.selected)
             ;
             $module
-              .addClass(className.hover)
+              .addClass(className.selected)
             ;
             $activeIcon
-              .addClass(className.hover)
+              .addClass(className.selected)
                 .prevAll()
-                .addClass(className.hover)
+                .addClass(className.selected)
             ;
           },
           mouseleave: function() {
             $module
-              .removeClass(className.hover)
+              .removeClass(className.selected)
             ;
             $icon
-              .removeClass(className.hover)
+              .removeClass(className.selected)
             ;
           },
           click: function() {
             var
               $activeIcon   = $(this),
               currentRating = module.getRating(),
-              rating        = $icon.index($activeIcon) + 1
+              rating        = $icon.index($activeIcon) + 1,
+              canClear      = (settings.clearable == 'auto')
+               ? ($icon.size() === 1)
+               : settings.clearable
             ;
-            if(settings.clearable && currentRating == rating) {
+            if(canClear && currentRating == rating) {
               module.clearRating();
             }
             else {
@@ -174,17 +199,17 @@ $.fn.rating = function(parameters) {
             $activeIcon = $icon.eq(ratingIndex)
           ;
           $module
-            .removeClass(className.hover)
+            .removeClass(className.selected)
           ;
           $icon
-            .removeClass(className.hover)
+            .removeClass(className.selected)
             .removeClass(className.active)
           ;
           if(rating > 0) {
             module.verbose('Setting current rating to', rating);
             $activeIcon
-              .addClass(className.active)
-                .prevAll()
+              .prevAll()
+              .andSelf()
                 .addClass(className.active)
             ;
           }
@@ -192,6 +217,7 @@ $.fn.rating = function(parameters) {
         },
 
         setting: function(name, value) {
+          module.debug('Changing setting', name, value);
           if( $.isPlainObject(name) ) {
             $.extend(true, settings, name);
           }
@@ -252,9 +278,9 @@ $.fn.rating = function(parameters) {
               executionTime = currentTime - previousTime;
               time          = currentTime;
               performance.push({
-                'Element'        : element,
                 'Name'           : message[0],
                 'Arguments'      : [].slice.call(message, 1) || '',
+                'Element'        : element,
                 'Execution Time' : executionTime
               });
             }
@@ -373,33 +399,51 @@ $.fn.rating.settings = {
   name          : 'Rating',
   namespace     : 'rating',
 
-  verbose       : true,
   debug         : false,
+  verbose       : true,
   performance   : true,
 
   initialRating : 0,
   interactive   : true,
-  clearable     : false,
+  maxRating     : 4,
+  clearable     : 'auto',
 
   onRate        : function(rating){},
 
-  error       : {
-    method : 'The method you called is not defined'
+  error         : {
+    method    : 'The method you called is not defined',
+    noMaximum : 'No maximum rating specified. Cannot generate HTML automatically'
   },
 
+
   metadata: {
-    rating: 'rating'
+    rating    : 'rating',
+    maxRating : 'maxRating'
   },
 
   className : {
     active   : 'active',
     disabled : 'disabled',
-    hover    : 'hover',
+    selected : 'selected',
     loading  : 'loading'
   },
 
   selector  : {
     icon : '.icon'
+  },
+
+  templates: {
+    icon: function(maxRating) {
+      var
+        icon = 1,
+        html = ''
+      ;
+      while(icon <= maxRating) {
+        html += '<i class="icon"></i>';
+        icon++;
+      }
+      return html;
+    }
   }
 
 };

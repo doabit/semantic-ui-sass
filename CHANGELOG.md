@@ -1,3 +1,8 @@
+## 1.2.0
+
+* Update Semantic UI to 1.2.0
+
+
 ## 0.19.3.1
 
 * Fix fonts urls for asset pipeline

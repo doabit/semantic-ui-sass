@@ -1,9 +1,9 @@
 /*
  * # Semantic - State
- * http://github.com/jlukic/semantic-ui/
+ * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -14,10 +14,10 @@
 $.fn.state = function(parameters) {
   var
     $allModules     = $(this),
-    settings        = $.extend(true, {}, $.fn.state.settings, parameters),
 
     moduleSelector  = $allModules.selector || '',
 
+    hasTouch        = ('ontouchstart' in document.documentElement),
     time            = new Date().getTime(),
     performance     = [],
 
@@ -25,27 +25,29 @@ $.fn.state = function(parameters) {
     methodInvoked   = (typeof query == 'string'),
     queryArguments  = [].slice.call(arguments, 1),
 
-    // shortcuts
-    error         = settings.error,
-    metadata      = settings.metadata,
-    className     = settings.className,
-    namespace     = settings.namespace,
-    states        = settings.states,
-    text          = settings.text,
-
-    eventNamespace  = '.' + namespace,
-    moduleNamespace = namespace + '-module',
-
-
     returnedValue
   ;
   $allModules
     .each(function() {
       var
-        $module       = $(this),
+        settings          = ( $.isPlainObject(parameters) )
+          ? $.extend(true, {}, $.fn.state.settings, parameters)
+          : $.extend({}, $.fn.state.settings),
 
-        element       = this,
-        instance      = $module.data(moduleNamespace),
+        error           = settings.error,
+        metadata        = settings.metadata,
+        className       = settings.className,
+        namespace       = settings.namespace,
+        states          = settings.states,
+        text            = settings.text,
+
+        eventNamespace  = '.' + namespace,
+        moduleNamespace = namespace + '-module',
+
+        $module         = $(this),
+
+        element         = this,
+        instance        = $module.data(moduleNamespace),
 
         module
       ;
@@ -61,24 +63,6 @@ $.fn.state = function(parameters) {
 
           // bind events with delegated events
           if(settings.context && moduleSelector !== '') {
-            if( module.allows('hover') ) {
-              $(element, settings.context)
-                .on(moduleSelector, 'mouseenter' + eventNamespace, module.enable.hover)
-                .on(moduleSelector, 'mouseleave' + eventNamespace, module.disable.hover)
-              ;
-            }
-            if( module.allows('down') ) {
-              $(element, settings.context)
-                .on(moduleSelector, 'mousedown' + eventNamespace, module.enable.down)
-                .on(moduleSelector, 'mouseup'   + eventNamespace, module.disable.down)
-              ;
-            }
-            if( module.allows('focus') ) {
-              $(element, settings.context)
-                .on(moduleSelector, 'focus' + eventNamespace, module.enable.focus)
-                .on(moduleSelector, 'blur'  + eventNamespace, module.disable.focus)
-              ;
-            }
             $(settings.context)
               .on(moduleSelector, 'mouseenter' + eventNamespace, module.change.text)
               .on(moduleSelector, 'mouseleave' + eventNamespace, module.reset.text)
@@ -86,24 +70,6 @@ $.fn.state = function(parameters) {
             ;
           }
           else {
-            if( module.allows('hover') ) {
-              $module
-                .on('mouseenter' + eventNamespace, module.enable.hover)
-                .on('mouseleave' + eventNamespace, module.disable.hover)
-              ;
-            }
-            if( module.allows('down') ) {
-              $module
-                .on('mousedown' + eventNamespace, module.enable.down)
-                .on('mouseup'   + eventNamespace, module.disable.down)
-              ;
-            }
-            if( module.allows('focus') ) {
-              $module
-                .on('focus' + eventNamespace, module.enable.focus)
-                .on('blur'  + eventNamespace, module.disable.focus)
-              ;
-            }
             $module
               .on('mouseenter' + eventNamespace, module.change.text)
               .on('mouseleave' + eventNamespace, module.reset.text)
@@ -161,6 +127,12 @@ $.fn.state = function(parameters) {
           inactive: function() {
             return !( $module.hasClass(className.active) );
           },
+          state: function(state) {
+            if(className[state] === undefined) {
+              return false;
+            }
+            return $module.hasClass( className[state] );
+          },
 
           enabled: function() {
             return !( $module.is(settings.filter.active) );
@@ -178,6 +150,9 @@ $.fn.state = function(parameters) {
           },
           input: function() {
             return $module.is('input');
+          },
+          progress: function() {
+            return $module.is('.ui.progress');
           }
         },
 
@@ -194,55 +169,41 @@ $.fn.state = function(parameters) {
           return states[state] || false;
         },
 
-        enable: {
-          state: function(state) {
-            if(module.allows(state)) {
-              $module.addClass( className[state] );
-            }
-          },
-          // convenience
-          focus: function() {
-            $module.addClass(className.focus);
-          },
-          hover: function() {
-            $module.addClass(className.hover);
-          },
-          down: function() {
-            $module.addClass(className.down);
-          },
+        enable: function() {
+          $module.removeClass(className.disabled);
         },
 
-        disable: {
-          state: function(state) {
-            if(module.allows(state)) {
-              $module.removeClass( className[state] );
-            }
-          },
-          // convenience
-          focus: function() {
-            $module.removeClass(className.focus);
-          },
-          hover: function() {
-            $module.removeClass(className.hover);
-          },
-          down: function() {
-            $module.removeClass(className.down);
-          },
+        disable: function() {
+          $module.addClass(className.disabled);
+        },
+
+        setState: function(state) {
+          if(module.allows(state)) {
+            $module.addClass( className[state] );
+          }
+        },
+
+        removeState: function(state) {
+          if(module.allows(state)) {
+            $module.removeClass( className[state] );
+          }
         },
 
         toggle: {
           state: function() {
             var
-              apiRequest = $module.data(metadata.promise)
+              apiRequest
             ;
             if( module.allows('active') && module.is.enabled() ) {
               module.refresh();
-              if(apiRequest !== undefined) {
-                module.listenTo(apiRequest);
+              if($.fn.api !== undefined) {
+                apiRequest = $module.api('get request');
+                if(apiRequest) {
+                  module.listenTo(apiRequest);
+                  return;
+                }
               }
-              else {
-                module.change.state();
-              }
+              module.change.state();
             }
           }
         },
@@ -296,24 +257,28 @@ $.fn.state = function(parameters) {
 
           text: function() {
             if( module.is.textEnabled() ) {
-              if( module.is.active() ) {
+              if(module.is.disabled() ) {
+                module.verbose('Changing text to disabled text', text.hover);
+                module.update.text(text.disabled);
+              }
+              else if( module.is.active() ) {
                 if(text.hover) {
                   module.verbose('Changing text to hover text', text.hover);
                   module.update.text(text.hover);
                 }
-                else if(text.disable) {
-                  module.verbose('Changing text to disable text', text.disable);
-                  module.update.text(text.disable);
+                else if(text.deactivate) {
+                  module.verbose('Changing text to deactivating text', text.deactivate);
+                  module.update.text(text.deactivate);
                 }
               }
               else {
                 if(text.hover) {
-                  module.verbose('Changing text to hover text', text.disable);
+                  module.verbose('Changing text to hover text', text.hover);
                   module.update.text(text.hover);
                 }
-                else if(text.enable){
-                  module.verbose('Changing text to enable text', text.enable);
-                  module.update.text(text.enable);
+                else if(text.activate){
+                  module.verbose('Changing text to activating text', text.activate);
+                  module.update.text(text.activate);
                 }
               }
             }
@@ -328,8 +293,8 @@ $.fn.state = function(parameters) {
               .addClass(className.active)
             ;
             module.update.text(text.active);
+            $.proxy(settings.onActivate, element)();
           }
-          $.proxy(settings.onActivate, element)();
         },
 
         deactivate: function() {
@@ -339,8 +304,8 @@ $.fn.state = function(parameters) {
               .removeClass(className.active)
             ;
             module.update.text(text.inactive);
+            $.proxy(settings.onDeactivate, element)();
           }
-          $.proxy(settings.onDeactivate, element)();
         },
 
         sync: function() {
@@ -371,16 +336,18 @@ $.fn.state = function(parameters) {
         },
 
         flash: {
-          text: function(text, duration) {
+          text: function(text, duration, callback) {
             var
               previousText = module.get.text()
             ;
             module.debug('Flashing text message', text, duration);
             text     = text     || settings.text.flash;
             duration = duration || settings.flashDuration;
+            callback = callback || function() {};
             module.update.text(text);
             setTimeout(function(){
               module.update.text(previousText);
+              $.proxy(callback, element)();
             }, duration);
           }
         },
@@ -434,27 +401,22 @@ $.fn.state = function(parameters) {
 
         setting: function(name, value) {
           module.debug('Changing setting', name, value);
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, settings, name);
-            }
-            else {
-              settings[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, settings, name);
+          }
+          else if(value !== undefined) {
+            settings[name] = value;
           }
           else {
             return settings[name];
           }
         },
         internal: function(name, value) {
-          module.debug('Changing internal', name, value);
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, module, name);
-            }
-            else {
-              module[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, module, name);
+          }
+          else if(value !== undefined) {
+            module[name] = value;
           }
           else {
             return module[name];
@@ -499,9 +461,9 @@ $.fn.state = function(parameters) {
               executionTime = currentTime - previousTime;
               time          = currentTime;
               performance.push({
-                'Element'        : element,
                 'Name'           : message[0],
                 'Arguments'      : [].slice.call(message, 1) || '',
+                'Element'        : element,
                 'Execution Time' : executionTime
               });
             }
@@ -521,9 +483,6 @@ $.fn.state = function(parameters) {
             title += ' ' + totalTime + 'ms';
             if(moduleSelector) {
               title += ' \'' + moduleSelector + '\'';
-            }
-            if($allModules.size() > 1) {
-              title += ' ' + '(' + $allModules.size() + ')';
             }
             if( (console.group !== undefined || console.table !== undefined) && performance.length > 0) {
               console.groupCollapsed(title);
@@ -572,6 +531,7 @@ $.fn.state = function(parameters) {
                 return false;
               }
               else {
+                module.error(error.method, query);
                 return false;
               }
             });
@@ -594,6 +554,7 @@ $.fn.state = function(parameters) {
           return found;
         }
       };
+
       if(methodInvoked) {
         if(instance === undefined) {
           module.initialize();
@@ -606,7 +567,6 @@ $.fn.state = function(parameters) {
         }
         module.initialize();
       }
-
     })
   ;
 
@@ -622,7 +582,7 @@ $.fn.state.settings = {
   name : 'State',
 
   // debug output
-  debug      : true,
+  debug      : false,
 
   // verbose debug output
   verbose    : true,
@@ -649,7 +609,7 @@ $.fn.state.settings = {
   sync          : false,
 
   // default flash text duration, used for temporarily changing text of an element
-  flashDuration : 3000,
+  flashDuration : 1000,
 
   // selector filter
   filter     : {
@@ -672,11 +632,12 @@ $.fn.state.settings = {
 
   // change class on state
   className: {
-    focus   : 'focus',
-    hover   : 'hover',
-    down    : 'down',
-    active  : 'active',
-    loading : 'loading'
+    active   : 'active',
+    disabled : 'disabled',
+    error    : 'error',
+    loading  : 'loading',
+    success  : 'success',
+    warning  : 'warning'
   },
 
   selector: {
@@ -686,36 +647,40 @@ $.fn.state.settings = {
 
   defaults : {
     input: {
-      hover   : true,
-      focus   : true,
-      down    : true,
-      loading : false,
-      active  : false
+      disabled : true,
+      loading  : true,
+      active   : true
     },
     button: {
-      hover   : true,
-      focus   : false,
-      down    : true,
-      active  : true,
-      loading : true
+      disabled : true,
+      loading  : true,
+      active   : true,
+    },
+    progress: {
+      active   : true,
+      success  : true,
+      warning  : true,
+      error    : true
     }
   },
 
   states     : {
-    hover   : true,
-    focus   : true,
-    down    : true,
-    loading : false,
-    active  : false
+    active   : true,
+    disabled : true,
+    error    : true,
+    loading  : true,
+    success  : true,
+    warning  : true
   },
 
   text     : {
-    flash    : false,
-    hover    : false,
-    active   : false,
-    inactive : false,
-    enable   : false,
-    disable  : false
+    disabled   : false,
+    flash      : false,
+    hover      : false,
+    active     : false,
+    inactive   : false,
+    activate   : false,
+    deactivate : false
   }
 
 };

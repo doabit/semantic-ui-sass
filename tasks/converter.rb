@@ -6,116 +6,93 @@ require 'json'
 require 'fileutils'
 require "pry"
 require "dotenv"
-require "autoprefixer-rails"
+
+require 'pathname'
 
 Dotenv.load
 
 class Converter
 
   GIT_DATA = 'https://api.github.com/repos'
-  GIT_RAW  = 'https://raw.github.com'
+  GIT_RAW  = 'https://raw.githubusercontent.com'
   TOKEN    = ENV['TOKEN']
-  BROWSERS = ['last 2 version', '> 1%', 'opera 12.1', 'safari 6', 'ie 9', 'bb 10', 'android 4']
 
-  # DEPENDS = {
-  #   icon: %Q{
-  #     //= depend_on_asset "semantic-ui/icons.eot"
-  #     //= depend_on_asset "semantic-ui/icons.svg"
-  #     //= depend_on_asset "semantic-ui/icons.woff"
-  #     //= depend_on_asset "semantic-ui/icons.ttf"
-  #   },
-  #   basic_icon: %Q{
-  #     //= depend_on_asset "semantic-ui/basic.icons.eot"
-  #     //= depend_on_asset "semantic-ui/basic.icons.svg"
-  #     //= depend_on_asset "semantic-ui/basic.icons.woff"
-  #     //= depend_on_asset "semantic-ui/basic.icons.ttf"
-  #   },
-  #   loader: %Q{
-  #     //= depend_on_asset "semantic-ui/loader-large.gif"
-  #     //= depend_on_asset "semantic-ui/loader-mini.gif"
-  #     //= depend_on_asset "semantic-ui/loader-small.gif"
-  #     //= depend_on_asset "semantic-ui/loader-medium.gif"
-  #     //= depend_on_asset "semantic-ui/loader-mini-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-small-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-medium-inverted.gif"
-  #     //= depend_on_asset "semantic-ui/loader-large-inverted.gif"
-  #   }
-  # }
 
   def initialize(branch)
     @repo               = 'Semantic-Org/Semantic-UI'
     @repo_url           = "https://github.com/#@repo"
     @branch             = branch || 'master'
     @git_data_trees     = "#{GIT_DATA}/#{@repo}/git/trees"
-    @git_raw_src        = "#{GIT_RAW}/#{@repo}/#{@branch}/src"
+    @git_raw_src        = "#{GIT_RAW}/#{@repo}/#{@branch}/dist"
     @branch_sha         = get_tree_sha
-    @less_paths         = ['collections', 'elements', 'views', 'modules']
-    @js_paths           = ['modules', 'behavior']
-    @fonts_images_paths = ['fonts', 'images']
-    @save_at            = { js: 'app/assets/javascripts/semantic-ui',
-                            scss: 'app/assets/stylesheets/semantic-ui',
-                            images: 'app/assets/images/semantic-ui',
-                            fonts: 'app/assets/fonts/semantic-ui'
-                          }
   end
 
   def process
-    # prepare_depend_asset
+    # process_stylesheets_assets
+
+    # process_images_and_fonts_assets
+    # store_version
+
+    checkout_repository
+    choose_version(@branch)
     process_stylesheets_assets
     process_javascript_assets
-    process_images_and_fonts_assets
     store_version
   end
 
-  def process_stylesheets_assets
-    main_content = ''
-     semantic_ui_less_paths.each do |path, sha|
-      content = ''
-      semantic_ui_less_files(sha).each do |name|
-        file_name = name.gsub('.less', '')
-        file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
-        file = convert(file)
-        begin
-          file = AutoprefixerRails.compile(file, BROWSERS)
-        rescue
-          puts "======== #{file_name} autoprefixer fail ========="
-        end
-        save_file(name, file, path)
-        content += "@import '#{file_name}';\n"
-      end
-      save_file('all', content, path)
-      main_content += "@import 'semantic-ui/#{path}/all';\n";
-    end
-    File.open("app/assets/stylesheets/semantic-ui.scss", "w+") { |file| file.write(main_content) }
+  def paths
+    @gem_paths ||= Paths.new
   end
+
+  def checkout_repository
+    if Dir.exist?(paths.tmp_semantic_ui)
+      system %Q{cd '#{paths.tmp_semantic_ui}' && git fetch --quiet}
+    else
+      system %Q{git clone --quiet git@github.com:Semantic-Org/Semantic-UI.git '#{paths.tmp_semantic_ui}'}
+    end
+  end
+
+  def choose_version(version)
+    system %Q{cd '#{paths.tmp_semantic_ui}' && git checkout --quiet #{version}}
+  end
+
+  def process_stylesheets_assets
+          # content = ""
+    Dir[File.join(paths.tmp_semantic_ui_definitions, '*')].each do |path|
+      # all = ""
+
+      Dir[File.join(path, "*.less")].each do |file|
+
+        filename = File.basename(file).gsub(".less", '.css')
+
+        Dir[File.join(paths.tmp_semantic_ui_components, "*.css")].each do |src|
+          name = File.basename(src)
+
+         if name == filename
+           file = open(src).read
+           file = convert(file)
+           save_file(name, file, File.basename(path))
+
+           # all << "@import '#{name.gsub(".css", "")}';\n"
+         end #filename
+        end
+      end
+      # save_file("all", all, File.basename(path)) if all != ''
+      # content << "@import 'semantic-ui/#{File.basename(path)}/all';\n";
+
+    end
+     # File.open("app/assets/stylesheets/semantic-ui.scss", "w+") { |file| file.write(content) }
+  end
+
 
   def process_javascript_assets
-    content = ''
-     semantic_ui_js_paths.each do |path, sha|
-      semantic_ui_js_files(sha).each do |name|
-        file_name = name.gsub('.js', '')
-        if path == 'modules'
-          file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
-          save_file(name, file, nil, 'js')
-          content += "//= require semantic-ui/#{file_name}\n"
-        else
-          file = open_git_file("#{@git_raw_src}/modules/behavior/#{name}")
-          save_file(name, file, 'behavior', 'js')
-          content += "//= require semantic-ui/behavior/#{file_name}\n"
-        end
-      end
-    end
-    File.open("app/assets/javascripts/semantic-ui.js", "w+") { |file| file.write(content) }
-  end
-
-  def process_images_and_fonts_assets
-     semantic_ui_fonts_images_paths.each do |path, sha|
-      semantic_ui_fonts_images_files(sha).each do |name|
-        file_name = name.gsub('.less', '')
-        file = open_git_file("#{@git_raw_src}/#{path}/#{name}")
-        save_file(name, file, nil, path)
-      end
-    end
+    # js = ""
+    Dir[File.join(paths.tmp_semantic_ui_definitions, '**/*.js')].each do |src|
+       name = File.basename(src).gsub(".js", '')
+       # js << "//= require #{name}\n"
+       FileUtils.cp(src, paths.javascripts)
+     end
+     # File.open("app/assets/javascripts/semantic-ui.js", "w+") { |file| file.write(js) }
   end
 
 
@@ -125,104 +102,39 @@ private
   def get_tree_sha
     sha = nil
     trees = get_json("#{@git_data_trees}/#{@branch}")
-    trees['tree'].find{|t| t['path'] == 'src'}['sha']
-  end
-
-  def semantic_ui_less_paths
-    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
-    paths['tree'].select{|f| f['type'] == 'tree' && @less_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
-  end
-
-  def semantic_ui_less_files(sha)
-   files = get_json("#{@git_data_trees}/#{sha}")
-   files['tree'].select{|f| f['type'] == 'blob' && f['path'] =~ /\.less$/ }.map{|f| f['path'] }
-  end
-
-  def semantic_ui_js_paths
-    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
-    paths = paths['tree'].select{|f| f['type'] == 'tree' && @js_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
-    behavior_paths = get_json("#{@git_data_trees}/#{paths[0][1]}")
-    behavior_paths = behavior_paths['tree'].select{|f| f['type'] == 'tree' && f['path'] == 'behavior' }.map{|f| [f['path'], f['sha']] }
-    js_paths = paths + behavior_paths
-  end
-
-  def semantic_ui_js_files(sha)
-   files = get_json("#{@git_data_trees}/#{sha}")
-   files['tree'].select{|f| f['type'] == 'blob' && f['path'] =~ /\.js$/ }.map{|f| f['path'] }
-  end
-
-  def semantic_ui_fonts_images_paths
-    paths = get_json("#{@git_data_trees}/#{get_tree_sha}")
-    paths['tree'].select{|f| f['type'] == 'tree' && @fonts_images_paths.include?(f['path']) }.map{|f| [f['path'], f['sha']] }
-  end
-
-  def semantic_ui_fonts_images_files(sha)
-   files = get_json("#{@git_data_trees}/#{sha}")
-   files['tree'].select{|f| f['type'] == 'blob'}.map{|f| f['path'] }
+    trees['tree'].find{|t| t['path'] == 'dist'}['sha']
   end
 
 
   def convert(file)
-    file = replace_interpolation(file)
-    file = replace_vars(file)
-    file = replace_fonts(file)
-    # file = replace_font_family(file)
     file = replace_fonts_url(file)
-    file = replace_grads(file)
-    file = replace_mixins(file)
-    file = replace_less_extend(file)
-    file = replace_includes(file)
-    file = replace_spin(file)
-    file = replace_opacity(file)
     file = replace_image_urls(file)
     file = replace_image_paths(file)
-    file = replace_escaping(file)
 
     file
   end
 
-  def open_git_file(file)
-    open(file).read
-  end
 
   def save_file(name, content, path, type='stylesheets')
-    case type
-    when 'stylesheets'
-      name = name.gsub(/\.less/, '')
-      file = "#{@save_at[:scss]}/#{path}/_#{name}.scss"
-      # Check depent asset
 
-      if name == "icon"
-        content = "@import '../depends/icon';\n" + content
-      end
-
-      if name == "basic.icon"
-        content = "@import '../depends/basic.icon';\n" + content
-      end
-
-      content = check_depend_asset(content)
-
-    when 'js', 'images', 'fonts'
-      file = (path.nil? ? "#{@save_at[type.to_sym]}/#{name}" : "#{@save_at[type.to_sym]}/#{path}/#{name}")
-    end
+    name = name.gsub(/\.css/, '')
+    file = "#{paths.stylesheets}/#{path}/_#{name}.scss"
     dir = File.dirname(file)
     FileUtils.mkdir_p(dir) unless File.directory?(file)
     File.open(file, 'w+') { |f| f.write(content) }
-    puts "Saved #{name} at #{path}\n"
+    # puts "Saved #{name} at #{path}\n"
   end
 
-  def check_depend_asset(content)
-    if content.scan(/loader-\w+.gif/).length > 0
-     "@import '../depends/loader';\n" + content
-    else
-      content
-    end
-  end
+
 
   def get_json(url)
     url += "?access_token=#{TOKEN}" unless TOKEN.nil?
     data = open_git_file(url)
     data = JSON.parse data
+  end
+
+  def open_git_file(file)
+    open(file).read
   end
 
   def store_version
@@ -231,79 +143,50 @@ private
     File.open(path, 'w') { |f| f.write(content) }
   end
 
-  def replace_interpolation(less)
-    less.gsub(/@{([^}]+)}/, '#{$\1}')
-  end
-
-  def replace_vars(less)
-    less = less.dup
-    # skip header comment
-    less =~ %r(\A/\*(.*?)\*/)m
-    from = $~ ? $~.to_s.length : 0
-    less[from..-1] = less[from..-1].
-        gsub(/(?!@mixin|@media|@page|@keyframes|@font-face|@-\w)@/, '$').
-        # variables that would be ignored by gsub above: e.g. @page-header-border-color
-        gsub(/@(page[\w-]+)/, '$\1')
-    less
-  end
-
-  def fix_progress_bar(less)
-    less = less.gsub(/(\$)(-webkit-keyframes progress-bar-stripes)/, '@\2')
-    less = less.gsub(/(\$)(-moz-keyframes)/, '@\2')
-    less = less.gsub(/(\$)(keyframes progress-bar-stripes)/, '@\2')
-  end
-
-  def replace_fonts(less)
-    less.gsub(/#font \> \.([\w-]+)/, '@include ctb-font-\1')
-  end
-
   def replace_fonts_url(less)
-    less.gsub(/url\(\.\.\/fonts\/?(.*?)\)/) {|s| "url(\"semantic-ui/#{$1}\")" }
-  end
-
-  def replace_font_family(less)
-    less.gsub(/#font \> #family \> \.([\w-]+)/, '@include ctb-font-family-\1')
-  end
-
-  def replace_grads(less)
-    less.gsub(/#gradient \> \.([\w-]+)/, '@include ctb-gradient-\1')
-  end
-
-  def replace_mixins(less)
-    less.gsub(/^\.([\w-]*)(\(.*\))([\s\{]+)$/, '@mixin \1\2\3')
-  end
-
-  def replace_includes(less)
-    less.gsub(/\.([\w-]*)(\(.*\));?/, '@include ctb-\1\2;')
-  end
-
-  def replace_less_extend(less)
-    less.gsub(/\#(\w+) \> \.([\w-]*)(\(.*\));?/, '@include ctb-\1-\2\3;')
-  end
-
-  def replace_spin(less)
-    less.gsub(/spin/, 'adjust-hue')
-  end
-
-  def replace_opacity(scss)
-    scss.gsub(/\@include opacity\((\d+)\)/) {|s| "@include ctb-opacity(#{$1.to_f / 100})"}
+    less.gsub(/url\(\"\.\.\/themes\/default\/assets\/fonts\/?(.*?)\"\)/) {|s| "font-url(\"semantic-ui/#{$1}\")" }
   end
 
   def replace_image_urls(less)
-    less.gsub(/url\("?(.*?).gif"?\)/) {|s| "image-url(\"#{$1}.gif\")" }
+    less.gsub(/url\("?(.*?).png"?\)/) {|s| "image-url(\"#{$1}.png\")" }
   end
 
   def replace_image_paths(less)
-    less.gsub('../images/', 'semantic-ui/')
-  end
-
-  def replace_escaping(less)
-    less = less.gsub(/\~"([^"]+)"/, '#{\1}') # Get rid of ~ escape
-    less.gsub(/(\W)e\("([^\)]+)"\)/) {|s| "#{$1 if $1 != /\s/}#{$2}"} # Get rid of e escape
-  end
-
-  def insert_default_vars(scss)
-    scss.gsub(/^(\$.+);$/, '\1 !default;')
+    less.gsub('../themes/default/assets/images/', 'semantic-ui/')
   end
 
 end
+
+class Paths
+   attr_reader :root
+   attr_reader :tmp
+   attr_reader :tmp_semantic_ui
+   attr_reader :tmp_semantic_ui_src
+   attr_reader :tmp_semantic_ui_definitions
+   attr_reader :tmp_semantic_ui_dist
+   attr_reader :tmp_semantic_ui_components
+
+   attr_reader :fonts
+   attr_reader :images
+   attr_reader :javascripts
+   attr_reader :stylesheets
+
+
+   def initialize
+     @root = File.expand_path('..', __dir__)
+
+     @tmp = File.join(@root, 'tmp')
+     @tmp_semantic_ui = File.join(@tmp, 'semantic-ui')
+     @tmp_semantic_ui_src = File.join(@tmp_semantic_ui, 'src')
+     @tmp_semantic_ui_definitions = File.join(@tmp_semantic_ui_src, 'definitions')
+
+     @tmp_semantic_ui_dist = File.join(@tmp_semantic_ui, 'dist')
+     @tmp_semantic_ui_components = File.join(@tmp_semantic_ui_dist, 'components')
+
+     @app = File.join(@root, 'app')
+     @fonts = File.join(@app, 'assets', 'fonts', 'semantic-ui')
+     @images = File.join(@app, 'assets', 'images', 'semantic-ui')
+     @javascripts = File.join(@app, 'assets', 'javascripts', 'semantic-ui')
+     @stylesheets = File.join(@app, 'assets', 'stylesheets', 'semantic-ui')
+   end
+ end

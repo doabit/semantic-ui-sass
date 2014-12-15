@@ -2,15 +2,14 @@
 
 `semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop into Rails & Compass.
 
+## NOTE
+
+This branch is still beta, it still dosen't support custom theme.
+
 ## Installation and Usage
 
 ```ruby
-gem 'semantic-ui-sass', '~> 0.19.3.1'
-```
-or
-
-```ruby
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass', branch: 'v1.0beta'
 ```
 
 `bundle install` and restart your server to make the files available through the pipeline.
