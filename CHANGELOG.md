@@ -1,4 +1,8 @@
-## 1.2.0
+## 1.4.1.0
+
+* Update Semantic UI to 1.4.1
+
+## 1.2.0.0
 
 * Update Semantic UI to 1.2.0
 

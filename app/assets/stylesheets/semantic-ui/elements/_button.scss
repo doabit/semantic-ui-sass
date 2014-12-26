@@ -43,6 +43,7 @@
           user-select: none;
   -webkit-transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
           transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+  will-change: '';
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -875,6 +876,8 @@
 }
 .ui.buttons .or:before {
   position: absolute;
+  text-align: center;
+  border-radius: 500rem;
   content: 'or';
   top: 50%;
   left: 50%;
@@ -884,12 +887,10 @@
   margin-left: -0.892855em;
   width: 1.78571em;
   height: 1.78571em;
-  line-height: 1.58571em;
+  line-height: 1.78571em;
   color: rgba(0, 0, 0, 0.4);
   font-style: normal;
   font-weight: bold;
-  text-align: center;
-  border-radius: 500em;
   box-shadow: 0px 0px 0px 1px transparent inset;
 }
 .ui.buttons .or[data-text]:before {

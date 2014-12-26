@@ -375,7 +375,7 @@ $.fn.form = function(fields, parameters) {
             if(allValid) {
               module.debug('Form has no validation errors, submitting');
               module.set.success();
-              return $.proxy(settings.onSuccess, this)(event);
+              return $.proxy(settings.onSuccess, element)(event);
             }
             else {
               module.debug('Form has errors');
@@ -387,7 +387,7 @@ $.fn.form = function(fields, parameters) {
               if($module.data('moduleApi') !== undefined) {
                 event.stopImmediatePropagation();
               }
-              return $.proxy(settings.onFailure, this)(formErrors);
+              return $.proxy(settings.onFailure, element)(formErrors);
             }
           },
 
@@ -398,7 +398,11 @@ $.fn.form = function(fields, parameters) {
               fieldValid  = true,
               fieldErrors = []
             ;
-            if(field.optional && $.trim($field.val()) === ''){
+            if($field.prop('disabled')) {
+              module.debug('Field is disabled. Skipping', field.identifier);
+              fieldValid = true;
+            }
+            else if(field.optional && $.trim($field.val()) === ''){
               module.debug('Field is optional and empty. Skipping', field.identifier);
               fieldValid = true;
             }
@@ -441,7 +445,7 @@ $.fn.form = function(fields, parameters) {
             if(bracket !== undefined && bracket !== null) {
               ancillary    = '' + bracket[1];
               functionType = type.replace(bracket[0], '');
-              isValid      = $.proxy(settings.rules[functionType], $module)(value, ancillary);
+              isValid      = $.proxy(settings.rules[functionType], element)(value, ancillary);
             }
             // normal notation
             else {
