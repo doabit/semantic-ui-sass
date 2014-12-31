@@ -378,11 +378,11 @@ $.fn.dropdown = function(parameters) {
                 text    = module.get.choiceText($choice, false),
                 value   = module.get.choiceValue($choice, text)
               ;
-              if( exactRegExp.test( text ) || exactRegExp.test( value ) ) {
+              if( text.match(exactRegExp) || value.match(exactRegExp) ) {
                 $results = $results.add($choice);
               }
               else if(settings.fullTextSearch) {
-                if( fullTextRegExp.test( text ) || fullTextRegExp.test( value ) ) {
+                if( text.match(fullTextRegExp) || value.match(fullTextRegExp) ) {
                   $results = $results.add($choice);
                 }
               }
@@ -605,16 +605,22 @@ $.fn.dropdown = function(parameters) {
 
             click: function (event) {
               var
-                $choice = $(this),
-                text    = module.get.choiceText($choice),
-                value   = module.get.choiceValue($choice, text),
+                $choice  = $(this),
+                $target  = $(event.target),
+                $subMenu = $choice.find(selector.menu),
+                text     = module.get.choiceText($choice),
+                value    = module.get.choiceValue($choice, text),
                 callback = function() {
                   module.remove.searchTerm();
                   module.determine.selectAction(text, value);
                 },
-                openingSubMenu = ($choice.find(selector.menu).size() > 0)
+                openingSubMenu = ($subMenu.size() > 0),
+                isSubItem      = ($subMenu.find($target).size() > 0)
               ;
-              if( !openingSubMenu ) {
+              if(isSubItem) {
+                return false;
+              }
+              if(!openingSubMenu || settings.allowCategorySelection) {
                 callback();
               }
             }
@@ -738,6 +744,12 @@ $.fn.dropdown = function(parameters) {
               : settings.preserveHTML
             ;
             if($choice !== undefined) {
+              if($choice.find(selector.menu).size() > 0) {
+                module.verbose('Retreiving text of element with sub-menu');
+                $choice = $choice.clone();
+                $choice.find(selector.menu).remove();
+                $choice.find(selector.menuIcon).remove();
+              }
               return ($choice.data(metadata.text) !== undefined)
                 ? $choice.data(metadata.text)
                 : (preserveHTML)
@@ -1484,19 +1496,21 @@ $.fn.dropdown = function(parameters) {
 
 $.fn.dropdown.settings = {
 
-  debug          : false,
-  verbose        : true,
-  performance    : true,
+  debug                  : false,
+  verbose                : true,
+  performance            : true,
 
-  on             : 'click',
-  action         : 'activate',
+  on                     : 'click',
+  action                 : 'activate',
 
-  allowTab       : true,
-  fullTextSearch : false,
-  preserveHTML   : true,
-  sortSelect     : false,
+  allowTab               : true,
+  fullTextSearch         : false,
+  preserveHTML           : true,
+  sortSelect             : false,
 
-  delay          : {
+  allowCategorySelection : false,
+
+  delay                  : {
     hide   : 300,
     show   : 200,
     search : 50,
@@ -1532,11 +1546,12 @@ $.fn.dropdown.settings = {
 
   selector : {
     dropdown : '.ui.dropdown',
-    text     : '> .text:not(.icon)',
     input    : '> input[type="hidden"], > select',
-    search   : '> input.search, .menu > .search > input, .menu > input.search',
+    item     : '.item',
     menu     : '.menu',
-    item     : '.item'
+    menuIcon : '.dropdown.icon',
+    search   : '> input.search, .menu > .search > input, .menu > input.search',
+    text     : '> .text:not(.icon)'
   },
 
   className : {

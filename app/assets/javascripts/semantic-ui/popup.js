@@ -116,13 +116,20 @@ $.fn.popup = function(parameters) {
           }
           if(settings.popup) {
             $popup.addClass(className.loading);
-            $offsetParent = $popup.offsetParent();
+            if($popup.offsetParent()[0] !== $module.offsetParent()[0]) {
+              module.debug('Moving popup to the same offset parent as activating element');
+              $offsetParent = $module.offsetParent();
+              $popup
+                .detach()
+                .appendTo($offsetParent)
+              ;
+            }
             $popup.removeClass(className.loading);
           }
           else {
             $offsetParent = (settings.inline)
-                ? $target.offsetParent()
-                : $body
+              ? $target.offsetParent()
+              : $body
             ;
           }
           if( $offsetParent.is('html') ) {
@@ -141,6 +148,8 @@ $.fn.popup = function(parameters) {
           if($popup && !settings.preserve) {
             module.removePopup();
           }
+          clearTimeout(module.hideTimer);
+          clearTimeout(module.showTimer);
           $module
             .off(eventNamespace)
             .removeData(moduleNamespace)
@@ -156,7 +165,7 @@ $.fn.popup = function(parameters) {
             ;
             clearTimeout(module.hideTimer);
             module.showTimer = setTimeout(function() {
-              if( module.is.hidden() && !( module.is.active() && module.is.dropdown()) ) {
+              if(module.is.hidden() && !( module.is.active() && module.is.dropdown()) ) {
                 module.show();
               }
             }, delay);
@@ -169,7 +178,7 @@ $.fn.popup = function(parameters) {
             ;
             clearTimeout(module.showTimer);
             module.hideTimer = setTimeout(function() {
-              if( module.is.visible() ) {
+              if(module.is.visible() ) {
                 module.hide();
               }
             }, delay);
@@ -301,19 +310,22 @@ $.fn.popup = function(parameters) {
             return false;
           }
           if(settings.inline || settings.popup) {
-            return ( $popup.size() !== 0 );
+            return ( module.has.popup() );
           }
           else {
-            return ( $popup.closest($context).size() );
+            return ( $popup.closest($context).size() > 1 )
+              ? true
+              : false
+            ;
           }
         },
 
         removePopup: function() {
-          module.debug('Removing popup');
-          $.proxy(settings.onRemove, $popup)(element);
-          if($popup.size() > 0) {
+          module.debug('Removing popup', $popup);
+          if( module.has.popup() ) {
             $popup.remove();
           }
+          $.proxy(settings.onRemove, $popup)(element);
         },
 
         save: {
@@ -724,7 +736,7 @@ $.fn.popup = function(parameters) {
         bind: {
           popup: function() {
             module.verbose('Allowing hover events on popup to prevent closing');
-            if($popup && $popup.size() > 0) {
+            if( $popup && module.has.popup() ) {
               $popup
                 .on('mouseenter' + eventNamespace, module.event.start)
                 .on('mouseleave' + eventNamespace, module.event.end)
@@ -770,6 +782,12 @@ $.fn.popup = function(parameters) {
                 .off('click' + eventNamespace)
               ;
             }
+          }
+        },
+
+        has: {
+          popup: function() {
+            return ($popup.size() > 0);
           }
         },
 
