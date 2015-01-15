@@ -1,5 +1,5 @@
  /*
- * # Semantic UI - 1.6.2
+ * # Semantic UI
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -634,7 +634,6 @@
   z-index: 2;
 }
 .ui.tabular.menu ~ .bottom.attached.segment {
-  border-top: none;
   margin: -1px 0px 0px;
 }
 
@@ -980,19 +979,11 @@
 .ui.text.attached.menu {
   box-shadow: none;
 }
-
-/* Inverted */
 .ui.inverted.text.menu,
 .ui.inverted.text.menu .item,
 .ui.inverted.text.menu .item:hover,
 .ui.inverted.text.menu .item.active {
   background-color: transparent;
-}
-
-/* Fluid */
-.ui.fluid.text.menu {
-  margin-left: 0em;
-  margin-right: 0em;
 }
 
 /*--------------
@@ -1043,9 +1034,6 @@
 
 .ui.labeled.icon.menu {
   text-align: center;
-}
-.ui.fluid.labeled.icon.menu > .item {
-  min-width: 0em;
 }
 .ui.labeled.icon.menu > .item {
   min-width: 6em;
@@ -1382,6 +1370,9 @@
   padding-left: 0px !important;
   padding-right: 0px !important;
   text-align: center;
+}
+.ui.item.menu > .item:last-child {
+  border-radius: 0px 0.2857rem 0.2857rem 0px;
 }
 .ui.menu.two.item .item {
   width: 50%;

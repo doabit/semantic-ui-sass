@@ -83,7 +83,7 @@ $.fn.sidebar = function(parameters) {
           transitionEvent = module.get.transitionEvent();
 
           // cache on initialize
-          if( ( settings.useLegacy == 'auto' && module.is.legacy() ) || settings.useLegacy === true) {
+          if( module.is.legacy() || settings.legacy) {
             settings.transition = 'overlay';
             settings.useLegacy = true;
           }
@@ -331,7 +331,7 @@ $.fn.sidebar = function(parameters) {
 
         show: function(callback) {
           var
-            animateMethod = (settings.useLegacy === true)
+            animateMethod = (settings.useLegacy)
               ? module.legacyPushPage
               : module.pushPage
           ;
@@ -366,7 +366,7 @@ $.fn.sidebar = function(parameters) {
 
         hide: function(callback) {
           var
-            animateMethod = (settings.useLegacy === true)
+            animateMethod = (settings.useLegacy)
               ? module.legacyPullPage
               : module.pullPage
           ;
@@ -991,7 +991,7 @@ $.fn.sidebar.settings = {
   scrollLock        : false,
   returnScroll      : false,
 
-  useLegacy         : 'auto',
+  useLegacy         : false,
   duration          : 500,
   easing            : 'easeInOutQuint',
 
