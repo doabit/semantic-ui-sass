@@ -1,5 +1,5 @@
  /*
- * # Semantic UI
+ * # Semantic UI - 1.7.3
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -22,9 +22,6 @@
   right: 0px;
   z-index: 900;
   border: 1px solid #cccccc;
-  min-width: -webkit-max-content;
-  min-width: -moz-max-content;
-  min-width: max-content;
   max-width: 250px;
   background-color: #ffffff;
   padding: 0.833em 1em;
@@ -220,11 +217,9 @@
 ---------------*/
 
 .ui.wide.popup {
-  width: 350px;
   max-width: 350px;
 }
 .ui[class*="very wide"].popup {
-  width: 550px;
   max-width: 550px;
 }
 
