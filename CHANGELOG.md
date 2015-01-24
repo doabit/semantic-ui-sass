@@ -1,3 +1,7 @@
+## 1.8.0.0
+
+* Update Semantic UI to 1.8.0
+
 ## 1.7.3.0
 
 * Update Semantic UI to 1.7.3
