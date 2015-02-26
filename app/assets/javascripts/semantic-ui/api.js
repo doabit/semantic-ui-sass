@@ -135,12 +135,16 @@ $.api = $.fn.api = function(parameters) {
           }
 
           // call beforesend and get any settings changes
-          requestSettings = module.get.settings();
+          requestSettings         = module.get.settings();
 
-          // check if beforesend cancelled request
+          // check if before send cancelled request
           if(requestSettings === false) {
+            module.cancelled = true;
             module.error(error.beforeSend);
             return;
+          }
+          else {
+            module.cancelled = false;
           }
 
           if(settings.url) {
@@ -180,19 +184,23 @@ $.api = $.fn.api = function(parameters) {
             complete   : function() {}
           });
 
-          module.verbose('Creating AJAX request with settings', ajaxSettings);
+          module.debug('Querying URL', ajaxSettings.url);
+          module.debug('Sending data', data, ajaxSettings.method);
+          module.verbose('Using AJAX settings', ajaxSettings);
 
           if( module.is.loading() ) {
             // throttle additional requests
             module.timer = setTimeout(function() {
               module.request = module.create.request();
-              module.xhr = module.create.xhr();
+              module.xhr     = module.create.xhr();
+              settings.onRequest.call(context, module.request, module.xhr);
             }, settings.throttle);
           }
           else {
             // immediately on first request
             module.request = module.create.request();
-            module.xhr = module.create.xhr();
+            module.xhr     = module.create.xhr();
+            settings.onRequest.call(context, module.request, module.xhr);
           }
 
         },
@@ -208,6 +216,9 @@ $.api = $.fn.api = function(parameters) {
         },
 
         was: {
+          cancelled: function() {
+            return (module.cancelled || false);
+          },
           succesful: function() {
             return (module.request && module.request.state() == 'resolved');
           },
@@ -381,7 +392,7 @@ $.api = $.fn.api = function(parameters) {
 
                   // if http status code returned and json returned error, look for it
                   if( xhr.status != 200 && httpMessage !== undefined && httpMessage !== '') {
-                    module.error(error.statusMessage + httpMessage);
+                    module.error(error.statusMessage + httpMessage, ajaxSettings.url);
                   }
                   else {
                     if(status == 'error' && settings.dataType == 'json') {
@@ -746,7 +757,7 @@ $.api = $.fn.api = function(parameters) {
       }
       else {
         if(instance !== undefined) {
-          module.destroy();
+          instance.invoke('destroy');
         }
         module.initialize();
       }
@@ -765,7 +776,7 @@ $.api.settings = {
   namespace       : 'api',
 
   debug           : true,
-  verbose         : true,
+  verbose         : false,
   performance     : true,
 
   // event binding
@@ -799,6 +810,7 @@ $.api.settings = {
   beforeSend  : function(settings) { return settings; },
   beforeXHR   : function(xhr) {},
 
+  onRequest   : function(promise, xhr) {},
   onSuccess   : function(response, $module) {},
   onComplete  : function(response, $module) {},
   onFailure   : function(errorMessage, $module) {},
