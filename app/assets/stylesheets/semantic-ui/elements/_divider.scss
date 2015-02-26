@@ -1,5 +1,5 @@
  /*
- * # Semantic UI - 1.8.1
+ * # Semantic UI - 1.10.2
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -182,9 +182,7 @@
     Inverted
 ---------------*/
 
-.ui.divider.inverted {
-  color: #ffffff;
-}
+.ui.divider.inverted,
 .ui.vertical.inverted.divider,
 .ui.horizontal.inverted.divider {
   color: #ffffff;
