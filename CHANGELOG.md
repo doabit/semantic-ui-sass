@@ -1,3 +1,7 @@
+## 1.11.4.0
+
+* Update Semantic UI to 1.11.4
+
 ## 1.8.1.0
 
 * Update Semantic UI to 1.8.1

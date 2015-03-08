@@ -1,14 +1,13 @@
- /*
- * # Semantic UI - 1.8.1
- * https://github.com/Semantic-Org/Semantic-UI
- * http://www.semantic-ui.com/
+/*!
+ * # Semantic UI 1.11.4 - Accordion
+ * http://github.com/semantic-org/semantic-ui/
+ *
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
-
 
 
 /*******************************
@@ -145,7 +144,7 @@
           transition: background 0.2s ease, color 0.2s ease;
 }
 .ui.styled.accordion > .title:first-child,
-.ui.styled.accordion > .accordion .title:first-child {
+.ui.styled.accordion .accordion .title:first-child {
   border-top: none;
 }
 

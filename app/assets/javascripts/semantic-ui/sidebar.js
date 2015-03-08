@@ -1,9 +1,9 @@
-/*
- * # Semantic - Sidebar
+/*!
+ * # Semantic UI - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributor
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -114,9 +114,9 @@ $.fn.sidebar = function(parameters) {
 
         create: {
           id: function() {
-            module.verbose('Creating unique id for element');
-            id = module.get.uniqueID();
+            id = (Math.random().toString(16) + '000000000').substr(2,8);
             elementNamespace = '.' + id;
+            module.verbose('Creating unique id for element', id);
           }
         },
 
@@ -253,7 +253,7 @@ $.fn.sidebar = function(parameters) {
               if(direction === 'left' || direction === 'right') {
                 module.debug('Adding CSS rules for animation distance', width);
                 style  += ''
-                  + ' .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
+                  + ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
                   + '   -webkit-transform: translate3d('+ distance[direction] + 'px, 0, 0);'
                   + '           transform: translate3d('+ distance[direction] + 'px, 0, 0);'
                   + ' }'
@@ -261,7 +261,7 @@ $.fn.sidebar = function(parameters) {
               }
               else if(direction === 'top' || direction == 'bottom') {
                 style  += ''
-                  + ' .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
+                  + ' body.pushable > .ui.visible.' + direction + '.sidebar ~ .pusher:after {'
                   + '   -webkit-transform: translate3d(0, ' + distance[direction] + 'px, 0);'
                   + '           transform: translate3d(0, ' + distance[direction] + 'px, 0);'
                   + ' }'
@@ -269,8 +269,8 @@ $.fn.sidebar = function(parameters) {
               }
               /* opposite sides visible forces content overlay */
               style += ''
-                + ' .ui.visible.left.sidebar ~ .ui.visible.right.sidebar ~ .pusher:after,'
-                + ' .ui.visible.right.sidebar ~ .ui.visible.left.sidebar ~ .pusher:after {'
+                + ' body.pushable > .ui.visible.left.sidebar ~ .ui.visible.right.sidebar ~ .pusher:after,'
+                + ' body.pushable > .ui.visible.right.sidebar ~ .ui.visible.left.sidebar ~ .pusher:after {'
                 + '   -webkit-transform: translate3d(0px, 0, 0);'
                 + '           transform: translate3d(0px, 0, 0);'
                 + ' }'
@@ -365,11 +365,20 @@ $.fn.sidebar = function(parameters) {
               settings.transition = 'overlay';
             }
             module.refresh();
-            if(module.othersActive() && module.get.transition() !== 'overlay') {
+            if(module.othersActive()) {
               module.debug('Other sidebars currently visible');
-              settings.transition = 'overlay';
               if(settings.exclusive) {
-                module.hideOthers();
+                // if not overlay queue animation after hide
+                if(settings.transition != 'overlay') {
+                  module.hideOthers(module.show);
+                  return;
+                }
+                else {
+                  module.hideOthers();
+                }
+              }
+              else {
+                settings.transition = 'overlay';
               }
             }
             animateMethod(function() {
@@ -422,8 +431,7 @@ $.fn.sidebar = function(parameters) {
             sidebarCount   = $otherSidebars.length,
             callbackCount  = 0
           ;
-          callback       = callback || function(){};
-
+          callback = callback || function(){};
           $otherSidebars
             .sidebar('hide', function() {
               callbackCount++;
@@ -722,9 +730,6 @@ $.fn.sidebar = function(parameters) {
                 return transitions[transition];
               }
             }
-          },
-          uniqueID: function() {
-            return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
 

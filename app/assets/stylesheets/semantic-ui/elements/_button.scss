@@ -1,14 +1,13 @@
- /*
- * # Semantic UI - 1.8.1
- * https://github.com/Semantic-Org/Semantic-UI
- * http://www.semantic-ui.com/
+/*!
+ * # Semantic UI 1.11.4 - Button
+ * http://github.com/semantic-org/semantic-ui/
  *
- * Copyright 2014 Contributors
+ *
+ * Copyright 2014 Contributorss
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
-
 
 
 /*******************************
@@ -122,11 +121,12 @@
 .ui.loading.loading.loading.loading.loading.loading.button {
   position: relative;
   cursor: default;
-  point-events: none;
   text-shadow: none !important;
   color: transparent !important;
-  -webkit-transition: all 0s linear;
-          transition: all 0s linear;
+  opacity: 1;
+  pointer-events: none;
+  -webkit-transition: all 0s linear, opacity 0.2s ease;
+          transition: all 0s linear, opacity 0.2s ease;
 }
 .ui.loading.button:before {
   position: absolute;
@@ -162,12 +162,10 @@
   box-shadow: none;
 }
 @-webkit-keyframes button-spin {
-
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
-
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
@@ -196,6 +194,7 @@
 
 .ui.buttons .disabled.button,
 .ui.disabled.button,
+.ui.button:disabled,
 .ui.disabled.button:hover,
 .ui.disabled.active.button {
   cursor: default;
@@ -2356,6 +2355,7 @@
 .ui.vertical.buttons .button {
   display: block;
   float: none;
+  width: 100%;
   margin: 0px 0px 0px 0px;
   box-shadow: none;
 }

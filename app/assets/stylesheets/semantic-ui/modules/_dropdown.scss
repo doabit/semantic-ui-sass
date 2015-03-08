@@ -1,14 +1,13 @@
- /*
- * # Semantic UI - 1.8.1
- * https://github.com/Semantic-Org/Semantic-UI
- * http://www.semantic-ui.com/
+/*!
+ * # Semantic UI 1.11.4 - Dropdown
+ * http://github.com/semantic-org/semantic-ui/
+ *
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
-
 
 
 /*******************************
@@ -64,7 +63,7 @@
   Hidden Input
 ---------------*/
 
-.ui.dropdown > input[type="hidden"],
+.ui.dropdown > input:not(.search):first-child,
 .ui.dropdown > select {
   display: none !important;
 }
@@ -334,9 +333,9 @@
 }
 select.ui.dropdown {
   height: 38px;
-  padding: 0em;
-  margin: 0em;
-  visibility: hidden;
+  padding: 0.5em;
+  border: 1px solid rgba(39, 41, 43, 0.15);
+  visibility: visible;
 }
 .ui.selection.dropdown > .text {
   margin-right: 2em;
@@ -344,10 +343,12 @@ select.ui.dropdown {
 .ui.selection.dropdown > .search.icon,
 .ui.selection.dropdown > .delete.icon,
 .ui.selection.dropdown > .dropdown.icon {
+  cursor: pointer;
   position: absolute;
   top: auto;
-  margin: 0em;
   width: auto;
+  margin: -0.8em;
+  padding: 0.8em;
   right: 1.1em;
   opacity: 0.8;
   -webkit-transition: opacity 0.2s ease;
@@ -379,6 +380,14 @@ select.ui.dropdown {
 .ui.selection.dropdown .menu:after,
 .ui.selection.dropdown .menu:before {
   display: none;
+}
+
+/* Scrollbar in IE */
+@media all and (-ms-high-contrast: none) {
+  .ui.selection.dropdown .menu {
+    min-width: -webkit-calc(85%);
+    min-width: calc(85%);
+  }
 }
 @media only screen and (max-width: 767px) {
   .ui.selection.dropdown .menu {
@@ -444,15 +453,19 @@ select.ui.dropdown {
   border-color: rgba(39, 41, 43, 0.15);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
 }
-.ui.visible.selection.dropdown > .dropdown.icon {
-  opacity: 1;
-}
 
 /* Active Item */
 .ui.selection.active.dropdown > .text:not(.default),
 .ui.selection.visible.dropdown > .text:not(.default) {
   font-weight: normal;
   color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dropdown Icon */
+.ui.active.selection.dropdown > .dropdown.icon,
+.ui.visible.selection.dropdown > .dropdown.icon {
+  opacity: 1;
+  z-index: 3;
 }
 
 /* Connecting Border */
@@ -1057,6 +1070,11 @@ select.ui.dropdown {
 .ui.dropdown .item .left.dropdown.icon:before,
 .ui.dropdown .left.menu .item .dropdown.icon:before {
   content: "\f0d9" /*rtl:"\f0da"*/;
+}
+
+/* Upward Dropdown */
+.ui.upward.dropdown > .dropdown.icon:before {
+  content: "\f0d8";
 }
 
 /* Vertical Menu Dropdown */

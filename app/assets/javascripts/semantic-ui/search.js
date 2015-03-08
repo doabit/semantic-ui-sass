@@ -1,9 +1,9 @@
-/*
- * # Semantic - Search
+/*!
+ * # Semantic UI - Search
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributor
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -68,6 +68,7 @@ $.fn.search = function(parameters) {
           if(settings.automatic) {
             $prompt
               .on(inputEvent + eventNamespace, module.throttle)
+              .attr('autocomplete', 'off')
             ;
           }
           $prompt
@@ -303,14 +304,14 @@ $.fn.search = function(parameters) {
             var
               result = false
             ;
-            value = value || module.get.value();
+            value   = value   || module.get.value();
             results = results || module.get.results();
             if(settings.type === 'category') {
-              module.debug('Finding result from category results', value);
+              module.debug('Finding result that matches', value);
               $.each(results, function(index, category) {
-                if(category.results !== undefined) {
+                if($.isArray(category.results)) {
                   result = module.search.object(value, category.results)[0];
-                  if(result.length > 0) {
+                  if(result && result.length > 0) {
                     return true;
                   }
                 }
@@ -334,6 +335,7 @@ $.fn.search = function(parameters) {
           value: function(value) {
             module.verbose('Setting search input value', value);
             $prompt.val(value);
+            module.query();
           },
           buttonPressed: function() {
             $searchButton.addClass(className.pressed);
@@ -355,11 +357,12 @@ $.fn.search = function(parameters) {
         query: function() {
           var
             searchTerm = module.get.value(),
-            cachedHTML = module.read.cachedHTML(searchTerm)
+            cache = module.read.cache(searchTerm)
           ;
-          if(cachedHTML) {
+          if(cache) {
             module.debug('Reading result for ' + searchTerm + ' from cache');
-            module.addResults(cachedHTML);
+            module.save.results(cache.results);
+            module.addResults(cache.html);
           }
           else {
             module.debug('Querying for ' + searchTerm);
@@ -374,6 +377,9 @@ $.fn.search = function(parameters) {
               else if($.api.settings.api.search !== undefined) {
                 module.debug('Searching with default search API endpoint');
                 module.search.remote(searchTerm);
+              }
+              else {
+                module.error(error.noEndpoint);
               }
             }
             else {
@@ -397,7 +403,10 @@ $.fn.search = function(parameters) {
               results: searchResults
             });
             module.remove.loading();
-            module.write.cachedHTML(searchTerm, searchHTML);
+            module.write.cache(searchTerm, {
+              html    : searchHTML,
+              results : searchResults
+            });
             module.addResults(searchHTML);
           },
           remote: function(searchTerm) {
@@ -429,8 +438,8 @@ $.fn.search = function(parameters) {
               searchFields    = $.isArray(settings.searchFields)
                 ? settings.searchFields
                 : [settings.searchFields],
-              searchRegExp    = new RegExp(regExp.exact + searchTerm, 'i'),
-              fullTextRegExp  = new RegExp(searchTerm, 'i')
+              searchExp       = searchTerm.replace(regExp.escape, '\\$&'),
+              searchRegExp    = new RegExp(regExp.exact + searchExp, 'i')
             ;
 
             source = source || settings.source;
@@ -452,7 +461,7 @@ $.fn.search = function(parameters) {
                   if( content[field].match(searchRegExp) ) {
                     results.push(content);
                   }
-                  else if( settings.searchFullText && content[field].match(fullTextRegExp) ) {
+                  else if(settings.searchFullText && module.fuzzySearch(searchTerm, content[field]) ) {
                     fullTextResults.push(content);
                   }
                 }
@@ -462,6 +471,33 @@ $.fn.search = function(parameters) {
           }
         },
 
+        fuzzySearch: function(query, term) {
+          var
+            termLength  = term.length,
+            queryLength = query.length
+          ;
+          query = query.toLowerCase();
+          term  = term.toLowerCase();
+          if(queryLength > termLength) {
+            return false;
+          }
+          if(queryLength === termLength) {
+            return (query === term);
+          }
+          search: for (var characterIndex = 0, nextCharacterIndex = 0; characterIndex < queryLength; characterIndex++) {
+            var
+              queryCharacter = query.charCodeAt(characterIndex)
+            ;
+            while(nextCharacterIndex < termLength) {
+              if(term.charCodeAt(nextCharacterIndex++) === queryCharacter) {
+                continue search;
+              }
+            }
+            return false;
+          }
+          return true;
+        },
+
         parse: {
           response: function(response, searchTerm) {
             var
@@ -469,13 +505,14 @@ $.fn.search = function(parameters) {
             ;
             module.verbose('Parsing server response', response);
             if(response !== undefined) {
-              if(searchTerm) {
-                module.write.cachedHTML(searchTerm, searchHTML);
-                if(response.results !== undefined) {
-                  module.save.results(response.results);
-                }
+              if(searchTerm !== undefined && response.results !== undefined) {
+                module.write.cache(searchTerm, {
+                  html    : searchHTML,
+                  results : response.results
+                });
+                module.save.results(response.results);
+                module.addResults(searchHTML);
               }
-              module.addResults(searchHTML);
             }
           }
         },
@@ -509,7 +546,7 @@ $.fn.search = function(parameters) {
         },
 
         read: {
-          cachedHTML: function(name) {
+          cache: function(name) {
             var
               cache = $module.data(metadata.cache)
             ;
@@ -532,7 +569,7 @@ $.fn.search = function(parameters) {
         },
 
         write: {
-          cachedHTML: function(name, value) {
+          cache: function(name, value) {
             var
               cache = ($module.data(metadata.cache) !== undefined)
                 ? $module.data(metadata.cache)
@@ -617,7 +654,9 @@ $.fn.search = function(parameters) {
           if(isProperObject || isProperArray ) {
             if(settings.maxResults > 0) {
               if(isProperObject) {
-                module.error(error.maxResults);
+                if(settings.type == 'standard') {
+                  module.error(error.maxResults);
+                }
               }
               else {
                 response.results = response.results.slice(0, settings.maxResults);
@@ -782,7 +821,7 @@ $.fn.search = function(parameters) {
               }
             });
           }
-          if ( $.isFunction( found ) ) {
+          if( $.isFunction( found ) ) {
             response = found.apply(context, passedArguments);
           }
           else if(found !== undefined) {
@@ -808,7 +847,7 @@ $.fn.search = function(parameters) {
       }
       else {
         if(instance !== undefined) {
-          module.destroy();
+          instance.invoke('destroy');
         }
         module.initialize();
       }
@@ -875,6 +914,7 @@ $.fn.search.settings = {
     source      : 'Cannot search. No source used, and Semantic API module was not included',
     noResults   : 'Your search returned no results',
     logging     : 'Error in debug logging, exiting.',
+    noEndpoint  : 'No search endpoint was specified',
     noTemplate  : 'A valid template name was not specified.',
     serverError : 'There was an issue with querying the server.',
     maxResults  : 'Results must be an array to use maxResults setting',
@@ -887,7 +927,8 @@ $.fn.search.settings = {
   },
 
   regExp: {
-    exact: '(?:\s|^)'
+    escape : /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,
+    exact  : '(?:\s|^)'
   },
 
   selector : {

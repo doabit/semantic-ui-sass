@@ -1,9 +1,9 @@
-/*
- * # Semantic - Checkbox
+/*!
+ * # Semantic UI - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributor
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -261,6 +261,7 @@ $.fn.checkbox = function(parameters) {
             .trigger('change')
           ;
           module.set.checked();
+          $input.trigger('blur');
           settings.onChange.call($input.get());
           settings.onChecked.call($input.get());
         },
@@ -272,6 +273,7 @@ $.fn.checkbox = function(parameters) {
             .trigger('change')
           ;
           module.remove.checked();
+          $input.trigger('blur');
           settings.onChange.call($input.get());
           settings.onUnchecked.call($input.get());
         },
@@ -454,7 +456,7 @@ $.fn.checkbox = function(parameters) {
       }
       else {
         if(instance !== undefined) {
-          module.destroy();
+          instance.invoke('destroy');
         }
         module.initialize();
       }

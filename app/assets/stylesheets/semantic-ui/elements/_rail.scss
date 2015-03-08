@@ -1,7 +1,7 @@
- /*
- * # Semantic UI - 1.8.1
- * https://github.com/Semantic-Org/Semantic-UI
- * http://www.semantic-ui.com/
+/*!
+ * # Semantic UI 1.11.4 - Rail
+ * http://github.com/semantic-org/semantic-ui/
+ *
  *
  * Copyright 2014 Contributors
  * Released under the MIT license
@@ -10,16 +10,15 @@
  */
 
 
-
 /*******************************
              Rails
 *******************************/
 
 .ui.rail {
-  font-size: 1em;
   position: absolute;
   top: 0%;
   width: 300px;
+  height: 100%;
   box-sizing: content-box;
 }
 .ui.left.rail {
