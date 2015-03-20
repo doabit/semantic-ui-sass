@@ -1,3 +1,7 @@
+## 1.11.4.1
+
+* Removes reference to a absent icon file
+
 ## 1.11.4.0
 
 * Update Semantic UI to 1.11.4

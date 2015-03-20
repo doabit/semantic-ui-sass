@@ -4,7 +4,7 @@
 
 ## NOTE
 
-This branch is still beta, it still dosen't support custom theme.
+The gem only has default theme.
 
 ## Installation and Usage
 
