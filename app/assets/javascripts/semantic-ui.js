@@ -1,5 +1,6 @@
 //= require semantic-ui/api
 //= require semantic-ui/colorize
+//= require semantic-ui/embed
 //= require semantic-ui/form
 //= require semantic-ui/state
 //= require semantic-ui/visibility
