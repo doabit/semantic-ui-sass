@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI 2.0.4 - Checkbox
+ * # Semantic UI 2.0.7 - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -26,6 +26,7 @@
           backface-visibility: hidden;
   outline: none;
   vertical-align: baseline;
+  font-style: normal;
   min-height: 17px;
   font-size: 1rem;
   line-height: 17px;
@@ -319,6 +320,12 @@
 .ui.radio.checkbox input:focus ~ .box:after,
 .ui.radio.checkbox input:focus ~ label:after {
   background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* Indeterminate */
+.ui.radio.checkbox input:indeterminate ~ .box:after,
+.ui.radio.checkbox input:indeterminate ~ label:after {
+  opacity: 0;
 }
 
 /* Active */
