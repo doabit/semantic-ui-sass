@@ -8,25 +8,25 @@ module Semantic
         end
 
         module ClassMethods
-          def add_breadcrumb(name, url, options = {})
+          def semantic_breadcrumb(name, url, options = {})
             class_name = self.name
             before_filter options do |controller|
-              name = controller.send :translate_breadcrumb, name, class_name if name.is_a?(Symbol)
-              controller.send :add_breadcrumb, name, url
+              name = controller.send :translate_semantic_breadcrumb, name, class_name if name.is_a?(Symbol)
+              controller.send :semantic_breadcrumb, name, url
             end
           end
         end
 
         protected
 
-        def add_breadcrumb(name, url = '', options = {})
+        def semantic_breadcrumb(name, url = '', options = {})
           @breadcrumbs ||= []
-          name = translate_breadcrumb(name, self.class.name) if name.is_a?(Symbol)
+          name = translate_semantic_breadcrumb(name, self.class.name) if name.is_a?(Symbol)
           url = eval(url.to_s) if url =~ /_path|_url|@/
             @breadcrumbs << {:name => name, :url => url, :options => options}
         end
 
-        def translate_breadcrumb(name, class_name)
+        def translate_semantic_breadcrumb(name, class_name)
           scope = [:breadcrumbs]
           namespace = class_name.underscore.split('/')
           namespace.last.sub!('_controller', '')

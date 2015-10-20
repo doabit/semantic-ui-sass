@@ -5,7 +5,7 @@ describe SemanticBreadcrumbsHelper do
 
      it "should return breadcrumbs" do
        controller.instance_variable_set("@breadcrumbs", [{name: 'Home', url:'/'}])
-       expect(render_breadcrumbs).to like_of %Q{
+       expect(semantic_breadcrumbs).to like_of %Q{
         <div class="ui breadcrumb">
          <div class="active section">Home</div>
         </div>
@@ -14,7 +14,7 @@ describe SemanticBreadcrumbsHelper do
 
      it "should return breadcrumbs with multi params" do
        controller.instance_variable_set("@breadcrumbs", [{name: 'Home', url:'/'}, {name: 'Posts', url: '/posts'}])
-       expect(render_breadcrumbs).to like_of %Q{
+       expect(semantic_breadcrumbs).to like_of %Q{
         <div class="ui breadcrumb">
           <a href="/">Home</a>
           <div class="divider">/</div>
@@ -25,7 +25,7 @@ describe SemanticBreadcrumbsHelper do
 
      it "should return breadcrumbs with divider" do
        controller.instance_variable_set("@breadcrumbs", [{name: 'Home', url:'/'}, {name: 'Posts', url: '/posts'}])
-       expect(render_breadcrumbs('>')).to like_of %Q{
+       expect(semantic_breadcrumbs('>')).to like_of %Q{
         <div class="ui breadcrumb">
           <a href="/">Home</a>
           <div class="divider">&gt;</div>
