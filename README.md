@@ -88,25 +88,25 @@ When using compass, you should visit file in local server, eg `http://localhost:
 
 ## Breadcrumbs helper
 
-Add breadcrumbs helper `<%= render_breadcrumbs %>` to your layout.
+Add breadcrumbs helper `<%= semantic_breadcrumbs %>` to your layout.
 
 ```ruby
 class ApplicationController
-  add_breadcrumb :index, :root_path
+  semantic_breadcrumb :index, :root_path
 end
 ```
 
 ```ruby
 class ExamplesController < ApplicationController
-  add_breadcrumb :index, :examples_path
+  semantic_breadcrumb :index, :examples_path
 
   def index
   end
 
   def show
     @example = Example.find params[:id]
-    add_breadcrumb @example.name, example_path(@example)
-    # add_breadcrumb :show, example_path(@example)
+    semantic_breadcrumb @example.name, example_path(@example)
+    # semantic_breadcrumb :show, example_path(@example)
   end
 end
 ```
