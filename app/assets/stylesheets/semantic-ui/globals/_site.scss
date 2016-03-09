@@ -14,7 +14,7 @@
              Page
 *******************************/
 
-@import url('http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
+@import url($font-url);
 html,
 body {
   height: 100%;
