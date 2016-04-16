@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI - Colorize
+ * # Semantic UI 2.0.0 - Colorize
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -271,4 +271,4 @@
 
   };
 
-})( jQuery, window, document );
+})( jQuery, window , document );
