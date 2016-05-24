@@ -2,35 +2,47 @@ require 'spec_helper'
 
 describe SemanticIconHelper do
   it "render icon with name" do
-    expect(semantic_icon('add')).to eq '<i class="add icon"></i>'
+    render text: semantic_icon('add')
+    assert_select 'i[class="add icon"]'
   end
 
   it "render icon with names with string" do
-    expect(semantic_icon('add sign')).to eq '<i class="add sign icon"></i>'
+    render text: semantic_icon('add sign')
+    assert_select 'i[class="add sign icon"]'
   end
 
   it "render icon with names with params" do
-    expect(semantic_icon('add', 'sign')).to eq '<i class="add sign icon"></i>'
+    render text: semantic_icon('add', 'sign')
+    assert_select 'i[class="add sign icon"]'
   end
 
   it "render icon with names with sym params" do
-    expect(semantic_icon(:add, :sign)).to eq '<i class="add sign icon"></i>'
+    render text: semantic_icon(:add, :sign)
+    assert_select 'i[class="add sign icon"]'
   end
 
   it "render icon with name and id" do
-    expect(semantic_icon('add', id: 'id')).to eq '<i class="add icon" id="id"></i>'
+    render text: semantic_icon('add', id: 'id')
+    assert_select 'i[class="add icon"][id="id"]'
+  end
+
+  it "render icon with arbitrary attributes" do
+    render text: semantic_icon('add', id: 'id', data: {foo: 'bar'})
+    assert_select 'i[class="add icon"][id="id"][data-foo="bar"]'
   end
 
   it "render icon with names with string and id" do
-    expect(semantic_icon('add sign', id: 'id')).to eq '<i class="add sign icon" id="id"></i>'
+    render text: semantic_icon('add sign', id: 'id')
+    assert_select 'i[class="add sign icon"][id="id"]'
   end
 
   it "render icon with names with params and id" do
-    expect(semantic_icon('add', 'sign', id: 'id')).to eq '<i class="add sign icon" id="id"></i>'
+    render text: semantic_icon('add', 'sign', id: 'id')
+    assert_select 'i[class="add sign icon"][id="id"]'
   end
 
   it "render icon with names with sym params and id" do
-    expect(semantic_icon(:add, :sign, id: 'id')).to eq '<i class="add sign icon" id="id"></i>'
+    render text: semantic_icon(:add, :sign, id: 'id')
+    assert_select 'i[class="add sign icon"][id="id"]'
   end
-
 end
