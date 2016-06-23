@@ -1,4 +1,4 @@
-## 2.1.6.0
+## 2.1.8.0
 
 * Update Semantic UI to 2.1.8
 
