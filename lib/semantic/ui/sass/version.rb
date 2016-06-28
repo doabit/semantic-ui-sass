@@ -1,8 +1,8 @@
 module Semantic
   module Ui
     module Sass
-      VERSION = "2.2.0.0"
-      SEMANTIC_UI_SHA = '3a3068a6dbdea71df75db11901838ca547429703'
+      VERSION = "2.2.1.0"
+      SEMANTIC_UI_SHA = '8a509f4f36aaa4b2238ac8345c2c26370640997c'
     end
   end
 end

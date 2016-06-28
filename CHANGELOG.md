@@ -1,3 +1,8 @@
+## 2.2.1.0
+
+* Update Semantic UI to 2.2.1
+* Fixed font url error #78
+
 ## 2.2.0.0
 
 * Update Semantic UI to 2.2.0

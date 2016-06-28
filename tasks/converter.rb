@@ -144,7 +144,7 @@ private
   end
 
   def replace_fonts_url(less)
-    less.gsub(/url\(\"\.\.\/themes\/default\/assets\/fonts\/?(.*?)\"\)/) {|s| "font-url(\"semantic-ui/#{$1}\")" }
+    less.gsub(/url\(\"\.\/\.\.\/themes\/default\/assets\/fonts\/?(.*?)\"\)/) {|s| "font-url(\"semantic-ui/#{$1}\")" }
   end
 
   def replace_image_urls(less)
