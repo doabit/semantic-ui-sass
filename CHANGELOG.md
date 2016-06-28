@@ -3,6 +3,7 @@
 * Update Semantic UI to 2.2.0
 * Fixed rails 5 error
 * Allow any HTML options in semantic_icon
+* Add latin-ext subset to Google Font import URL.
 
 ## 2.1.8.0
 
