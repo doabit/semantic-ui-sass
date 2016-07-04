@@ -1,3 +1,7 @@
+## 2.2.1.1
+
+* Fix #79
+
 ## 2.2.1.0
 
 * Update Semantic UI to 2.2.1
