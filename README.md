@@ -30,6 +30,13 @@ You can also include modules
 @import "semantic-ui/collections/menu";
 ```
 
+## Custom font
+
+```css
+$font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&subset=latin';
+@import 'semantic-ui';
+```
+
 ## Javascripts
 
 We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to

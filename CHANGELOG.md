@@ -1,3 +1,7 @@
+## 2.2.2.1
+
+* Add font-url variable
+
 ## 2.2.2.0
 
 * Update Semantic UI to 2.2.2
