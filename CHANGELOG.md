@@ -1,3 +1,7 @@
+## 2.2.2.2
+
+* Update fonts to version 2.2.2 #81
+
 ## 2.2.2.1
 
 * Add font-url variable
