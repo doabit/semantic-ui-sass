@@ -139,7 +139,7 @@
 
 /* Title */
 .ui.steps .step .title {
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1.14285714em;
   font-weight: bold;
 }
@@ -325,17 +325,17 @@
   .ui.steps .step:last-child {
     border-radius: 0em 0em 0.28571429rem 0.28571429rem;
   }
-  
+
 /* Arrow */
   .ui.steps .step:after {
     display: none !important;
   }
-  
+
 /* Content */
   .ui.steps .step .content {
     text-align: center;
   }
-  
+
 /* Icon */
   .ui.steps .step > .icon,
   .ui.ordered.steps .step:before {
@@ -453,7 +453,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  
+
 /* Steps */
   .ui[class*="tablet stackable"].steps .step {
     -webkit-box-orient: vertical;
@@ -471,17 +471,17 @@
   .ui[class*="tablet stackable"].steps .step:last-child {
     border-radius: 0em 0em 0.28571429rem 0.28571429rem;
   }
-  
+
 /* Arrow */
   .ui[class*="tablet stackable"].steps .step:after {
     display: none !important;
   }
-  
+
 /* Content */
   .ui[class*="tablet stackable"].steps .step .content {
     text-align: center;
   }
-  
+
 /* Icon */
   .ui[class*="tablet stackable"].steps .step > .icon,
   .ui[class*="tablet stackable"].ordered.steps .step:before {
@@ -635,7 +635,7 @@
 .ui.ordered.steps .step.completed:before {
   font-family: 'Step';
   content: '\e800';
-  
+
 /* '' */
 }
 
