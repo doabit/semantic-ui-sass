@@ -18,7 +18,7 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  
+
 /* Fixes content being squished when inline (moz only) */
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
@@ -37,7 +37,7 @@
 }
 .ui.popup > .header {
   padding: 0em;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 1.14285714em;
   line-height: 1.2;
   font-weight: bold;
