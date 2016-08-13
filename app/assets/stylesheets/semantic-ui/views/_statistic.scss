@@ -111,7 +111,7 @@
 
 .ui.statistics .statistic > .value,
 .ui.statistic > .value {
-  font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $font-family;
   font-size: 4rem;
   font-weight: normal;
   line-height: 1em;
@@ -126,7 +126,7 @@
 
 .ui.statistics .statistic > .label,
 .ui.statistic > .label {
-  font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: $font-family;
   font-size: 1em;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
