@@ -108,6 +108,7 @@ private
 
   def convert(file)
     file = replace_fonts_url(file)
+    file = replace_font_family(file)
     file = replace_image_urls(file)
     file = replace_image_paths(file)
 
@@ -145,6 +146,10 @@ private
 
   def replace_fonts_url(less)
     less.gsub(/url\(\"\.\/\.\.\/themes\/default\/assets\/fonts\/?(.*?)\"\)/) {|s| "font-url(\"semantic-ui/#{$1}\")" }
+  end
+
+  def replace_font_family(less)
+    less.gsub("font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif", 'font-family: $font-family')
   end
 
   def replace_image_urls(less)

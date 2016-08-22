@@ -1,3 +1,10 @@
+## 2.2.3.0
+
+* Add font-name variable to change easily custom fonts
+* Fix undefined method `start_with?` for sprockets 4
+* Add font-family variable
+* Update Semantic UI to 2.2.3
+
 ## 2.2.2.2
 
 * Update fonts to version 2.2.2 #81
