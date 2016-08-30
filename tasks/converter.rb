@@ -108,6 +108,7 @@ private
 
   def convert(file)
     file = replace_fonts_url(file)
+    file = replace_import_font_url(file)
     file = replace_font_family(file)
     file = replace_image_urls(file)
     file = replace_image_paths(file)
@@ -150,6 +151,10 @@ private
 
   def replace_font_family(less)
     less.gsub("font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif", 'font-family: $font-family')
+  end
+
+  def replace_import_font_url(less)
+    less.gsub("'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin'", '$font-url')
   end
 
   def replace_image_urls(less)

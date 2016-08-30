@@ -1,3 +1,7 @@
+## 2.2.4.0
+
+* Update Semantic UI to 2.2.4
+
 ## 2.2.3.0
 
 * Add font-name variable to change easily custom fonts
