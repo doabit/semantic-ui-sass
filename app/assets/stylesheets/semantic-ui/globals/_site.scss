@@ -13,7 +13,10 @@
              Page
 *******************************/
 
-@import url($font-url);
+@if $importGoogleFonts {
+  @import url($font-url);
+}
+
 html,
 body {
   height: 100%;
