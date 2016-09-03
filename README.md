@@ -41,7 +41,7 @@ $font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&s
 
 ## Skip font loading
 ```css
-$importGoogleFonts: false;
+$import-google-fonts: false;
 @import 'semantic-ui';
 ```
 

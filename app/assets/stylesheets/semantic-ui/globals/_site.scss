@@ -13,7 +13,7 @@
              Page
 *******************************/
 
-@if $importGoogleFonts {
+@if $import-google-fonts {
   @import url($font-url);
 }
 
