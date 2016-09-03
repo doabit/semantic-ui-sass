@@ -39,6 +39,12 @@ $font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&s
 @import 'semantic-ui';
 ```
 
+## Skip font loading
+```css
+$import-google-fonts: false;
+@import 'semantic-ui';
+```
+
 ## Javascripts
 
 We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to
