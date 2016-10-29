@@ -1,3 +1,9 @@
+## 2.2.6.0
+
+* Add import-google-fonts variable
+
+* Update Semantic UI to 2.2.6
+
 ## 2.2.4.0
 
 * Update Semantic UI to 2.2.4

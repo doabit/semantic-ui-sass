@@ -154,7 +154,9 @@ private
   end
 
   def replace_import_font_url(less)
-    less.gsub("'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin'", '$font-url')
+    less.gsub("@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');", '@if $import-google-fonts {
+  @import url($font-url);
+}')
   end
 
   def replace_image_urls(less)
