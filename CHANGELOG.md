@@ -1,3 +1,11 @@
+## 2.2.7.0
+
+* Replace flags image with optimized one
+
+* Change gem install to secure HTTPS URL
+
+* Update Semantic UI to 2.2.7
+
 ## 2.2.6.0
 
 * Add import-google-fonts variable
