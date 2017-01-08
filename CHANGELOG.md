@@ -1,3 +1,7 @@
+## 2.2.7.1
+
+* Fix invalid image-url for flags.png 
+
 ## 2.2.7.0
 
 * Replace flags image with optimized one
