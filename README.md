@@ -45,6 +45,20 @@ $import-google-fonts: false;
 @import 'semantic-ui';
 ```
 
+## Custom font family
+```css
+$font-family: 'custom-font-family';
+@import 'semantic-ui';
+```
+
+## All variables, you can custom any of that
+```css
+$import-google-fonts: true !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+$font-name: 'Lato' !default;
+$font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+```
+
 ## Javascripts
 
 We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to
