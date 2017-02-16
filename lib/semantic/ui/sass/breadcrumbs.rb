@@ -10,7 +10,7 @@ module Semantic
         module ClassMethods
           def semantic_breadcrumb(name, url, options = {})
             class_name = self.name
-            before_filter options do |controller|
+            before_action options do |controller|
               name = controller.send :translate_semantic_breadcrumb, name, class_name if name.is_a?(Symbol)
               controller.send :semantic_breadcrumb, name, url
             end
