@@ -1,6 +1,12 @@
+## 2.2.9.0
+
+* before_action instead before_filter
+
+* Update Semantic UI to 2.2.9
+
 ## 2.2.7.1
 
-* Fix invalid image-url for flags.png 
+* Fix invalid image-url for flags.png
 
 ## 2.2.7.0
 
