@@ -10,7 +10,7 @@ javascript_dir = ["#{basedir}/javascripts/semantic-ui", "#{basedir}/javascripts/
 font_dir = "#{basedir}/fonts/semantic-ui"
 
 
-Dir[File.join(File.dirname(__FILE__), image_dir, '*.gif')].each do |file|
+Dir[File.join(File.dirname(__FILE__), image_dir, '*.png')].each do |file|
   filename = File.basename(file)
   image "#{image_dir}/#{filename}", to: "semantic-ui/#{filename}"
 end
