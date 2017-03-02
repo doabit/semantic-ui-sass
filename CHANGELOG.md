@@ -1,3 +1,7 @@
+## 2.2.9.1
+
+* Fix compass template error
+
 ## 2.2.9.0
 
 * before_action instead before_filter
