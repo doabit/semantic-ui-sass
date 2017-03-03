@@ -1,3 +1,7 @@
+## 2.2.9.2
+
+* Update semantic-ui.js to 2.2.9
+
 ## 2.2.9.1
 
 * Fix compass template error
