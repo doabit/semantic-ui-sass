@@ -1,3 +1,7 @@
+## 2.2.9.3
+
+* Fix semantic-ui.js require statements
+
 ## 2.2.9.2
 
 * Update semantic-ui.js to 2.2.9
