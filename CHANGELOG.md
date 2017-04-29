@@ -1,3 +1,7 @@
+## 2.2.10.1
+
+* Fix flag.png path
+
 ## 2.2.10.0
 
 * Update Semantic UI to 2.2.10
