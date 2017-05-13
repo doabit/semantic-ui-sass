@@ -16,7 +16,18 @@ module SemanticFlashHelper
 
   def flash_container(type, message)
     content_tag(:div, class: "ui #{type} message") do
-      content_tag(:i, '', class: "close icon") + message
+      concat content_tag(:i, '', class: "close icon")
+      concat  message
+      concat javascript_tag <<-EOF
+        $('.message .close')
+          .on('click', function() {
+            $(this)
+              .closest('.message')
+              .transition('fade')
+            ;
+          })
+        ;
+      EOF
     end
   end
 end
