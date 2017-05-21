@@ -113,6 +113,18 @@ compass install semantic-ui
 
 When using compass, you should visit file in local server, eg `http://localhost:3000/index.html`, rather than `file:///Users/doabit/demo/index.html`
 
+## In a meteor.js project
+Add the dependency to your project smart.json file
+```json
+"semantic-ui-sass": {
+  "git": "git@github.com:doabit/semantic-ui-sass.git"
+}
+```
+and then also import it in your main *.scss file
+```scss
+@import 'packages/semantic-ui-sass/app/assets/stylesheets/semantic-ui';
+```
+
 # Rails Helpers
 
 ## Breadcrumbs helper
