@@ -2,7 +2,7 @@
 
 `semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop into Rails & Compass.
 
-[![Build Status](https://travis-ci.org/doabit/bootstrap-sass-extras.png?branch=master)](https://travis-ci.org/doabit/bootstrap-sass-extras)
+[![Build Status](https://travis-ci.org/doabit/semantic-ui-sass.svg?branch=master)](https://travis-ci.org/doabit/semantic-ui-sass)
 
 ## NOTE
 
