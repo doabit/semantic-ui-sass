@@ -1,6 +1,6 @@
 # Semantic UI for Sass
 
-`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop into Rails & Compass.
+`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop into Rails, Compass, or Sprockets.
 
 [![Build Status](https://travis-ci.org/doabit/semantic-ui-sass.svg?branch=master)](https://travis-ci.org/doabit/semantic-ui-sass)
 
@@ -16,7 +16,7 @@ gem 'semantic-ui-sass'
 
 `bundle install` and restart your server to make the files available through the pipeline.
 
-# semantic-ui-sass with Rails
+# semantic-ui-sass with Rails or Sprockets
 
 ## CSS
 

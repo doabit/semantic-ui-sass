@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Semantic::Ui::Sass::VERSION
   spec.authors       = ["doabit"]
   spec.email         = ["doinsist@gmail.com"]
-  spec.description   = %q{Semantic UI, converted to Sass and ready to drop into Rails & Compass.}
-  spec.summary       = %q{Semantic UI, converted to Sass and ready to drop into Rails & Compass.}
+  spec.description   = %q{Semantic UI, converted to Sass and ready to drop into Rails, Compass, or Sprockets.}
+  spec.summary       = %q{Semantic UI, converted to Sass and ready to drop into Rails, Compass, or Sprockets.}
   spec.homepage      = "http://github.com/doabit/semantic-ui-sass"
   spec.license       = "MIT"
 
