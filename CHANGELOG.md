@@ -1,3 +1,7 @@
+## HEAD
+
+* Update Semantic UI to 2.2.14
+
 ## 2.2.12.1
 
 * Add sprockets support #120
