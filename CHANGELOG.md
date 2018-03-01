@@ -1,4 +1,4 @@
-## HEAD
+## 2.3.0.0
 
 * Update Semantic UI to 2.3.0
 
