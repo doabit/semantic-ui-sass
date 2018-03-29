@@ -164,7 +164,7 @@ private
   end
 
   def replace_image_paths(less)
-    less.gsub('./../themes/default/assets/images/flags.png', 'semantic-ui/flags.png')
+    less = less.gsub('./../themes/default/assets/images/flags.png', 'semantic-ui/flags.png')
     less.gsub('../themes/default/assets/images/', 'semantic-ui/')
   end
 

@@ -31,7 +31,7 @@ i.flag:not(.icon) {
 i.flag:not(.icon):before {
   display: inline-block;
   content: '';
-  background: image-url("./semantic-ui/flags.png") no-repeat -108px -1976px;
+  background: image-url("semantic-ui/flags.png") no-repeat -108px -1976px;
   width: 16px;
   height: 11px;
 }
