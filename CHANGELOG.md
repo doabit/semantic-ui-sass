@@ -1,3 +1,7 @@
+## 2.3.1.1
+
+* add missing brand-icon files #128
+
 ## 2.3.1.0
 
 * Update Semantic UI to 2.3.1
