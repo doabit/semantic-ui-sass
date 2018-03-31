@@ -1,3 +1,7 @@
+## 2.3.1.2
+
+* update icons font
+
 ## 2.3.1.1
 
 * add missing brand-icon files #128
