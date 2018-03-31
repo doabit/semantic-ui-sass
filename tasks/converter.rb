@@ -30,7 +30,7 @@ class Converter
   def process
     # process_stylesheets_assets
 
-    # process_images_and_fonts_assets
+    process_images_and_fonts_assets
     # store_version
 
     checkout_repository
@@ -54,6 +54,17 @@ class Converter
 
   def choose_version(version)
     system %Q{cd '#{paths.tmp_semantic_ui}' && git checkout --quiet #{version}}
+  end
+
+  def process_images_and_fonts_assets
+    fonts = File.join(paths.tmp_semantic_ui_dist, 'themes/default/assets/fonts', '*')
+    Dir[fonts].each do |src|
+      FileUtils.cp(src, paths.fonts)
+    end
+    images = File.join(paths.tmp_semantic_ui_dist, 'themes/default/assets/images', '*')
+    Dir[images].each do |src|
+      FileUtils.cp(src, paths.images)
+    end
   end
 
   def process_stylesheets_assets
