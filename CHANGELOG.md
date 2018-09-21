@@ -1,3 +1,11 @@
+## 2.4.0.1
+
+* Include new placeholder element #133
+
+## 2.4.0.0
+
+* Update Semantic UI to 2.4.0
+
 ## 2.3.3.0
 
 * Update Semantic UI to 2.3.3
