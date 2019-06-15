@@ -1,3 +1,8 @@
+## 2.4.2.0
+
+* Update Semantic UI to 2.4.2
+* Add $use-custom-scrollbar variable to optionally use native scrollbars #138
+
 ## 2.4.0.1
 
 * Include new placeholder element #133
