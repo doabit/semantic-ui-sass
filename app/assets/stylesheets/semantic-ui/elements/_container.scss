@@ -17,78 +17,78 @@
 /* All Sizes */
 .ui.container {
   display: block;
-  max-width: 100% !important;
+  max-width: $max-width !important;
 }
 
 /* Mobile */
 @media only screen and (max-width: $largest-mobile-screen) {
   .ui.container {
-    width: auto !important;
-    margin-left: 1em !important;
-    margin-right: 1em !important;
+    width: $mobile-width !important;
+    margin-left: $mobile-gutter !important;
+    margin-right: $mobile-gutter !important;
   }
   .ui.grid.container {
-    width: auto !important;
+    width: $mobile-grid-width !important;
   }
   .ui.relaxed.grid.container {
-    width: auto !important;
+    width: $mobile-relaxed-grid-width !important;
   }
   .ui.very.relaxed.grid.container {
-    width: auto !important;
+    width: $mobile-very-relaxed-grid-width !important;
   }
 }
 
 /* Tablet */
 @media only screen and (min-width: $tablet-breakpoint) and (max-width: $largest-tablet-screen) {
   .ui.container {
-    width: 723px;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: $tablet-width;
+    margin-left: $tablet-gutter !important;
+    margin-right: $tablet-gutter !important;
   }
   .ui.grid.container {
-    width: calc( 723px  +  2rem ) !important;
+    width: $tablet-grid-width !important;
   }
   .ui.relaxed.grid.container {
-    width: calc( 723px  +  3rem ) !important;
+    width: $tablet-relaxed-grid-width !important;
   }
   .ui.very.relaxed.grid.container {
-    width: calc( 723px  +  5rem ) !important;
+    width: $tablet-very-relaxed-grid-width !important;
   }
 }
 
 /* Small Monitor */
 @media only screen and (min-width: $computer-breakpoint) and (max-width: $largest-small-monitor) {
   .ui.container {
-    width: 933px;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: $computer-width;
+    margin-left: $computer-gutter !important;
+    margin-right: $computer-gutter !important;
   }
   .ui.grid.container {
-    width: calc( 933px  +  2rem ) !important;
+    width: $computer-grid-width !important;
   }
   .ui.relaxed.grid.container {
-    width: calc( 933px  +  3rem ) !important;
+    width: $computer-relaxed-grid-width !important;
   }
   .ui.very.relaxed.grid.container {
-    width: calc( 933px  +  5rem ) !important;
+    width: $computer-very-relaxed-grid-width !important;
   }
 }
 
 /* Large Monitor */
 @media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.container {
-    width: 1127px;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    width: $large-monitor-width;
+    margin-left: $large-monitor-gutter !important;
+    margin-right: $large-monitor-gutter !important;
   }
   .ui.grid.container {
-    width: calc( 1127px  +  2rem ) !important;
+    width: $large-monitor-grid-width !important;
   }
   .ui.relaxed.grid.container {
-    width: calc( 1127px  +  3rem ) !important;
+    width: $large-monitor-relaxed-grid-width !important;
   }
   .ui.very.relaxed.grid.container {
-    width: calc( 1127px  +  5rem ) !important;
+    width: $large-monitor-very-relaxed-grid-width !important;
   }
 }
 

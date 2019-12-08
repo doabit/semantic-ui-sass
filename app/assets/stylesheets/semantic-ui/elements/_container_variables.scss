@@ -1,0 +1,48 @@
+/*******************************
+            Container
+*******************************/
+
+/*-------------------
+       Element
+--------------------*/
+
+/* Minimum Gutter is used to determine the maximum container width for a given device */
+
+$max-width: 100%;
+
+/* Devices */
+$mobile-minimum-gutter: 0em;
+$mobile-width: auto;
+$mobile-gutter: 1em;
+
+$tablet-minimum-gutter: ($em-size  * 1);
+$tablet-width: $tablet-breakpoint - ($tablet-minimum-gutter * 2) - $scrollbar-width;
+$tablet-gutter: auto;
+
+$computer-minimum-gutter: ($em-size  * 1.5);
+$computer-width: $computer-breakpoint - ($computer-minimum-gutter * 2) - $scrollbar-width;
+$computer-gutter: auto;
+
+$large-monitor-minimum-gutter: ($em-size  * 2);
+$large-monitor-width: $large-monitor-breakpoint - ($large-monitor-minimum-gutter * 2) - $scrollbar-width;
+$large-monitor-gutter: auto;
+
+/* Coupling (Add Negative Margin to container size) */
+$grid-gutter-width: 2rem;
+$relaxed-grid-gutter-width: 3rem;
+$very-relaxed-grid-gutter-width: 5rem;
+
+$mobile-grid-width: $mobile-width;
+$tablet-grid-width: calc($tablet-width + $grid-gutter-width);
+$computer-grid-width: calc($computer-width + $grid-gutter-width);
+$large-monitor-grid-width: calc($large-monitor-width + $grid-gutter-width);
+
+$mobile-relaxed-grid-width: $mobile-width;
+$tablet-relaxed-grid-width: calc($tablet-width + $relaxed-grid-gutter-width);
+$computer-relaxed-grid-width: calc($computer-width + $relaxed-grid-gutter-width);
+$large-monitor-relaxed-grid-width: calc($large-monitor-width + $relaxed-grid-gutter-width);
+
+$mobile-very-relaxed-grid-width: $mobile-width;
+$tablet-very-relaxed-grid-width: calc($tablet-width + $very-relaxed-grid-gutter-width);
+$computer-very-relaxed-grid-width: calc($computer-width + $very-relaxed-grid-gutter-width);
+$large-monitor-very-relaxed-grid-width: calc($large-monitor-width + $very-relaxed-grid-gutter-width);
