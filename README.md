@@ -59,12 +59,30 @@ $use-custom-scrollbars: false;
 ```
 
 ## All variables, you can custom any of that
+
+Fonts:
+
 ```css
-$import-google-fonts: true !default;
-$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
 $font-name: 'Lato' !default;
 $font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+$import-google-fonts: true !default;
+```
+
+Scrollbars:
+
+```css
 $use-custom-scrollbars: true !default;
+```
+
+Breakpoints:
+
+```css
+$mobile-breakpoint: 320px !default;
+$tablet-breakpoint: 768px !default;
+$computer-breakpoint: 992px !default;
+$large-monitor-breakpoint: 1200px !default;
+$widescreen-monitor-breakpoint: 1920px !default;
 ```
 
 ## Javascripts
