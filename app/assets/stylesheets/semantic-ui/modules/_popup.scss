@@ -18,7 +18,7 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  
+
 /* Fixes content being squished when inline (moz only) */
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
@@ -669,7 +669,7 @@
 .ui[class*="very wide"].popup {
   max-width: 550px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.wide.popup,
   .ui[class*="very wide"].popup {
     max-width: 250px;
@@ -749,4 +749,3 @@
 /*******************************
         User Overrides
 *******************************/
-

@@ -787,7 +787,7 @@ a.ui.card:hover,
 
 
 /* Mobile Only */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.two.doubling.cards {
     margin-left: 0em;
     margin-right: 0em;
@@ -872,7 +872,7 @@ a.ui.card:hover,
 }
 
 /* Tablet Only */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media only screen and (min-width: $tablet-breakpoint) and (max-width: $largest-tablet-screen) {
   .ui.two.doubling.cards {
     margin-left: 0em;
     margin-right: 0em;
@@ -960,7 +960,7 @@ a.ui.card:hover,
       Stackable
 --------------------*/
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.stackable.cards {
     display: block !important;
   }
@@ -994,4 +994,3 @@ a.ui.card:hover,
 /*******************************
     User Variable Overrides
 *******************************/
-

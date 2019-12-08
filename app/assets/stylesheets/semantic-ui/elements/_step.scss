@@ -283,7 +283,7 @@
 
 
 /* Mobile (Default) */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.steps:not(.unstackable) {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -310,17 +310,17 @@
   .ui.steps:not(.unstackable) .step:last-child {
     border-radius: 0em 0em 0.28571429rem 0.28571429rem;
   }
-  
+
 /* Arrow */
   .ui.steps:not(.unstackable) .step:after {
     display: none !important;
   }
-  
+
 /* Content */
   .ui.steps:not(.unstackable) .step .content {
     text-align: center;
   }
-  
+
 /* Icon */
   .ui.steps:not(.unstackable) .step > .icon,
   .ui.ordered.steps:not(.unstackable) .step:before {
@@ -425,7 +425,7 @@
 
 
 /* Tablet Or Below */
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: $largest-tablet-screen) {
   .ui[class*="tablet stackable"].steps {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -436,7 +436,7 @@
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  
+
 /* Steps */
   .ui[class*="tablet stackable"].steps .step {
     -webkit-box-orient: vertical;
@@ -453,17 +453,17 @@
   .ui[class*="tablet stackable"].steps .step:last-child {
     border-radius: 0em 0em 0.28571429rem 0.28571429rem;
   }
-  
+
 /* Arrow */
   .ui[class*="tablet stackable"].steps .step:after {
     display: none !important;
   }
-  
+
 /* Content */
   .ui[class*="tablet stackable"].steps .step .content {
     text-align: center;
   }
-  
+
 /* Icon */
   .ui[class*="tablet stackable"].steps .step > .icon,
   .ui[class*="tablet stackable"].ordered.steps .step:before {
@@ -615,7 +615,7 @@
 .ui.ordered.steps .step.completed:before {
   font-family: 'Step';
   content: '\e800';
-  
+
 /* '' */
 }
 
@@ -623,4 +623,3 @@
 /*******************************
          Site Overrides
 *******************************/
-
