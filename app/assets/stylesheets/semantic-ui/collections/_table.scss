@@ -186,7 +186,7 @@
   .ui.table:not(.unstackable) td:first-child {
     font-weight: bold;
   }
-
+  
 /* Definition Table */
   .ui.definition.table:not(.unstackable) thead th:first-child {
     -webkit-box-shadow: none !important;
@@ -431,7 +431,7 @@
     -webkit-box-shadow: none !important;
             box-shadow: none !important;
   }
-
+  
 /* Definition Table */
   .ui.definition[class*="tablet stackable"].table thead th:first-child {
     -webkit-box-shadow: none !important;
@@ -1135,3 +1135,4 @@
 /*******************************
          Site Overrides
 *******************************/
+

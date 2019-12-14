@@ -1494,7 +1494,7 @@
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
   }
-
+  
 /* Divided Reversed */
   .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child,
   .ui[class*="mobile reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
@@ -1506,7 +1506,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Vertically Divided Reversed */
   .ui.grid[class*="vertically divided"][class*="mobile vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0px -1px 0px 0px rgba(34, 36, 38, 0.15);
@@ -1516,7 +1516,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Celled Reversed */
   .ui[class*="mobile reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0px 0px 0px #D4D4D5;
@@ -1544,7 +1544,7 @@
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
   }
-
+  
 /* Divided Reversed */
   .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child,
   .ui[class*="tablet reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
@@ -1556,7 +1556,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Vertically Divided Reversed */
   .ui.grid[class*="vertically divided"][class*="tablet vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0px -1px 0px 0px rgba(34, 36, 38, 0.15);
@@ -1566,7 +1566,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Celled Reversed */
   .ui[class*="tablet reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0px 0px 0px #D4D4D5;
@@ -1594,7 +1594,7 @@
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
   }
-
+  
 /* Divided Reversed */
   .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .column:first-child,
   .ui[class*="computer reversed"].divided.grid:not([class*="vertically divided"]) > .row > .column:first-child {
@@ -1606,7 +1606,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Vertically Divided Reversed */
   .ui.grid[class*="vertically divided"][class*="computer vertically reversed"] > .row:first-child:before {
     -webkit-box-shadow: 0px -1px 0px 0px rgba(34, 36, 38, 0.15);
@@ -1616,7 +1616,7 @@
     -webkit-box-shadow: none;
             box-shadow: none;
   }
-
+  
 /* Celled Reversed */
   .ui[class*="computer reversed"].celled.grid > .row > .column:first-child {
     -webkit-box-shadow: -1px 0px 0px 0px #D4D4D5;
@@ -1848,21 +1848,21 @@
     margin: 0em;
     padding: 0em;
   }
-
+  
 /* Coupling */
   .ui.container > .ui.stackable.grid > .column,
   .ui.container > .ui.stackable.grid > .row > .column {
     padding-left: 0em !important;
     padding-right: 0em !important;
   }
-
+  
 /* Don't pad inside segment or nested grid */
   .ui.grid .ui.stackable.grid,
   .ui.segment:not(.vertical) .ui.stackable.page.grid {
     margin-left: -1rem !important;
     margin-right: -1rem !important;
   }
-
+  
 /* Divided Stackable */
   .ui.stackable.divided.grid > .row:first-child > .column:first-child,
   .ui.stackable.celled.grid > .row:first-child > .column:first-child,
@@ -2036,3 +2036,4 @@
 /*******************************
          Site Overrides
 *******************************/
+
