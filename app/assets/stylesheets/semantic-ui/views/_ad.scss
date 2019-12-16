@@ -223,7 +223,7 @@
 .ui.mobile.ad {
   display: none;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.mobile.ad {
     display: block;
   }

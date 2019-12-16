@@ -669,7 +669,7 @@
 .ui[class*="very wide"].popup {
   max-width: 550px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.wide.popup,
   .ui[class*="very wide"].popup {
     max-width: 250px;

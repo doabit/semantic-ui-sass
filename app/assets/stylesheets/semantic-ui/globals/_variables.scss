@@ -1,5 +1,48 @@
-$import-google-fonts: true !default;
-$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+/*******************************
+         Site Settings
+*******************************/
+
+/*-------------------
+       Fonts
+--------------------*/
+
 $font-name: 'Lato' !default;
 $font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+$import-google-fonts: true !default;
+
+/*-------------------
+      Base Sizes
+--------------------*/
+
+/* This is the single variable that controls them all */
+$em-size: 14px;
+
+/*-------------------
+    Scroll Bars
+--------------------*/
+
 $use-custom-scrollbars: true !default;
+
+/*-------------------
+     Breakpoints
+--------------------*/
+
+$mobile-breakpoint: 320px !default;
+$tablet-breakpoint: 768px !default;
+$computer-breakpoint: 992px !default;
+$large-monitor-breakpoint: 1200px !default;
+$widescreen-monitor-breakpoint: 1920px !default;
+
+/*-------------------
+    Derived Values
+--------------------*/
+
+/* Rendered Scrollbar Width */
+$scrollbar-width: 17px;
+
+/* Responsive */
+$largest-mobile-screen: ($tablet-breakpoint - 1px);
+$largest-tablet-screen: ($computer-breakpoint - 1px);
+$largest-small-monitor: ($large-monitor-breakpoint - 1px);
+$largest-large-monitor: ($widescreen-monitor-breakpoint - 1px);

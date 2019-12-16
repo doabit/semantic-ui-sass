@@ -340,7 +340,7 @@
 }
 
 /* Tablet Only */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+@media only screen and (min-width: $tablet-breakpoint) and (max-width: $largest-tablet-screen) {
   .ui.items > .item {
     margin: 1em 0em;
   }
@@ -354,7 +354,7 @@
 }
 
 /* Mobile Only */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.items:not(.unstackable) > .item {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -467,7 +467,7 @@
    Unstackable
 ----------------*/
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.unstackable.items > .item > .image,
   .ui.unstackable.items > .item > .image > img {
     width: 125px !important;

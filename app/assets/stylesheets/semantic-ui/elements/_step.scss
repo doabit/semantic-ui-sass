@@ -283,7 +283,7 @@
 
 
 /* Mobile (Default) */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.steps:not(.unstackable) {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -425,7 +425,7 @@
 
 
 /* Tablet Or Below */
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: $largest-tablet-screen) {
   .ui[class*="tablet stackable"].steps {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;

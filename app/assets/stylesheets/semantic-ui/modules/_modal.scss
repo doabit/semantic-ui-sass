@@ -185,31 +185,31 @@
 
 
 /* Modal Width */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.modal {
     width: 95%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $tablet-breakpoint) {
   .ui.modal {
     width: 88%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: $computer-breakpoint) {
   .ui.modal {
     width: 850px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.modal {
     width: 900px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: $widescreen-monitor-breakpoint) {
   .ui.modal {
     width: 950px;
     margin: 0em 0em 0em 0em;
@@ -217,7 +217,7 @@
 }
 
 /* Tablet and Mobile */
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: $largest-tablet-screen) {
   .ui.modal > .header {
     padding-right: 2.25rem;
   }
@@ -229,7 +229,7 @@
 }
 
 /* Mobile */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.modal > .header {
     padding: 0.75rem 1rem !important;
     padding-right: 2.25rem !important;
@@ -335,7 +335,7 @@
 }
 
 /* Tablet and Mobile */
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: $largest-tablet-screen) {
   .ui.basic.modal > .close {
     color: #FFFFFF;
   }
@@ -370,7 +370,7 @@
 .modals.dimmer[class*="top aligned"] .modal {
   margin: 5vh auto;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .modals.dimmer[class*="top aligned"] .modal {
     margin: 1rem auto;
   }
@@ -380,7 +380,7 @@
 .legacy.modals.dimmer[class*="top aligned"] {
   padding-top: 5vh;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .legacy.modals.dimmer[class*="top aligned"] {
     padding-top: 1rem;
   }
@@ -462,31 +462,31 @@
 }
 
 /* Mini Modal Width */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.mini.modal {
     width: 95%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $tablet-breakpoint) {
   .ui.mini.modal {
     width: 35.2%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: $computer-breakpoint) {
   .ui.mini.modal {
     width: 340px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.mini.modal {
     width: 360px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: $widescreen-monitor-breakpoint) {
   .ui.mini.modal {
     width: 380px;
     margin: 0em 0em 0em 0em;
@@ -499,31 +499,31 @@
 }
 
 /* Tiny Modal Width */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.tiny.modal {
     width: 95%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $tablet-breakpoint) {
   .ui.tiny.modal {
     width: 52.8%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: $computer-breakpoint) {
   .ui.tiny.modal {
     width: 510px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.tiny.modal {
     width: 540px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: $widescreen-monitor-breakpoint) {
   .ui.tiny.modal {
     width: 570px;
     margin: 0em 0em 0em 0em;
@@ -536,31 +536,31 @@
 }
 
 /* Small Modal Width */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.small.modal {
     width: 95%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $tablet-breakpoint) {
   .ui.small.modal {
     width: 70.4%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: $computer-breakpoint) {
   .ui.small.modal {
     width: 680px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.small.modal {
     width: 720px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: $widescreen-monitor-breakpoint) {
   .ui.small.modal {
     width: 760px;
     margin: 0em 0em 0em 0em;
@@ -571,31 +571,31 @@
 .ui.large.modal > .header {
   font-size: 1.6em;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: $largest-mobile-screen) {
   .ui.large.modal {
     width: 95%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $tablet-breakpoint) {
   .ui.large.modal {
     width: 88%;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: $computer-breakpoint) {
   .ui.large.modal {
     width: 1020px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: $large-monitor-breakpoint) {
   .ui.large.modal {
     width: 1080px;
     margin: 0em 0em 0em 0em;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: $widescreen-monitor-breakpoint) {
   .ui.large.modal {
     width: 1140px;
     margin: 0em 0em 0em 0em;

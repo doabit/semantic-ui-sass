@@ -123,6 +123,7 @@ private
     file = replace_font_family(file)
     file = replace_image_urls(file)
     file = replace_image_paths(file)
+    file = add_breakpoint_variables(file)
 
     file
   end
@@ -179,6 +180,21 @@ private
     less.gsub('../themes/default/assets/images/', 'semantic-ui/')
   end
 
+  def add_breakpoint_variables(css)
+    css = css.gsub('(min-width: 320px)', '(min-width: $mobile-breakpoint)')
+    css = css.gsub('max-width: 767px', 'max-width: $largest-mobile-screen')
+
+    css = css.gsub('min-width: 768px', 'min-width: $tablet-breakpoint')
+    css = css.gsub('max-width: 991px', 'max-width: $largest-tablet-screen')
+
+    css = css.gsub('min-width: 992px', 'min-width: $computer-breakpoint')
+    css = css.gsub('max-width: 1199px', 'max-width: $largest-small-monitor')
+
+    css = css.gsub('min-width: 1200px', 'min-width: $large-monitor-breakpoint')
+    css = css.gsub('max-width: 1919px', 'max-width: $largest-large-monitor')
+
+    css = css.gsub('min-width: 1920px', 'min-width: $widescreen-monitor-breakpoint')
+  end
 end
 
 class Paths
