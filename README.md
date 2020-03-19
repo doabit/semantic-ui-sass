@@ -87,6 +87,8 @@ $widescreen-monitor-breakpoint: 1920px !default;
 
 ## Javascripts
 
+### Ruby on Rails Version 5
+
 We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to
 
 ```js
@@ -100,6 +102,32 @@ You can also load individual modules, provided you also require any dependencies
 //= require semantic-ui/modal
 //= require semantic-ui/dropdown
 ```
+
+### Ruby on Rails Version 6+
+
+Add packages with yarn:
+
+```console
+yarn add jquery popper.js semantic-ui-sass
+```
+
+In config/webpack/environment.js add the following:
+
+```js
+const webpack = require("webpack")
+
+environment.plugins.append("Provide", new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  Popper: ['popper.js', 'default']
+}))
+````
+
+In app/javascript/packs/application.js add the following:
+
+```js
+require("semantic-ui-sass")
+````
 
 # semantic-ui-sass with Compass
 
