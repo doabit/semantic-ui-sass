@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", ">= 1.3"
   spec.add_development_dependency "rake"
   spec.add_runtime_dependency     'sassc'
-  spec.add_development_dependency 'sass-rails'
+  spec.add_development_dependency 'sassc-rails'
   spec.add_development_dependency 'sprockets-rails', '>= 2.1.3'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'dotenv'
