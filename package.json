@@ -1,0 +1,29 @@
+{
+  "name": "@doabit/semantic-ui-sass",
+  "version": "2.4.4",
+  "description": "semantic-ui-sass npm package",
+  "main": "src/semantic-ui.js",
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {
+    "prepublishOnly": "rm -rf src && yarn copy:js && yarn copy:css && yarn copy:assets && node ./script.js",
+    "copy:js": "cp -R app/assets/javascripts/semantic-ui src",
+    "copy:css": "cp -R app/assets/stylesheets/semantic-ui src/scss",
+    "copy:assets": "mkdir src/scss/assets && cp -R app/assets/fonts/semantic-ui src/scss/assets/fonts && cp -R app/assets/images/semantic-ui src/scss/assets/images"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doabit/semantic-ui-sass.git"
+  },
+  "keywords": [
+    "semantic-ui-sass"
+  ],
+  "author": "doabit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doabit/semantic-ui-sass/issues"
+  },
+  "homepage": "https://github.com/doabit/semantic-ui-sass#readme"
+}

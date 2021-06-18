@@ -1,6 +1,8 @@
 # Semantic UI for Sass
 
-`semantic-ui-sass` is an Sass-powered version of [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop into Rails, Compass, or Sprockets.
+`semantic-ui-sass` is an Sass-powered version of
+[Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop
+into Rails, Compass, or Sprockets.
 
 [![Build Status](https://travis-ci.org/doabit/semantic-ui-sass.svg?branch=master)](https://travis-ci.org/doabit/semantic-ui-sass)
 
@@ -14,22 +16,24 @@ The gem only has default theme.
 gem 'semantic-ui-sass'
 ```
 
-`bundle install` and restart your server to make the files available through the pipeline.
+`bundle install` and restart your server to make the files available through the
+pipeline.
 
 # semantic-ui-sass with Rails or Sprockets
 
 ## CSS
 
-Import Semantic in an SCSS file (for example, `application.css.scss`) to get all of Semantic's styles
+Import Semantic in an SCSS file (for example, `application.css.scss`) to get all
+of Semantic's styles
 
 ```css
-@import "semantic-ui";
+@import 'semantic-ui';
 ```
 
 You can also include modules
 
 ```css
-@import "semantic-ui/collections/menu";
+@import 'semantic-ui/collections/menu';
 ```
 
 ## Custom font
@@ -40,12 +44,14 @@ $font-url: 'http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic&s
 ```
 
 ## Skip font loading
+
 ```css
 $import-google-fonts: false;
 @import 'semantic-ui';
 ```
 
 ## Custom font family
+
 ```css
 $font-family: 'custom-font-family';
 @import 'semantic-ui';
@@ -89,14 +95,16 @@ $widescreen-monitor-breakpoint: 1920px !default;
 
 ### Ruby on Rails Version 5
 
-We have a helper that includes all Semantic javascripts. Put this in your Javascript manifest (usually in `application.js`) to
+We have a helper that includes all Semantic javascripts. Put this in your
+Javascript manifest (usually in `application.js`) to
 
 ```js
 // Loads all Semantic javascripts
 //= require semantic-ui
 ```
 
-You can also load individual modules, provided you also require any dependencies.
+You can also load individual modules, provided you also require any
+dependencies.
 
 ```js
 //= require semantic-ui/modal
@@ -108,26 +116,30 @@ You can also load individual modules, provided you also require any dependencies
 Add packages with yarn:
 
 ```console
-yarn add jquery popper.js semantic-ui-sass
+yarn add jquery popper.js @doabit/semantic-ui-sass
 ```
 
 In config/webpack/environment.js add the following:
 
 ```js
-const webpack = require("webpack")
+const webpack = require('webpack')
 
-environment.plugins.append("Provide", new webpack.ProvidePlugin({
-  $: 'jquery',
-  jQuery: 'jquery',
-  Popper: ['popper.js', 'default']
-}))
-````
+environment.plugins.append(
+  'Provide',
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    Popper: ['popper.js', 'default']
+  })
+)
+```
 
 In app/javascript/packs/application.js add the following:
 
 ```js
-require("semantic-ui-sass")
-````
+import '@doabit/semantic-ui-sass'
+import '@doabit/semantic-ui-sass/src/scss/semantic-ui.scss'
+```
 
 # semantic-ui-sass with Compass
 
@@ -142,13 +154,16 @@ compass create compass-project -r semantic-ui-sass --using semantic-ui
 
 This will sort a few things out:
 
-* You'll get a starting `styles.scss`
-* You'll get a compiled stylesheet compiled & ready to drop into your application
-* We'll also copy the Semantic javascripts & images & fonts into their respective folders for you
+- You'll get a starting `styles.scss`
+- You'll get a compiled stylesheet compiled & ready to drop into your
+  application
+- We'll also copy the Semantic javascripts & images & fonts into their
+  respective folders for you
 
 ## Existing project
 
-Install the gem, add the require statement to the top of your configuration file, and install the extension.
+Install the gem, add the require statement to the top of your configuration
+file, and install the extension.
 
 ```console
 gem install semantic-ui-sass
@@ -165,7 +180,9 @@ compass install semantic-ui
 
 ### NOTE
 
-When using compass, you should visit file in local server, eg `http://localhost:3000/index.html`, rather than `file:///Users/doabit/demo/index.html`
+When using compass, you should visit file in local server, eg
+`http://localhost:3000/index.html`, rather than
+`file:///Users/doabit/demo/index.html`
 
 # Rails Helpers
 
@@ -217,8 +234,8 @@ semantic_icon('add', id: 'id')
 
 ## TODO
 
-* Add global variables
-* Add rails helpers like `render_flash`?
+- Add global variables
+- Add rails helpers like `render_flash`?
 
 ## Contributing
 
