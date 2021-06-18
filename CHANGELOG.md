@@ -1,3 +1,7 @@
+## 2.4.4.0
+
+- Add npm package
+
 ## 2.4.3.0
 
 - Change from `sass-rails` to `sassc-rails` to correct deprecation usage
