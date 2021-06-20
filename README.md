@@ -111,7 +111,7 @@ dependencies.
 //= require semantic-ui/dropdown
 ```
 
-### Ruby on Rails Version 6+
+### Ruby on Rails Version 6+ with webpacker
 
 Add packages with yarn:
 
@@ -138,6 +138,11 @@ In app/javascript/packs/application.js add the following:
 
 ```js
 import '@doabit/semantic-ui-sass'
+```
+
+If you use `webpakcer` to import stylesheet, you should add
+
+```js
 import '@doabit/semantic-ui-sass/src/scss/semantic-ui.scss'
 ```
 

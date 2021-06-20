@@ -45,12 +45,12 @@ fs.writeFileSync(
   './src/scss/elements/_icon.scss',
   fs
     .readFileSync('./src/scss/elements/_icon.scss', 'utf8')
-    .replace(/font-url\(\"semantic-ui/g, `url("assets/fonts`)
+    .replace(/font-url\(\"semantic-ui/g, `url("../../assets/fonts`)
 )
 
 fs.writeFileSync(
   './src/scss/elements/_flag.scss',
   fs
     .readFileSync('./src/scss/elements/_flag.scss', 'utf8')
-    .replace(/image-url\(\"semantic-ui/g, `url("assets/images`)
+    .replace(/image-url\(\"semantic-ui/g, `url("../../assets/images`)
 )

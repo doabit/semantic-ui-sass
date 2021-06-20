@@ -1,6 +1,6 @@
 {
   "name": "@doabit/semantic-ui-sass",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "semantic-ui-sass npm package",
   "main": "src/semantic-ui.js",
   "files": [
@@ -10,7 +10,7 @@
     "prepublishOnly": "rm -rf src && yarn copy:js && yarn copy:css && yarn copy:assets && node ./script.js",
     "copy:js": "cp -R app/assets/javascripts/semantic-ui src",
     "copy:css": "cp -R app/assets/stylesheets/semantic-ui src/scss",
-    "copy:assets": "mkdir src/scss/assets && cp -R app/assets/fonts/semantic-ui src/scss/assets/fonts && cp -R app/assets/images/semantic-ui src/scss/assets/images"
+    "copy:assets": "mkdir src/assets && cp -R app/assets/fonts/semantic-ui src/assets/fonts && cp -R app/assets/images/semantic-ui src/assets/images"
   },
   "devDependencies": {},
   "repository": {
