@@ -146,6 +146,8 @@ If you use `webpakcer` to import stylesheet, you should add
 import '@doabit/semantic-ui-sass/src/scss/semantic-ui.scss'
 ```
 
+[Rails6 webpacker demo](https://github.com/doabit/semantic-ui-sass-rails6-demo)
+
 # semantic-ui-sass with Compass
 
 ## New project
