@@ -4,7 +4,7 @@
 [Semantic UI](https://github.com/Semantic-Org/Semantic-UI) and ready to drop
 into Rails, Compass, or Sprockets.
 
-[![Build Status](https://travis-ci.org/doabit/semantic-ui-sass.svg?branch=master)](https://travis-ci.org/doabit/semantic-ui-sass)
+[![Build Status](https://travis-ci.com/doabit/semantic-ui-sass.svg?branch=master)](https://travis-ci.com/doabit/semantic-ui-sass)
 
 ## NOTE
 
