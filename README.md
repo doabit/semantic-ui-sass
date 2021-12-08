@@ -140,7 +140,7 @@ In app/javascript/packs/application.js add the following:
 import '@doabit/semantic-ui-sass'
 ```
 
-If you use `webpakcer` to import stylesheet, you should add
+If you use `webpacker` to import stylesheet, you should add
 
 ```js
 import '@doabit/semantic-ui-sass/src/scss/semantic-ui.scss'
